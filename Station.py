@@ -6,5 +6,20 @@ class Station(object):
 
         self.id = id
         self.name = name
-        self.coordinates = coordinates
+        self.coordinates = self.coordinates(coordinates)
+        self.destinations = []
+        self.destinations(destinations)
+
+        def coordinates(self, coordinates):
+            self.long = coordinates[1]
+            self.lat = coordinates[2]
+            return
+
+        def destinations(self, destinations):
+            for destination in destinations:
+                self.destination = Station()
+                self.time = destination[1]
+            return
+
+
         self.destinations = destinations
