@@ -3,8 +3,8 @@ class Connection(object):
 
     def __init__(self, origin, destination, time):
         """ Initialise class."""
-        self.origin = origin
-        self.destination = destination
+        self.origin = Station(name=origin)
+        self.destination = Station(name=destination)
         self.time = time
 
     def __str__(self):

@@ -1,7 +1,9 @@
+from Connection import Connection
+
 class Station(object):
     """ Class that hodls a station and their neighbor stations. """
 
-    def __init__(self, id, name, coordinates, destinations):
+    def __init__(self, id, name, coordinates):
         """ Initialise class."""
 
         self.id = id

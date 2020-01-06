@@ -1,7 +1,6 @@
-import sys
-import csv
-# from station import Station
-# from connection import Connection
+from station import Station
+from connection import Connection
+import sys, csv
 
 class RailNL():
     """
@@ -14,19 +13,22 @@ class RailNL():
         self.stations = self.load_stations(f"Data/StationsHolland.csv")
         self.connections = self.load_connections(f"Data/ConnectiesHolland.csv")
         self.data = {}
-        
+
     def load_stations(self, filename):
         """
         Load stations with their coordinates from filename.
         """
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
-        counter = 0
-        for line in csv_reader:
-            self.data[line[0]] = Station(counter, line[0], {"long": line[1], "lat": line[2]}, [])
-            counter++
+            counter = 0
+            for line in csv_reader:
+                station = Station(counter, line[0], {"long": line[1], "lat": line[2]})
+
+                self.data[line[0]] = station
+                counter += 1
 
         return self.data
+
 
     def load_connections(self, filename):
         """
@@ -42,4 +44,3 @@ class RailNL():
 
 if __name__ == "__main__":
     stations = RailNL()
-    print(stations.data)
