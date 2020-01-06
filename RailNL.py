@@ -34,15 +34,20 @@ class RailNL():
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
             for line in csv_reader:
-                self.data[line[0]].add_connection(line)
+                self.data[line[0]].add_connection(self.data[line[0]], self.data[line[1]], line[2])
 
         return self.data
 
 if __name__ == "__main__":
     stations = RailNL()
-    print(stations.data)
-    for destination in stations.data["Alkmaar"].destinations:
-        print(destination.origin)
-        print(destination.destination)
-        print(destination.time)
+    for station in stations.data:
+        stat = stations.data[station]
+        print(f"Station {stat.id}: {stat.name}")
+        print(f"Coordinates: {stat.coordinates['long']}, {stat.coordinates['lat']}")
+        if len(stat.destinations) > 0:
+            print("Connections:")
+        else:
+            print("No connections")
+        for destination in stat.destinations:
+            print(f"- {destination.origin} - {destination.destination}: {destination.time} min")
         print("----")
