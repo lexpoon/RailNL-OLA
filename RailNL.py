@@ -50,4 +50,4 @@ if __name__ == "__main__":
             print("No connections")
         for destination in stat.destinations:
             print(f"- {destination.origin} - {destination.destination}: {destination.time} min")
-        print("----")
+        print("----------------------------------------------------------------------------")
