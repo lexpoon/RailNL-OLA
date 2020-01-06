@@ -10,9 +10,9 @@ class RailNL():
         """
         Create rooms and items for the appropriate 'game' version.
         """
+        self.data = {}
         self.stations = self.load_stations(f"data/StationsHolland.csv")
         self.connections = self.load_connections(f"data/ConnectiesHolland.csv")
-        self.data = {}
 
     def load_stations(self, filename):
         """
@@ -31,11 +31,10 @@ class RailNL():
         """
         Load connections between stations with their duration from filename.
         """
-        #
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
             for line in csv_reader:
-                self.data[line[0]].add_connections(line)
+                self.data[line[0]].add_connection(line)
 
         return self.data
 
