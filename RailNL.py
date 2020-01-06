@@ -40,3 +40,4 @@ class RailNL():
 
 if __name__ == "__main__":
     stations = RailNL()
+    print(stations.data)
