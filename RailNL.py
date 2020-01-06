@@ -41,3 +41,8 @@ class RailNL():
 if __name__ == "__main__":
     stations = RailNL()
     print(stations.data)
+    for destination in stations.data["Alkmaar"].destinations:
+        print(destination.origin)
+        print(destination.destination)
+        print(destination.time)
+        print("----")
