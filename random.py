@@ -4,9 +4,6 @@ from classes.solution import Solution
 
 import random
 
-print(test)
-
-
 # routes = {
 #     "1": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100}
 #     "2": [Connection(1), Connection(2), Connection(3), Connection(4)]
