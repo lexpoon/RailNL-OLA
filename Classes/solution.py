@@ -16,7 +16,7 @@ class Solution(object):
         p = self.calc_p()
         t = self.calc_t()
         min = self.calc_min()
-        self.score = p*10000 - (t*100 + min)
+        score = p*10000 - (t*100 + min)
 
         return score
 
@@ -27,39 +27,42 @@ class Solution(object):
         all_connections = 0
 
         for station in self.data:
-            for destination in station.destinations:
+            for connection in station.connections:
                 all_connections += 1
-                for connection in self.routes:
-                    if destination == connection:
+                for route in self.routes:
+                    if connection == route:
                         used_connections += 1
 
         p = used_connections / all_connections
 
         return p
 
-#     def calc_t(self):
-#         """Calculate the number of routes."""
+    def calc_t(self):
+        """Calculate the number of routes."""
+
+        t = len(self.routes)
+
+        return t
 #
-#
-#
-#         return t
-#
-#     def calc_min(self):
-#         """Calculate the number of minutes in all sections together."""
-#
-#
-#
-#         return min
-#
-#     def __str__(self):
-#         return f"{}
-#
-# routes = {
-#     "1": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100}
-#     "2": [Connection(1), Connection(2), Connection(3), Connection(4)]
-#     "3": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5), ]
-#     "4": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
-#     "5": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
-#     "6": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
-#     "7": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
-# }
+    def calc_min(self):
+        """Calculate the number of minutes in all sections together."""
+
+        total_time = 0
+        for route in self.routes:
+            total_time += route.time
+
+        return total_time
+
+    def __str__(self):
+        length = len(self.routes)
+        return f"" + len({length}) + "routes with total time of" + calc_min() + "min and score of" + {self.score}
+
+routes = {
+    "1": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100}
+    "2": [Connection(1), Connection(2), Connection(3), Connection(4)]
+    "3": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5), ]
+    "4": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
+    "5": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
+    "6": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
+    "7": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)]
+}
