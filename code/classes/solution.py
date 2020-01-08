@@ -3,10 +3,9 @@ from functions.calculations import calc_stations, calc_connections
 class Solution(object):
     """Solution class with a possible output and its score."""
 
-    def __init__(self, id, routes):
+    def __init__(self, routes):
         """Initial class."""
 
-        self.id = id
         self.routes = routes
         self.time = self.calc_min()
         self.score = self.score()

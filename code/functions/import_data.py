@@ -7,13 +7,13 @@ class RailNL():
     """
     TEXT
     """
-    def __init__(self):
+    def __init__(self, map):
         """
         Create rooms and items for the appropriate 'game' version.
         """
         self.data = {}
-        self.stations = self.load_stations(f"data/StationsHolland.csv")
-        self.connections = self.load_connections(f"data/ConnectiesHolland.csv")
+        self.stations = self.load_stations(f"data/Stations{map}.csv")
+        self.connections = self.load_connections(f"data/Connecties{map}.csv")
 
     def load_stations(self, filename):
         """
@@ -41,7 +41,7 @@ class RailNL():
 
 if __name__ == "__main__":
     stations = RailNL()
-    
+
     # for station in stations.data:
     #     stat = stations.data[station]
     #     print(f"Station {stat.id}: {stat.name}")

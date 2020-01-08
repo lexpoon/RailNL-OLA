@@ -9,4 +9,4 @@ class Connection(object):
         self.time = time
 
     def __str__(self):
-        return f"{self.origin} - {self.destination}"
+        return f"{self.destination}"
