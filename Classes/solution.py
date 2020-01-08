@@ -1,13 +1,14 @@
+import functions.helpfunction as help_fn
+
 class Solution(object):
     """Solution class with a possible output and its score."""
 
-    def __init__(self, data, routes, trains, time):
+    def __init__(self, id, routes):
         """Initial class."""
 
-        self.data = data
-        self.max_trains = trains
-        self.max_time = time
+        self.id = id
         self.routes = routes
+        self.time = self.calc_min()
         self.score = self.score()
 
     def score(self):
@@ -26,12 +27,9 @@ class Solution(object):
         used_connections = 0
         all_connections = 0
 
-        for station in self.data:
-            for connection in station.connections:
-                all_connections += 1
-                for route in self.routes:
-                    if connection == route:
-                        used_connections += 1
+        for route in self.routes:
+            for connection in route.route:
+                used_connections += 1
 
         p = used_connections / all_connections
 
@@ -49,12 +47,9 @@ class Solution(object):
 
         total_time = 0
         for route in self.routes:
-            total_time += route.time
+            total_time += route.route.time
 
         return total_time
 
     def __str__(self):
-        solution = {}
-        for route in self.routes:
-            solution["train "]
-        return f"" + len({length}) + "routes with total time of" + calc_min() + "min and score of" + {self.score}
+        return f"Solution {self.id}, {self.routes}"

@@ -3,9 +3,10 @@ class Connection(object):
 
     def __init__(self, origin, destination, time):
         """ Initialise class."""
+
         self.origin = origin
         self.destination = destination
         self.time = time
 
     def __str__(self):
-        return f"{self.origin} - {self.destination}: {self.time} min"
+        return f"{self.origin} - {self.destination}"

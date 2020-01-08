@@ -4,14 +4,14 @@ from classes.solution import Solution
 
 import random
 
-def random_solution(self, data, trains, time):
+def random_solution(self, data, routes, time):
     """ """
 
     self.solution = {}
 
     self.data = data
-    self.max_trains = trains
-    self.time = time
+    self.max_routes = routes
+    self.max_time = time
 
     route = 0
     all_connections = 0
@@ -48,14 +48,16 @@ def random_connection(self, origin):
     return
 
 solution = {
-    "routes": {
-        "1": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "2": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "3": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "4": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "5": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "6": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        "7": {"route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-        },
-    "quality": 10
+    "id": 1,
+    "routes":
+        [{"id"; 1, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 2, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 3, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 4, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 5, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 6, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        {"id"; 7, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+        ],
+    "time": 250,
+    "quality": 10000
 }
