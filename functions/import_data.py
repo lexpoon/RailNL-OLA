@@ -1,5 +1,5 @@
-import sys, csv, os
-from .classes.station import Station
+import sys, csv
+from classes.station import Station
 from classes.connection import Connection
 from classes.solution import Solution
 

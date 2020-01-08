@@ -1,4 +1,4 @@
-import functions.helpfunction as help_fn
+# import functions.helpfunction as help_fn
 
 class Solution(object):
     """Solution class with a possible output and its score."""
