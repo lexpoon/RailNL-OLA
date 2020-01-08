@@ -54,5 +54,7 @@ class Solution(object):
         return total_time
 
     def __str__(self):
-        length = len(self.routes)
+        solution = {}
+        for route in self.routes:
+            solution["train "]
         return f"" + len({length}) + "routes with total time of" + calc_min() + "min and score of" + {self.score}

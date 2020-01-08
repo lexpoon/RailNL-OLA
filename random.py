@@ -6,7 +6,8 @@ import random
 
 def random_solution(self, data, trains, time):
     """ """
-    solution = {}
+
+    self.solution = {}
 
     self.data = data
     self.max_trains = trains
@@ -14,20 +15,36 @@ def random_solution(self, data, trains, time):
 
     route = 0
     all_connections = 0
-    used_connections = 0
+    used_connections = set()
     for station in self.data:
         for connection in station.connections:
             all_connections += 1
 
-    while len(solution.routes) < self.max_trains or used_connections < all_connections:
-        solution["routes"] = self.random_route()
-        used_connections += len(solution["routes"]["route"])
+    while len(solution["routes"]) < self.max_trains or len(used_connections) < all_connections:
+        self.solution["routes"][route]["route"] = self.random_route()
+        used_connections.update(self.solution["routes"][route]["route"])
         route += 1
 
     return
 
 def random_route(self):
     """ """
+
+    self.solution["routes"][route]["route"] = []
+    self.solution["routes"][route]["time"] = 0
+    self.solution["routes"][route]["route"].append(random.choice(self.data[random.choice(list(self.data.keys()))].connections))
+    self.solution["routes"][route]["time"] += self.solution["routes"][route]["route"][0].time
+
+    while self.solution["routes"][route]["time"] < 200:
+         self.solution["routes"][route]["route"].append(self.random_connection(self.solution["routes"][route]["route"][0].origin))
+         self.solution["routes"][route]["time"] += self.solution["routes"][route]["route"][len(self.solution["routes"][route]["route"])].time
+    return
+
+def random_connection(self, origin):
+    """ """
+
+
+
     return
 
 solution = {
