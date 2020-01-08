@@ -5,9 +5,9 @@ class Solution(object):
         """Initial class."""
 
         self.data = data
-        self.routes = routes
         self.max_trains = trains
         self.max_time = time
+        self.routes = routes
         self.score = self.score()
 
     def score(self):
