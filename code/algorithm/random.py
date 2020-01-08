@@ -1,5 +1,6 @@
 from classes.station import Station
 from classes.connection import Connection
+from classes.route import Route
 from classes.solution import Solution
 
 import random

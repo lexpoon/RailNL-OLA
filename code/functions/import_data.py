@@ -41,15 +41,16 @@ class RailNL():
 
 if __name__ == "__main__":
     stations = RailNL()
-    for station in stations.data:
-        stat = stations.data[station]
-        print(f"Station {stat.id}: {stat.name}")
-        print(f"Coordinates: {stat.coordinates['long']}, {stat.coordinates['lat']}")
-        if len(stat.connections) > 0:
-            print("Connections:")
-        else:
-            print("No connections")
-        for destination in stat.connections:
-            print(f"- {destination.origin} - {destination.destination}: {destination.time} min")
-        print("----------------------------------------------------------------------------")
-    print(stations.data)
+    
+    # for station in stations.data:
+    #     stat = stations.data[station]
+    #     print(f"Station {stat.id}: {stat.name}")
+    #     print(f"Coordinates: {stat.coordinates['long']}, {stat.coordinates['lat']}")
+    #     if len(stat.connections) > 0:
+    #         print("Connections:")
+    #     else:
+    #         print("No connections")
+    #     for destination in stat.connections:
+    #         print(f"- {destination.origin} - {destination.destination}: {destination.time} min")
+    #     print("----------------------------------------------------------------------------")
+    # print(stations.data)

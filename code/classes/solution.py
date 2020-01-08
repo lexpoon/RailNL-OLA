@@ -1,4 +1,4 @@
-# import functions.helpfunction as help_fn
+from functions.calculations import calc_stations, calc_connections
 
 class Solution(object):
     """Solution class with a possible output and its score."""
@@ -25,7 +25,7 @@ class Solution(object):
         """Calculate the fraction of the compounds ridden."""
 
         used_connections = 0
-        all_connections = 0
+        all_connections = self.calc_connections()
 
         for route in self.routes:
             for connection in route.route:
