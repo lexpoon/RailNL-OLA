@@ -11,9 +11,10 @@ class RailNL():
         """
         Create rooms and items for the appropriate 'game' version.
         """
+        self.map = map
         self.data = {}
-        self.stations = self.load_stations(f"data/Stations{map}.csv")
-        self.connections = self.load_connections(f"data/Connecties{map}.csv")
+        self.stations = self.load_stations(f"data/Stations{self.map}.csv")
+        self.connections = self.load_connections(f"data/Connecties{self.map}.csv")
 
     def load_stations(self, filename):
         """

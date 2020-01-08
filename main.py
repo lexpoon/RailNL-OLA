@@ -13,7 +13,7 @@ from route import Route
 from solution import Solution
 from import_data import RailNL
 from calculations import calc_stations, calc_connections
-from random_alg import solution
+from randomize import solution
 
 def main():
     data = RailNL("Holland")

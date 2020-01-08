@@ -16,3 +16,14 @@ class Station(object):
 
     def __str__(self):
         return f"Station {self.name}"
+
+# self.connections = {
+# "1": {
+#     "destination": destination,
+#     "time": time
+#     },
+# "2": {
+#     "destination": destination,
+#     "time": time
+#     }
+# }
