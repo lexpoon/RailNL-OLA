@@ -1,7 +1,5 @@
-from classes.connection import Connection
-
 class Station(object):
-    """Station class that gives its coordin and connections."""
+    """Station class that gives its coordinates and connections."""
 
     def __init__(self, id, name, coordinates):
         """Initialise class."""
@@ -11,19 +9,8 @@ class Station(object):
         self.coordinates = coordinates
         self.connections = []
 
-    def add_connection(self, origin, destination, time):
-        self.connections.append(Connection(origin, destination, time))
+    def add_connection(self, destination, time):
+        self.connections.append((destination, time))
 
     def __str__(self):
-        return f"Station {self.name}"
-
-# self.connections = {
-# "1": {
-#     "destination": destination,
-#     "time": time
-#     },
-# "2": {
-#     "destination": destination,
-#     "time": time
-#     }
-# }
+        return f"{self.name}"

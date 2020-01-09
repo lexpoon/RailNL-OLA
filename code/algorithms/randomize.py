@@ -1,73 +1,62 @@
-from functions.calculations import calc_stations, calc_connections
+from functions.calculations import calc_stations, calc_connections, calc_used_connections
+from functions.import_data import RailNL
 from classes.station import Station
-from classes.connection import Connection
 from classes.route import Route
 from classes.solution import Solution
 
 import random
 
-def solution(self, routes, time, map):
-    """ """
+def solution(routes, time):
+    """Create solution consisting of random routes."""
 
-    self.max_routes = routes
-    self.max_time = time
-    self.map = map
+    max_routes = routes
+    max_time = time
 
-    self.data = RailNL(self.map).data
+    data = RailNL().data
+    solution = {}
+    solution["routes"] = []
 
-    self.solution["routes"] = []
-    self.solution["time"] = 0
-    self.solution["quality"] = 0
-
-    all_connections = self.calc_connections()
+    all_connections = calc_connections()
     used_connections = set()
 
     route = 0
-    while len(solution["routes"]) < self.max_trains or len(used_connections) < all_connections:
-        self.solution["routes"].append(self.random_route())
-        for i in range(self.solution["routes"][route]["route"] - 1):
-            if i == 0:
-                connection = sorted(self.solution["routes"][route]["route"][i].name, self.solution["routes"][route]["route"][i+1].destination.name)
-            else:
-                connection = (self.solution["routes"][route]["route"][i].destination.name, self.solution["routes"][route]["route"][i+1].destination.name)
-            used_connections.add(connection)
+    while len(solution["routes"]) < max_routes and len(used_connections) < all_connections:
+        solution["routes"].append(random_route(solution))
+        used_connections.update(calc_used_connections(solution["routes"]))
         route += 1
 
-    return self.solution
+    random_solution = Solution(solution["routes"])
+    solution["time"] = random_solution.time
+    solution["quality"] = random_solution.score
 
-def random_route(self):
-    """ """
+    return solution
 
-    self.solution["routes"][route]["route"] = []
-    self.solution["routes"][route]["time"] = 0
+def random_route(solution):
+    """Randomize a route."""
 
-    # random station kiezen
-    start = random.choice(self.data.keys())
+    data = RailNL().data
+    route_list = []
+    total_time = 0
+    route_list.append(data[random.choice(list(data.keys()))])
+    while total_time < 120:
+        current_station = route_list[-1].name
+        destination = random.choice(data[current_station].connections)
+        route_list.append(data[destination[0]])
+        total_time += int(destination[1])
 
-    while self.solution["routes"][route]["time"] < 120:
-        if self.solution["routes"][route]["route"] == []:
-            self.solution["routes"][route]["route"].append(self.random_connection(self.data[start]))
-        else:
-            self.solution["routes"][route]["route"].append(self.random_connection(self.solution["routes"][route]["route"][-1]))
-        self.solution["routes"][route]["time"] += 0
+    route = Route(len(solution["routes"]), route_list)
 
-    return self.solution["routes"][route]["route"]
-
-def random_connection(self, origin):
-    """ """
-
-
-    return True
+    return route
 
 # solution = {
 #     "routes":
-#         [{"id"; 1, "route": [Start station.name, Connection(1).destination.name, Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 2, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 3, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 4, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 5, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 6, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
-#         {"id"; 7, "route": [Connection(1), Connection(2), Connection(3), Connection(4), Connection(5)], "time": 100},
+#         [{"id": 1, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 2, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 3, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 4, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 5, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 6, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
+#         {"id": 7, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
 #         ],
 #     "time": 250,
 #     "quality": 10000

@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections
+from functions.calculations import calc_stations, calc_connections, calc_used_connections
 
 class Solution(object):
     """Solution class with a possible output and its score."""
@@ -16,6 +16,7 @@ class Solution(object):
         p = self.calc_p()
         t = self.calc_t()
         min = self.calc_min()
+
         score = p*10000 - (t*100 + min)
 
         return score
@@ -23,12 +24,8 @@ class Solution(object):
     def calc_p(self):
         """Calculate the fraction of the compounds ridden."""
 
-        used_connections = 0
-        all_connections = self.calc_connections()
-
-        for route in self.routes:
-            for connection in route.route:
-                used_connections += 1
+        used_connections = len(calc_used_connections(self.routes))
+        all_connections = calc_connections()
 
         p = used_connections / all_connections
 
@@ -40,15 +37,15 @@ class Solution(object):
         t = len(self.routes)
 
         return t
-#
+
     def calc_min(self):
         """Calculate the number of minutes in all sections together."""
 
         total_time = 0
         for route in self.routes:
-            total_time += route.route.time
+            total_time += route.time
 
         return total_time
 
     def __str__(self):
-        return f"Solution {self.id}, {self.routes}"
+        return f"Solution ({self.score}): {self.routes}"
