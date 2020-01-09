@@ -19,7 +19,7 @@ class Solution(object):
 
         score = p*10000 - (t*100 + min)
 
-        return score
+        return round(score)
 
     def calc_p(self):
         """Calculate the fraction of the compounds ridden."""
@@ -48,5 +48,4 @@ class Solution(object):
         return total_time
 
     def __str__(self):
-        score = round(self.score)
-        return f"Solution ({score}/10000): {self.routes}"
+        return f"Solution ({self.score}/10000): {self.routes}"
