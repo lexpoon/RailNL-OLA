@@ -45,17 +45,3 @@ def random_route(solution):
     route = Route(len(solution["routes"]) + 1, route_list)
 
     return route
-
-# solution = {
-#     "routes":
-#         [{"id": 1, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 2, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 3, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 4, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 5, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 6, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         {"id": 7, "route": [Station(1), Station(2), Station(3), Station(4)], "time": 100},
-#         ],
-#     "time": 250,
-#     "quality": 10000
-# }

@@ -4,9 +4,8 @@ from classes.route import Route
 from classes.solution import Solution
 
 class RailNL():
-    """
-    TEXT
-    """
+    """Importing all station and connection data into data dictionary."""
+
     def __init__(self):
         """Create rooms and items for the appropriate 'game' version."""
 
