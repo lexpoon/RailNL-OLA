@@ -19,11 +19,9 @@ def solution(routes, time):
     all_connections = calc_connections()
     used_connections = set()
 
-    route = 0
     while len(solution["routes"]) < max_routes and len(used_connections) < all_connections:
         solution["routes"].append(random_route(solution))
         used_connections.update(calc_used_connections(solution["routes"]))
-        route += 1
 
     random_solution = Solution(solution["routes"])
     solution["time"] = random_solution.time
@@ -44,7 +42,7 @@ def random_route(solution):
         route_list.append(data[destination[0]])
         total_time += int(destination[1])
 
-    route = Route(len(solution["routes"]), route_list)
+    route = Route(len(solution["routes"]) + 1, route_list)
 
     return route
 

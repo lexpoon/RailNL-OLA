@@ -12,5 +12,5 @@ class Station(object):
     def add_connection(self, destination, time):
         self.connections.append((destination, time))
 
-    def __str__(self):
+    def __repr__(self):
         return f"{self.name}"

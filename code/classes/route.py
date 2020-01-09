@@ -17,5 +17,5 @@ class Route(object):
 
         return self.time
 
-    def __str__(self):
+    def __repr__(self):
         return f"Route {self.id}: {self.route}"
