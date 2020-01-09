@@ -29,7 +29,7 @@ def solution(routes, time):
     solution["time"] = random_solution.time
     solution["quality"] = random_solution.score
 
-    return solution
+    return random_solution
 
 def random_route(solution):
     """Randomize a route."""
