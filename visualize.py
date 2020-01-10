@@ -9,22 +9,25 @@ sys.path.append(os.path.join(directory, "code", "functions"))
 
 from import_data import RailNL
 
-filename = "data/StationsHolland2.csv"
+filename = "data/StationsHolland.csv"
 
 # Read station longitudes and latitudes from csv into lists
 with open(filename, "r") as f:
     csv_reader = csv.reader(f)
-    lon = []
+    station = []
     lat = []
+    lon = []
     for line in csv_reader:
-        lon.append(line[2])
+        station.append(line[0])
         lat.append(line[1])
+        lon.append(line[2])
 
 # Add dot to figure for each station
 fig = go.Figure(go.Scattermapbox(
     mode = "markers",
     lon = lon,
     lat = lat,
+    text = station,
     marker = {'size': 10}))
 
 routes = {'1': ['Amsterdam Zuid', 'Amsterdam Amstel', 'Schiphol Airport'], '2': ['Dordrecht', 'Rotterdam Centraal', 'Schiedam Centrum', 'Delft', 'Den Haag Centraal', 'Leiden Centraal']}

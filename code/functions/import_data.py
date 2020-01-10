@@ -19,6 +19,7 @@ class RailNL():
 
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
+            next(csv_reader, None)  # skip the header
             counter = 0
             for line in csv_reader:
                 self.data[line[0]] = Station(counter, line[0], {"long": line[1], "lat": line[2]})
@@ -31,6 +32,7 @@ class RailNL():
 
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
+            next(csv_reader, None)  # skip the header
             for line in csv_reader:
                 self.data[line[0]].add_connection(line[1], line[2])
                 self.data[line[1]].add_connection(line[0], line[2])
