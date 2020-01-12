@@ -47,5 +47,5 @@ class Solution(object):
 
         return total_time
 
-    def __str__(self):
+    def __repr__(self):
         return f"Solution ({self.score}/10000): {self.routes}"
