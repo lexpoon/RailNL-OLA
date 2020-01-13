@@ -36,10 +36,26 @@ def random_route(solution):
     route_list = []
     total_time = 0
     route_list.append(data[random.choice(list(data.keys()))])
+    # print (f"de huidige route: {route_list}")
+
     while total_time < 120:
+        print (f"the current route: {route_list}")
         current_station = route_list[-1].name
+        # for x in route_list:
+        #     print (f"stations used: {x}")
+        for y in data[current_station].connections:
+            print (f"connections are: {y}")
+            # print (data[current_station].connections[0])
+            # if x in data[current_station].connections:
+            #     print (f"these is a match: {x}")
+            # else:
+            #     print ("nothing found")
+
+        # print (f"dit zijn de opties: {data[current_station].connections}")
         destination = random.choice(data[current_station].connections)
+        # print (f"dit wordt toegevoerd: {data[destination[0]]}")
         route_list.append(data[destination[0]])
+        # print (route_list)
         total_time += int(destination[1])
 
     route = Route(len(solution["routes"]) + 1, route_list)
