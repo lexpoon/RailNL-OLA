@@ -6,6 +6,7 @@ sys.path.append(os.path.join(directory, "code"))
 sys.path.append(os.path.join(directory, "code", "classes"))
 sys.path.append(os.path.join(directory, "code", "algorithms"))
 sys.path.append(os.path.join(directory, "code", "functions"))
+sys.path.append(os.path.join(directory, "code", "visualisation"))
 
 from import_data import RailNL
 
