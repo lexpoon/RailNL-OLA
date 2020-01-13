@@ -26,10 +26,9 @@ def calc_used_connections(routes):
     """Determine used routes in solution."""
 
     used_connections = set()
-    for i in range(len(routes)):
-        for j in range(len(routes[i].route) - 1):
-            connection = (routes[i].route[j].name, routes[i].route[j + 1].name)
-            connection = sorted(connection)
+    for route in routes:
+        for j in range(len(route.route) - 1):
+            connection = (route.route[j].name, route.route[j + 1].name)
             connection = tuple(sorted(connection))
             used_connections.add(connection)
 

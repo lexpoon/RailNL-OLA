@@ -6,6 +6,7 @@ sys.path.append(os.path.join(directory, "code"))
 sys.path.append(os.path.join(directory, "code", "classes"))
 sys.path.append(os.path.join(directory, "code", "algorithms"))
 sys.path.append(os.path.join(directory, "code", "functions"))
+sys.path.append(os.path.join(directory, "code", "visualisation"))
 
 from import_data import RailNL
 
@@ -54,7 +55,7 @@ fig.update_layout(
     margin ={'l':0,'t':0,'b':0,'r':0},
     mapbox = {
         'center': {'lon': 4.900277615, 'lat': 52.37888718},
-        'style': "carto-positron", 
+        'style': "carto-positron",
         'zoom': 7})
 
 fig.show()

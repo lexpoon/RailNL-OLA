@@ -20,7 +20,7 @@ def solution(routes, time):
     used_connections = set()
 
     while len(solution["routes"]) < max_routes and len(used_connections) < all_connections:
-        solution["routes"].append(random_route(solution))
+        solution["routes"].append(random_route(len(solution["routes"]) + 1))
         used_connections.update(calc_used_connections(solution["routes"]))
 
     random_solution = Solution(solution["routes"])
@@ -29,35 +29,35 @@ def solution(routes, time):
 
     return random_solution
 
-def random_route(solution):
+def random_route(route_id):
     """Randomize a route."""
 
     data = RailNL().data
     route_list = []
     total_time = 0
     route_list.append(data[random.choice(list(data.keys()))])
-    # print (f"de huidige route: {route_list}")
 
-    while total_time < 120:
-        print (f"the current route: {route_list}")
-        current_station = route_list[-1].name
-        # for x in route_list:
-        #     print (f"stations used: {x}")
-        for y in data[current_station].connections:
-            print (f"connections are: {y}")
-            # print (data[current_station].connections[0])
-            # if x in data[current_station].connections:
-            #     print (f"these is a match: {x}")
-            # else:
-            #     print ("nothing found")
+    while total_time < 120 and destination_options(route_list):
+        route_list.append(random.choice(destination_options(route_list)))
+        total_time = Route(route_id, route_list).time
 
-        # print (f"dit zijn de opties: {data[current_station].connections}")
-        destination = random.choice(data[current_station].connections)
-        # print (f"dit wordt toegevoerd: {data[destination[0]]}")
-        route_list.append(data[destination[0]])
-        # print (route_list)
-        total_time += int(destination[1])
-
-    route = Route(len(solution["routes"]) + 1, route_list)
+    route = Route(route_id, route_list)
 
     return route
+
+def destination_options(route):
+    """Return possible destinations. Not possible to go to a station that is already on the route."""
+
+    options = []
+    data = RailNL().data
+    current_station = route[-1].name
+
+    route_list = []
+    for station in route:
+        route_list.append(station.name)
+
+    for option in data[current_station].connections:
+        if data[option[0]].name not in route_list:
+            options.append(data[option[0]])
+
+    return options
