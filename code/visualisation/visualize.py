@@ -1,16 +1,8 @@
-import os, sys, csv
+import csv
 import plotly.graph_objects as go
+from functions.import_data import RailNL
 
-directory = os.path.dirname(os.path.realpath(__file__))
-sys.path.append(os.path.join(directory, "code"))
-sys.path.append(os.path.join(directory, "code", "classes"))
-sys.path.append(os.path.join(directory, "code", "algorithms"))
-sys.path.append(os.path.join(directory, "code", "functions"))
-sys.path.append(os.path.join(directory, "code", "visualisation"))
-
-from import_data import RailNL
-
-def visualisation(routes):
+def visualisation(route_list):
     """ Visualize stations and routes in scattermapbox. """
 
     filename = "data/StationsHolland.csv"
@@ -34,15 +26,15 @@ def visualisation(routes):
         text = station,
         marker = {'size': 10}))
 
-    for k,v in routes.items():
+    for list in route_list:
         lon = []
         lat = []
         data = RailNL()
 
         # Create two lists of longitutes and latitudes for stations in routes
-        for station in v:
-            lon.append(data.data[station].coordinates['long'])
-            lat.append(data.data[station].coordinates['lat'])
+        for station in list:
+            lon.append(data.data[station].coordinates['lat'])
+            lat.append(data.data[station].coordinates['long'])
 
         # Add route lines to figure
         fig.add_trace(go.Scattermapbox(
