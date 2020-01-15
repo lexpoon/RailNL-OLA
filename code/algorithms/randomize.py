@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route
+from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -21,19 +21,18 @@ def randomize(routes, time):
 
     # Keep track of fraction of used connections
     all_connections = calc_connections()
-    used_connections = set()
+    connections_dict = connections_station(data)
 
     # Make random routes untill it is not possible anymore due to the constrains
-    while len(solution_routes) < max_routes and len(used_connections) < all_connections:
-        random_route(solution_routes, max_time)
-        used_connections.update(calc_used_connections(solution_routes))
+    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
+        random_route(connections_dict, max_time, solution_routes)
 
     # Make solution class and update attributes
     random_solution = Solution(solution_routes)
 
     return random_solution
 
-def random_route(routes, max_time):
+def random_route(connections, max_time, routes):
     """Randomize a route."""
 
     # Get all data of the stations
@@ -44,11 +43,12 @@ def random_route(routes, max_time):
     total_time = 0
 
     # Pick random station as starting point of the route
-    routes[-1].append(data[random.choice(list(data.keys()))])
+    routes[-1].append(random.choice(list(data.values())))
 
     # Keep adding stations to the route until no more possible destinations
-    while destination_options(routes[-1]) != []:
-        routes[-1].append(random.choice(destination_options(routes[-1])))
+    while random_options(connections, routes[-1]) != None:
+        routes[-1].append(random_options(connections, routes[-1]))
+        update_connections(connections, routes[-1])
 
         # Check if route meets time constrain, if not end route
         total_time = Route(routes).time
@@ -61,22 +61,26 @@ def random_route(routes, max_time):
 
     return routes[-1]
 
-def destination_options(route):
+def random_options(connections, route):
     """Return possible destinations. Not possible to go to a station that is already on the route."""
 
     # Get current station and all data
     data = RailNL().data
-    current_station = route[-1].name
 
     # Transform route of Station objects to route list of strings
     route_list = []
     for station in route:
         route_list.append(station.name)
 
-    # Make list of all possible connections from current station
+    # Determine all possible connections from current station
     options = []
-    for connection in data[current_station].connections:
-        if connection[0] not in route_list:
-            options.append(data[connection[0]])
+    for connection in data[route_list[-1]].connections:
+        possible_connection = (route_list[-1], connection[0])
+        if tuple(sorted(possible_connection)) not in connections["used_connections"]:
+            options.append(connection[0])
 
-    return options
+    # If any options, return random option
+    if options:
+        return data[random.choice(options)]
+
+    return None

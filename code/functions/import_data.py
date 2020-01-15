@@ -35,6 +35,7 @@ class RailNL():
             for line in csv_reader:
                 self.data[line[0]].add_connection(line[1], line[2])
                 self.data[line[1]].add_connection(line[0], line[2])
+
         return self.data
 
 if __name__ == "__main__":

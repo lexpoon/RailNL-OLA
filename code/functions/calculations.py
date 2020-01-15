@@ -62,3 +62,24 @@ def connections_station(data):
         connections["amount_connections"][key] = len(data[key].connections)
 
     return connections
+
+def update_connections(connections, route):
+    """Update amount of possible connections with new station in route."""
+
+    # Decrease amount of connections for both stations in each connection in route
+    connections["amount_connections"][route[-1].name] -= 1
+    connections["amount_connections"][route[-2].name] -= 1
+
+    # Delete station if no connection possible anymore
+    if connections["amount_connections"][route[-1].name] == 0:
+            connections["amount_connections"].pop(route[-1].name)
+    if connections["amount_connections"][route[-2].name] == 0:
+            connections["amount_connections"].pop(route[-2].name)
+
+    # Update used connections
+    if len(route) > 1:
+        last_connection = (route[-1].name, route[-2].name)
+        last_connection = tuple(sorted(last_connection))
+        connections["used_connections"].add(last_connection)
+
+    return connections
