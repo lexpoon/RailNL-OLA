@@ -52,3 +52,13 @@ def calc_used_connections_route(routes):
             used_connections.add(connection)
 
     return used_connections
+
+def connections_station(data):
+    """Determine overview of amount of connections for each station based on used connections."""
+
+    connections = {"amount_connections": {}, "used_connections": set()}
+
+    for key in data.keys():
+        connections["amount_connections"][key] = len(data[key].connections)
+
+    return connections

@@ -6,7 +6,7 @@ from classes.solution import Solution
 
 import random
 
-def solution(routes, time):
+def randomize(routes, time):
     """Create solution consisting of random routes."""
 
     # Set algorithm constrains
@@ -25,7 +25,7 @@ def solution(routes, time):
 
     # Make random routes untill it is not possible anymore due to the constrains
     while len(solution_routes) < max_routes and len(used_connections) < all_connections:
-        random_route(solution_routes)
+        random_route(solution_routes, max_time)
         used_connections.update(calc_used_connections(solution_routes))
 
     # Make solution class and update attributes
@@ -33,31 +33,27 @@ def solution(routes, time):
 
     return random_solution
 
-def random_route(routes):
+def random_route(routes, max_time):
     """Randomize a route."""
 
     # Get all data of the stations
     data = RailNL().data
 
-    # Make new empty route list
-    route_list = []
+    # Make new empty route list and add (non-final) route to list of routes
+    routes.append([])
     total_time = 0
 
     # Pick random station as starting point of the route
-    route_list.append(data[random.choice(list(data.keys()))])
-
-    # Add (non final) route to list of routes
-    routes.append(route_list)
+    routes[-1].append(data[random.choice(list(data.keys()))])
 
     # Keep adding stations to the route until no more possible destinations
-    while destination_options(route_list):
-        route_list.append(random.choice(destination_options(route_list)))
-        routes[-1] = route_list
-        total_time = Route(routes).time
+    while destination_options(routes[-1]) != []:
+        routes[-1].append(random.choice(destination_options(routes[-1])))
 
         # Check if route meets time constrain, if not end route
-        if total_time > 120:
-            routes[-1] = route_list[:-1]
+        total_time = Route(routes).time
+        if total_time > max_time:
+            routes[-1] = routes[-1][:-1]
             break
 
     # Replace route list by final route object in list of routes
