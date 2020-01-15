@@ -1,9 +1,9 @@
 import csv
 
-def calc_stations():
+def calc_stations(map):
     """Determine total number of stations in the data."""
 
-    with open("data/StationsHolland.csv", "r") as f:
+    with open(f"data/Stations{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
         num_stations = 0
         for line in csv_reader:
@@ -11,10 +11,10 @@ def calc_stations():
 
         return num_stations
 
-def calc_connections():
+def calc_connections(map):
     """Determine total number of connections in the data."""
 
-    with open("data/ConnectiesHolland.csv", "r") as f:
+    with open(f"data/Connecties{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
         num_connections = 0
         for line in csv_reader:

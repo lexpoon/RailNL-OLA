@@ -3,13 +3,13 @@ from functions.calculations import calc_stations, calc_connections, calc_used_co
 class Route(object):
     """Route class with a possible train route and its travel time."""
 
-    def __init__(self, routes):
+    def __init__(self, routes, map):
         """Initial class."""
 
         self.id = len(routes)
         self.route = routes[-1]
         self.time = self.calc_time()
-        self.score = self.calc_score(routes)
+        self.score = self.calc_score(routes, map)
 
     def calc_time(self):
         """Determine traveling time of complete route."""
@@ -22,10 +22,10 @@ class Route(object):
 
         return self.time
 
-    def calc_score(self, routes):
+    def calc_score(self, routes, map):
         """Determine score of current route."""
 
-        p = len(calc_used_connections_route(routes)) / calc_connections()
+        p = len(calc_used_connections_route(routes)) / calc_connections(map)
         self.score = 10000 * p - (100 + self.time)
 
         return self.score

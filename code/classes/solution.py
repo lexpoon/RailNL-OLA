@@ -3,17 +3,17 @@ from functions.calculations import calc_stations, calc_connections, calc_used_co
 class Solution(object):
     """Solution class with a possible output and its score."""
 
-    def __init__(self, routes):
+    def __init__(self, routes, map):
         """Initial class."""
 
         self.routes = routes
         self.time = self.calc_min()
-        self.score = self.score()
+        self.score = self.score(map)
 
-    def score(self):
+    def score(self, map):
         """Compute score of the solution"""
 
-        p = self.calc_p()
+        p = self.calc_p(map)
         t = self.calc_t()
         min = self.calc_min()
 
@@ -21,11 +21,11 @@ class Solution(object):
 
         return round(score)
 
-    def calc_p(self):
+    def calc_p(self, map):
         """Calculate the fraction of the compounds ridden."""
 
         used_connections = len(calc_used_connections(self.routes))
-        all_connections = calc_connections()
+        all_connections = calc_connections(map)
 
         p = used_connections / all_connections
 

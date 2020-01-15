@@ -2,10 +2,10 @@ import csv
 import plotly.graph_objects as go
 from functions.import_data import RailNL
 
-def visualisation(routes_list):
+def visualisation(routes_list, map):
     """ Visualize stations and routes in scattermapbox. """
 
-    filename = "data/StationsHolland.csv"
+    filename = f"data/Stations{map}.csv"
 
     # Read station longitudes and latitudes from csv into lists
     with open(filename, "r") as f:
@@ -29,7 +29,7 @@ def visualisation(routes_list):
     for list in routes_list:
         lon = []
         lat = []
-        data = RailNL()
+        data = RailNL(map)
 
         # Create two lists of longitutes and latitudes for stations in routes
         for station in list.route:
@@ -41,7 +41,12 @@ def visualisation(routes_list):
             mode = "lines",
             lon = lon,
             lat = lat,
-            marker = {'size': 10}))
+            marker = {
+                'size': 4,
+                'color': 'rgb(90, 90, 90)',
+                'symbol': 'circle'
+                })
+            )
 
     # Center and zoom figure to Holland
     fig.update_layout(
