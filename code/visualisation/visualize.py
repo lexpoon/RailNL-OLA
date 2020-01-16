@@ -5,10 +5,8 @@ from functions.import_data import RailNL
 def visualisation(routes_list, map):
     """ Visualize stations and routes in scattermapbox. """
 
-    filename = f"data/Stations{map}.csv"
-
     # Read station longitudes and latitudes from csv into lists
-    with open(filename, "r") as f:
+    with open(f"data/Stations{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
         station = []
         lat = []
@@ -26,13 +24,34 @@ def visualisation(routes_list, map):
         text = station,
         marker = {'size': 10}))
 
-    for list in routes_list:
+    # Visualize all possible connections in grey
+    data = RailNL(map).data
+    with open(f'data/Connecties{map}.csv', "r") as f:
+        csv_reader = csv.reader(f)
+        for connection in csv_reader:
+            lon = []
+            lat = []
+            lat.append(data[connection[0]].coordinates["long"])
+            lon.append(data[connection[0]].coordinates["lat"])
+            lat.append(data[connection[1]].coordinates["long"])
+            lon.append(data[connection[1]].coordinates["lat"])
+
+            # Add route lines to figure
+            fig.add_trace(go.Scattermapbox(
+                mode = "lines",
+                lon = lon,
+                lat = lat,
+                marker = { 'size': 10, 'color': 'rgb(90, 90, 90)' },
+                showlegend = False
+            ))
+
+    # Visualize route for every route
+    for route in routes_list:
         lon = []
         lat = []
-        data = RailNL(map)
 
         # Create two lists of longitutes and latitudes for stations in routes
-        for station in list.route:
+        for station in route.route:
             lon.append(station.coordinates["lat"])
             lat.append(station.coordinates["long"])
 
@@ -41,12 +60,7 @@ def visualisation(routes_list, map):
             mode = "lines",
             lon = lon,
             lat = lat,
-            marker = {
-                'size': 4,
-                'color': 'rgb(90, 90, 90)',
-                'symbol': 'circle'
-                })
-            )
+            marker = { 'size': 10 }))
 
     # Center and zoom figure to Holland
     fig.update_layout(

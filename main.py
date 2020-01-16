@@ -20,12 +20,12 @@ def main(map, routes, time):
 
     data = RailNL(map).data
 
-    best_score_random = 0
-    for i in range(1):
-        solution_random = randomize(routes, time, map)
-        if solution_random.score > best_score_random:
-            best_sol_random = solution_random
-            best_score_random = best_sol_random.score
+    # best_score_random = 0
+    # for i in range(1):
+    #     solution_random = randomize(routes, time, map)
+    #     if solution_random.score > best_score_random:
+    #         best_sol_random = solution_random
+    #         best_score_random = best_sol_random.score
 
     best_score_greedy = 0
     for i in range(1):
@@ -34,13 +34,29 @@ def main(map, routes, time):
             best_sol_greedy = solution_greedy
             best_score_greedy = best_sol_greedy.score
 
-    print(best_sol_random)
+    best_score_greedy1 = 0
+    for i in range(1):
+        solution_greedy1 = greedy(routes, time, "time", map)
+        if solution_greedy1.score > best_score_greedy1:
+            best_sol_greedy1 = solution_greedy1
+            best_score_greedy1 = best_sol_greedy1.score
+
+    # best_score_greedy2 = 0
+    # for i in range(1):
+    #     solution_greedy2 = greedy(routes, time, "quality", map)
+    #     if solution_greedy2.score > best_score_greedy2:
+    #         best_sol_greedy2 = solution_greedy2
+    #         best_score_greedy2 = best_sol_greedy2.score
+
+    # print(best_sol_random)
     print(best_sol_greedy)
+    print(best_sol_greedy1)
+    # print(best_sol_greedy2)
 
-    visualize_random = visualisation(best_sol_random.routes, map)
+    # visualize_random = visualisation(best_sol_random.routes, map)
     visualize_greedy = visualisation(best_sol_greedy.routes, map)
-
-    return visualize_random, visualize_greedy
+    visualize_greedy1 = visualisation(best_sol_greedy1.routes, map)
+    # visualize_greedy2 = visualisation(best_sol_greedy2.routes, map)
 
 if __name__ == "__main__":
     solution = main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]))
