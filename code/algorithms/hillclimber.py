@@ -1,0 +1,29 @@
+from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
+from functions.import_data import RailNL
+from classes.station import Station
+from classes.route import Route
+from classes.solution import Solution
+from greedy import greedy
+
+import copy
+
+def hillclimber(routes, time, map, greedy_output):
+    """"Create hillclimber solution based on greedy output"""
+
+    old_score = greedy_output.score
+    print (f"old_score: {old_score}")
+
+    # Check if routes contirbute to overall score
+    for route in greedy_output.routes:
+        if route.score < 0:
+            print ('slechte route: ------ ',route, route.score)
+            greedy_output.routes.remove(route)
+
+    routes = []
+    for i in range(len(greedy_output.routes)):
+        greedy_output.routes[i] = greedy_output.routes[i].route
+        greedy_output.routes[i] = Route(greedy_output.routes[:i+1], map)
+
+    new_score = Solution(greedy_output.routes, map).score
+
+    print (f"new_score: {new_score}")
