@@ -14,6 +14,7 @@ from import_data import RailNL
 from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
 from randomize import randomize
 from greedy import greedy
+from hillclimber import hillclimber
 from visualize import visualisation
 
 def main(map, routes, time):
@@ -49,8 +50,11 @@ def main(map, routes, time):
             best_score_greedy2 = best_sol_greedy2.score
 
     print(best_sol_random.score)
+    hillclimber(best_sol_greedy.routes, time, map, best_sol_greedy)
     print(best_sol_greedy.score)
+    hillclimber(best_sol_greedy1.routes, time, map, best_sol_greedy1)
     print(best_sol_greedy1.score)
+    hillclimber(best_sol_greedy2.routes, time, map, best_sol_greedy2)
     print(best_sol_greedy2.score)
 
     # visualize_random = visualisation(best_sol_random.routes, map)

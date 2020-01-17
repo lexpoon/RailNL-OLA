@@ -11,12 +11,11 @@ def hillclimber(routes, time, map, greedy_output):
     """"Create hillclimber solution based on greedy output"""
 
     old_score = greedy_output.score
-    print (f"old_score: {old_score}")
 
-    # Check if routes contirbute to overall score
+    # Check if routes contribute to overall score
     for route in greedy_output.routes:
         if route.score < 0:
-            print ('slechte route: ------ ',route, route.score)
+            # print('slechte route: ',route, route.score)
             greedy_output.routes.remove(route)
 
     routes = []
@@ -25,5 +24,6 @@ def hillclimber(routes, time, map, greedy_output):
         greedy_output.routes[i] = Route(greedy_output.routes[:i+1], map)
 
     new_score = Solution(greedy_output.routes, map).score
+    improvement = old_score - new_score
 
-    print (f"new_score: {new_score}")
+    print (f"improvement: {improvement} with new score: {new_score}")
