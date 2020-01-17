@@ -27,3 +27,5 @@ def hillclimber(routes, time, map, greedy_output):
     improvement = old_score - new_score
 
     print (f"improvement: {improvement} with new score: {new_score}")
+
+    return Solution(greedy_output.routes, map)
