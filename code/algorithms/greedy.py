@@ -27,6 +27,7 @@ def greedy(routes, time, key, map):
     # Make greedy routes untill it is not possible anymore due to the constrains
     while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
         greedy_route(connections_dict, max_time, key, solution_routes, data, map)
+        connections_dict = update_connections(solution_routes, data, map)
 
     # Make solution class and update attributes
     greedy_solution = Solution(solution_routes, map)
@@ -41,12 +42,11 @@ def greedy_route(connections, max_time, key, routes, data, map):
     total_time = 0
 
     # Pick a/the best station as starting point of the route
-    routes[-1].append(greedy_option("connections", connections, [], data, map))
+    routes[-1].append(greedy_option("connections", routes, data, map))
 
     # Keep adding stations to the route until ..........
-    while greedy_option(key, connections, routes[-1], data, map) != None:
-        routes[-1].append(greedy_option(key, connections, routes[-1], data, map))
-        update_connections(connections, routes[-1])
+    while greedy_option(key, routes, data, map) != None:
+        routes[-1].append(greedy_option(key, routes, data, map))
 
         # Check if route meets time constrain, if not end route
         total_time = Route(routes, map).time
@@ -59,20 +59,26 @@ def greedy_route(connections, max_time, key, routes, data, map):
 
     return routes[-1]
 
-def greedy_option(key, connections, route, data, map):
+def greedy_option(key, routes, data, map):
     """Determine best destination."""
 
-    # Choose best option (not yet in route) from current station based on minimum of connections
+    # Determine amount of connections and used connections for all stations
+    routes[-1] = Route(routes[len(routes)-1:], map)
+    connections = update_connections(routes, data, map)
+    routes[-1] = routes[-1].route
+
+    options = {}
+
+    # Choose best option (not yet in route) from current station based on minimum of connections or time
     if key == "connections" or key == "time":
 
         # Transform route of Station objects to route list of strings
         route_list = []
-        for station in route:
+        for station in routes[-1]:
             route_list.append(station.name)
 
         # Check if route has station. If so, determine (unused) connections of current station
         if route_list != []:
-            options = {}
             for connection in data[route_list[-1]].connections:
                 possible_connection = (route_list[-1], connection[0])
                 # Check if connection has not yet been made, then add station to dict with corresponding amount of connections
@@ -94,15 +100,17 @@ def greedy_option(key, connections, route, data, map):
 
     elif key == "quality":
         # Check if route has station. If so, determine (unused) connections of current station
-        if route != []:
-            options = {}
-            for connection in route[-1].connections:
-                # Add station to dict with corresponding K score
-                possible_routes = []
-                possible_route = route
-                possible_routes.append(possible_route)
-                possible_route.append(data[connection[0]])
-                options[connection[0]] = Route(possible_routes, map).score
+        if routes[-1] != []:
+            # Make list of already used connections in current route
+            for connection in routes[-1][-1].connections:
+                possible_connection = (routes[-1][-1].name, connection[0])
+                # Check if connection has not yet been made, then add station to dict with corresponding amount of connections
+                if tuple(sorted(possible_connection)) not in connections["used_connections"]:
+                    possible_routes = []
+                    possible_route = routes[-1].copy()
+                    possible_routes.append(possible_route)
+                    possible_route.append(data[connection[0]])
+                    options[connection[0]] = Route(possible_routes, map).score
         # All stations possible as starting station
         else:
             options = connections["amount_connections"]

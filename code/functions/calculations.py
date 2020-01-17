@@ -63,23 +63,30 @@ def connections_station(data):
 
     return connections
 
-def update_connections(connections, route):
+def update_connections(routes, data, map):
     """Update amount of possible connections with new station in route."""
 
-    # Decrease amount of connections for both stations in each connection in route
-    connections["amount_connections"][route[-1].name] -= 1
-    connections["amount_connections"][route[-2].name] -= 1
+    # Get overview of amount of connections and used connections.
+    connections = connections_station(data)
 
-    # Delete station if no connection possible anymore
-    if connections["amount_connections"][route[-1].name] == 0:
-            connections["amount_connections"].pop(route[-1].name)
-    if connections["amount_connections"][route[-2].name] == 0:
-            connections["amount_connections"].pop(route[-2].name)
-
-    # Update used connections
-    if len(route) > 1:
-        last_connection = (route[-1].name, route[-2].name)
-        last_connection = tuple(sorted(last_connection))
-        connections["used_connections"].add(last_connection)
+    for route in routes:
+        # Check if connections are made in route
+        if len(route.route) >= 2:
+            for i in range(1, len(route.route)):
+                # Check if connection already been used
+                if tuple(sorted((route.route[i - 1].name, route.route[i].name))) not in connections["used_connections"]:
+                    # Add to set of used connections
+                    new_connection = tuple(sorted((route.route[i - 1].name, route.route[i].name)))
+                    connections["used_connections"].add(new_connection)
+                    # Decrease amount of connections from origin and destination of connection.
+                    # Delete station if every posible connection is used
+                    if route.route[i - 1].name in connections["amount_connections"].keys():
+                        connections["amount_connections"][route.route[i - 1].name] -= 1
+                        if connections["amount_connections"][route.route[i - 1].name] == 0:
+                            connections["amount_connections"].pop(route.route[i - 1].name)
+                    if route.route[i].name in connections["amount_connections"].keys():
+                        connections["amount_connections"][route.route[i].name] -= 1
+                        if connections["amount_connections"][route.route[i].name] == 0:
+                            connections["amount_connections"].pop(route.route[i].name)
 
     return connections
