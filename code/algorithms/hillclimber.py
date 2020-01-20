@@ -46,9 +46,9 @@ def hillclimber(routes, time, map, greedy_output):
     #     for station in route.route:
     #         if str(station) in connections_left.keys():
     #             if connections_left[str(station)] >= 1:
-    #                 index = route.index(station)
-    #                 first_part = route[:index]
-    #                 last_part = route[index:]
+    #                 index = route.route.index(station)
+    #                 first_part = list(route.route[:index])
+    #                 last_part = list(route.route[index:])
 
     #                 # Find neighbour station that is not used
     #                 for tuple in #all possible connections:
@@ -60,10 +60,12 @@ def hillclimber(routes, time, map, greedy_output):
     #                 # Calculate new temp score with station added to route
     #                 route_index = new_route.routes.index(route)
     #                 temp_routes = copy.deepcopy(Solution(greedy_output.routes, map))
-    #                 temp_routes.routes[route_index] = first_part + new_station + last_part
-    #                 temp_score = Solution(..., map).score
+    #                 temp = first_part.append([str(station)])
+    #                 temp = temp.append(last_part)
+    #                 temp_routes.routes[route_index].route = Route(temp, map)
+    #                 temp_score = Solution(temp_routes, map).score
 
-    #                 # If score has improved, add station to actual route
+    #                 # # If score has improved, add station to actual route
     #                 if temp_score > old_score2:
     #                     updated_route = first_part + new_station + last_part
 
