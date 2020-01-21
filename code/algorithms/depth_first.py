@@ -55,7 +55,8 @@ def depth_first_route(max_time, map, data, routes):
                 child = copy.deepcopy(depth_route)
                 child.append(option)
                 stack.append(child)
-                route = Route(stack[-1:], map)
+                routes[-1] = stack[-1]
+                route = Route(routes, map)
                 if route.score > best_score:
                     best_route = route
                     best_score = best_route.score
