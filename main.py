@@ -22,15 +22,20 @@ def main(map, routes, time, iterations):
 
     data = RailNL(map).data
 
-    solution_depth = depth_first(map, 120, 7)
-    print(solution_depth)
+    best_score_depth = 0
+    for i in range(iterations):
+        solution_depth = depth_first(map, time, routes, 3)
+        if solution_depth.score > best_score_depth:
+            best_sol_depth = solution_depth
+            best_score_depth = best_sol_depth.score
+    print(best_sol_depth)
 
-    # best_score_random = 0
-    # for i in range(iterations):
-    #     solution_random = randomize(routes, time, map)
-    #     if solution_random.score > best_score_random:
-    #         best_sol_random = solution_random
-    #         best_score_random = best_sol_random.score
+    best_score_random = 0
+    for i in range(iterations):
+        solution_random = randomize(routes, time, map)
+        if solution_random.score > best_score_random:
+            best_sol_random = solution_random
+            best_score_random = best_sol_random.score
     #
     # best_score_greedy = 0
     # for i in range(iterations):
