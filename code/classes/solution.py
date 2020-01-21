@@ -25,7 +25,7 @@ class Solution(object):
         """Calculate the fraction of the compounds ridden."""
 
         used_connections = len(calc_used_connections(self.routes))
-        all_connections = calc_connections(map)
+        all_connections = len(calc_connections(map))
 
         p = used_connections / all_connections
 

@@ -25,7 +25,7 @@ class Route(object):
     def calc_score(self, routes, map):
         """Determine score of current route."""
 
-        p = len(calc_used_connections_route(routes)) / calc_connections(map)
+        p = len(calc_used_connections_route(routes)) / len(calc_connections(map))
         self.score = 10000 * p - (100 + self.time)
 
         return self.score

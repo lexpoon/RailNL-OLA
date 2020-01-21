@@ -16,11 +16,13 @@ def calc_connections(map):
 
     with open(f"data/Connecties{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
-        num_connections = 0
+        connections = set()
         for line in csv_reader:
-            num_connections += 1
+            connection = (line[0], line[1])
+            connection = tuple(sorted(connection))
+            connections.add(connection)
 
-        return num_connections
+        return connections
 
 def calc_used_connections(routes):
     """Determine used connections in solution."""
@@ -34,7 +36,7 @@ def calc_used_connections(routes):
     return used_connections
 
 def calc_used_connections_route(routes):
-    """Determine used connections in last route."""
+    """Determine new used connections in last route."""
 
     # Check if any route created earlier, and determine used connections
     if len(routes) > 1:
@@ -90,3 +92,13 @@ def update_connections(routes, data, map):
                             connections["amount_connections"].pop(route.route[i].name)
 
     return connections
+
+def unused_connections(map, routes):
+    """Determine which connections are not used in the routes."""
+
+    all_connections = calc_connections(map)
+    used_connections = calc_used_connections(routes)
+
+    unused_connections = all_connections - used_connections
+
+    return unused_connections

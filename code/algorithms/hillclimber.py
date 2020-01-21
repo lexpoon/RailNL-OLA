@@ -7,14 +7,14 @@ from greedy import greedy
 
 import copy
 
-def hillclimber(routes, time, map, greedy_output):
+def hillclimber(routes, time, map, min_score, greedy_output):
     """"Create hillclimber solution based on greedy output"""
 
     old_score = greedy_output.score
 
     # Check if routes contribute to overall score
     for route in greedy_output.routes:
-        if route.score < 0:
+        if route.score < min_score:
             # print('slechte route: ',route, route.score)
             greedy_output.routes.remove(route)
 

@@ -20,7 +20,7 @@ def randomize(routes, time, map):
     solution_routes = []
 
     # Keep track of fraction of used connections
-    all_connections = calc_connections(map)
+    all_connections = len(calc_connections(map))
     connections_dict = connections_station(data)
 
     # Make random routes untill it is not possible anymore due to the constrains
