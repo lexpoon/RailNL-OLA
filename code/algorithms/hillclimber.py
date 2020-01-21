@@ -7,7 +7,7 @@ from greedy import greedy
 
 import copy
 
-def hillclimber(routes, time, map, min_score, greedy_output):
+def hillclimber(greedy_output, time, map, min_score):
     """"Create hillclimber solution based on greedy output"""
 
     old_score = greedy_output.score
@@ -15,8 +15,8 @@ def hillclimber(routes, time, map, min_score, greedy_output):
     # Check if routes contribute to overall score, else delete route
     for route in greedy_output.routes:
         if route.score < min_score:
-            # print('slechte route: ',route, route.score)
             greedy_output.routes.remove(route)
+            print('Removed route: ', route)
 
     # Create new route object
     routes = []
@@ -26,48 +26,61 @@ def hillclimber(routes, time, map, min_score, greedy_output):
 
     # Calculate new score
     new_score = Solution(greedy_output.routes, map).score
-    improvement = old_score - new_score
+    improvement = new_score - old_score
 
-    print (f"improvement: {improvement} with new score: {new_score}")
+    print (f"Improvement: {improvement} with new score: {new_score}")
 
+    # If all connections are used, return solution
+    unused_connections = calc_connections(map) - calc_used_connections(Solution(greedy_output.routes, map).routes)
+    if unused_connections == set():
+        return Solution(greedy_output.routes, map)
 
-    ######## Hillclimber part 2: add unused connection to route #########
+    data = RailNL(map).data
+    solution = Solution(greedy_output.routes, map)
 
-    # # Update amount of connections that are left
-    # new_route = Solution(greedy_output.routes, map)
-    # data = RailNL(map).data
-    # connections_left = update_connections(new_route.routes, data, map)['amount_connections']
+    while True:
 
-    # old_score2 = Solution(greedy_output.routes, map).score
+        # Update connections that are left
+        connections_left = update_connections(solution.routes, data, map)['amount_connections']
 
-    # # Find station in route that has a connection left
-    # for route in new_route.routes:
-    #     used = calc_used_connections(new_route.routes)
-    #     for station in route.route:
-    #         if str(station) in connections_left.keys():
-    #             if connections_left[str(station)] >= 1:
-    #                 index = route.route.index(station)
-    #                 first_part = list(route.route[:index])
-    #                 last_part = list(route.route[index:])
+        # Find station in route that has an unused connection
+        for route in solution.routes:
+            for station in route.route:
+                if str(station) in connections_left.keys():
+                    if connections_left[str(station)] >= 1:
+                        index = route.route.index(station)
+                        first_part = list(route.route[:index+1])
+                        last_part = list(route.route[index:])
+                        
+                        # Find neighbour station that has no connection
+                        unused_connections = calc_connections(map) - calc_used_connections(solution.routes)
+                        
+                        for connection in unused_connections:
+                            if str(connection[0])==str(station):
+                                new_station = data[str(connection[1])]
 
-    #                 # Find neighbour station that is not used
-    #                 for tuple in #all possible connections:
-    #                     if tuple[0] in connections_left.keys() and tuple[1]==station:
-    #                         new_station = tuple[0]
-    #                     if tuple[1] in connections_left.keys() and tuple[0]==station:
-    #                         new_station = tuple[1]
+                            if str(connection[1])==str(station):
+                                new_station = data[str(connection[0])]
+                                                    
+                        # Create temporary route with unconnected station added and calculate new score
+                        temp_route = first_part + [new_station] + last_part
+                        route_index = solution.routes.index(route) 
+                        copy_routes = copy.deepcopy(solution)
+                        copy_routes.routes[route_index].route = Route([temp_route], map).route
+                        temp_score = Solution(copy_routes.routes, map).score
+                        score_original = solution.score
+
+                        # If score has improved in temporary route, add station to actual route
+                        if temp_score > score_original:
+                            greedy_output.routes[route_index] = copy_routes.routes[route_index]
+                            solution = Solution(greedy_output.routes, map)
+
+                            print('Old score:', score_original)
+                            print('Added station:', new_station)
+                            print('Improved new score:', temp_score)
                                                   
-    #                 # Calculate new temp score with station added to route
-    #                 route_index = new_route.routes.index(route)
-    #                 temp_routes = copy.deepcopy(Solution(greedy_output.routes, map))
-    #                 temp = first_part.append([str(station)])
-    #                 temp = temp.append(last_part)
-    #                 temp_routes.routes[route_index].route = Route(temp, map)
-    #                 temp_score = Solution(temp_routes, map).score
-
-    #                 # # If score has improved, add station to actual route
-    #                 if temp_score > old_score2:
-    #                     updated_route = first_part + new_station + last_part
-
-    # return
-    return Solution(greedy_output.routes, map)
+                        else:
+    
+                            solution = 'Final score: ' + str(Solution(greedy_output.routes, map).score)
+                            print(solution)
+                            return Solution(greedy_output.routes, map)
