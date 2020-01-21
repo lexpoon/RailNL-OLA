@@ -30,11 +30,16 @@ def hillclimber(greedy_output, time, map, min_score):
 
     print (f"Improvement: {improvement} with new score: {new_score}")
 
+    # If all connections are used, return solution
+    unused_connections = calc_connections(map) - calc_used_connections(Solution(greedy_output.routes, map).routes)
+    if unused_connections == set():
+        return Solution(greedy_output.routes, map)
+
     data = RailNL(map).data
     solution = Solution(greedy_output.routes, map)
 
     while True:
- 
+
         # Update connections that are left
         connections_left = update_connections(solution.routes, data, map)['amount_connections']
 
@@ -49,6 +54,7 @@ def hillclimber(greedy_output, time, map, min_score):
                         
                         # Find neighbour station that has no connection
                         unused_connections = calc_connections(map) - calc_used_connections(solution.routes)
+                        
                         for connection in unused_connections:
                             if str(connection[0])==str(station):
                                 new_station = data[str(connection[1])]
