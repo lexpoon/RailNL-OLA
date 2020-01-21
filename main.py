@@ -22,20 +22,22 @@ def main(map, routes, time, iterations):
 
     data = RailNL(map).data
 
+    min_score = 10000/len(calc_connections(map)) - 105
+
     best_score_depth = 0
+    depth = 4
     for i in range(iterations):
-        solution_depth = depth_first(map, time, routes, 3)
+        solution_depth = depth_first(map, time, routes, depth, min_score)
         if solution_depth.score > best_score_depth:
             best_sol_depth = solution_depth
             best_score_depth = best_sol_depth.score
-    print(best_sol_depth)
 
-    best_score_random = 0
-    for i in range(iterations):
-        solution_random = randomize(routes, time, map)
-        if solution_random.score > best_score_random:
-            best_sol_random = solution_random
-            best_score_random = best_sol_random.score
+    # best_score_random = 0
+    # for i in range(iterations):
+    #     solution_random = randomize(routes, time, map)
+    #     if solution_random.score > best_score_random:
+    #         best_sol_random = solution_random
+    #         best_score_random = best_sol_random.score
     #
     # best_score_greedy = 0
     # for i in range(iterations):
@@ -59,13 +61,15 @@ def main(map, routes, time, iterations):
     #         best_score_greedy2 = best_sol_greedy2.score
     #
     # print(best_sol_random.score)
-    # improve_random = hillclimber(best_sol_random.routes, time, map, 20, best_sol_random)
+    # improve_random = hillclimber(best_sol_random.routes, time, map, min_score, best_sol_random)
     # print(best_sol_greedy.score)
-    # improve_greedy = hillclimber(best_sol_greedy.routes, time, map, 20, best_sol_greedy)
+    # improve_greedy = hillclimber(best_sol_greedy.routes, time, map, min_score, best_sol_greedy)
     # print(best_sol_greedy1.score)
-    # improve_greedy1 = hillclimber(best_sol_greedy1.routes, time, map, 20, best_sol_greedy1)
+    # improve_greedy1 = hillclimber(best_sol_greedy1.routes, time, map, min_score, best_sol_greedy1)
     # print(best_sol_greedy2.score)
-    # improve_greedy2 = hillclimber(best_sol_greedy2.routes, time, map, 20, best_sol_greedy2)
+    # improve_greedy2 = hillclimber(best_sol_greedy2.routes, time, map, min_score, best_sol_greedy2)
+    # print(best_sol_depth.score)
+    # improve_depth = hillclimber(best_sol_depth.routes, time, map, min_score, best_sol_depth)
 
     # visualize_random = visualisation(best_sol_random.routes, map)
     # visualize_random_improvement = visualisation(improve_random.routes, map)
@@ -75,6 +79,8 @@ def main(map, routes, time, iterations):
     # visualize_greedy1_improvement = visualisation(improve_greedy1.routes, map)
     # visualize_greedy2 = visualisation(best_sol_greedy2.routes, map)
     # visualize_greedy2_improvement = visualisation(improve_greedy2.routes, map)
+    # visualize_depth = visualisation(best_sol_depth.routes, map)
+    # visualize_depth_improvement = visualisation(improve_depth.routes, map)
 
 if __name__ == "__main__":
     solution = main(sys.argv[1], int(sys.argv[2]), int(sys.argv[3]), int(sys.argv[4]))
