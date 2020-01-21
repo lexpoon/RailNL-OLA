@@ -93,7 +93,7 @@ def update_connections(routes, data, map):
 
     return connections
 
-def unused_connections(map, routes):
+def unused_connections(routes, map):
     """Determine which connections are not used in the routes."""
 
     all_connections = calc_connections(map)
