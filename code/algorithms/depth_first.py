@@ -7,7 +7,7 @@ from algorithms.greedy import greedy_option
 
 import random, copy
 
-def depth_first(map, time, routes, depth, min_score):
+def depth_first(map, time, routes, depth, min_score, ratio):
   """Create solution consisting of routes based on depth first algorithm."""
 
   # Set algorithm constrains
@@ -26,7 +26,7 @@ def depth_first(map, time, routes, depth, min_score):
 
   # Make random routes untill it is not possible anymore due to the constrains
   while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
-      depth_first_route(max_time, map, data, solution_routes, depth, min_score)
+      depth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
       connections_dict = update_connections(solution_routes, data, map)
 
   # Make solution class and update attributes
@@ -34,7 +34,7 @@ def depth_first(map, time, routes, depth, min_score):
 
   return depth_first_solution
 
-def depth_first_route(max_time, map, data, routes, depth, min_score):
+def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
     """Create a depth first route."""
 
     # Starting station of route
@@ -64,8 +64,8 @@ def depth_first_route(max_time, map, data, routes, depth, min_score):
                 routes[-1] = stack[-1]
                 route = Route(routes, map)
 
-                # Apply Greedy with look-ahead
-                if len(route.route) > depth and route.score < min_score:
+                # Apply Greedy look-ahead with minimal score or with score-route length ratio
+                if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_score/len(best_route.route)):
                     stack.pop()
 
                 # Check if route is best solution yet

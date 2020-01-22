@@ -1,4 +1,4 @@
-import os, sys
+import os, sys, timeit
 
 directory = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(directory, "code"))
@@ -24,42 +24,60 @@ def main(map, routes, time, iterations):
 
     min_score = 10000/len(calc_connections(map)) - 105
 
+    start = timeit.default_timer()
     best_score_depth = 0
     depth = 4
+    ratio = 1.5
     for i in range(iterations):
-        solution_depth = depth_first(map, time, routes, depth, min_score)
+        solution_depth = depth_first(map, time, routes, depth, min_score, ratio)
         if solution_depth.score > best_score_depth:
             best_sol_depth = solution_depth
             best_score_depth = best_sol_depth.score
+    print(best_sol_depth)
+    stop = timeit.default_timer()
+    print('Time Depth First: ', stop - start)
 
+    # start = timeit.default_timer()
     # best_score_random = 0
     # for i in range(iterations):
     #     solution_random = randomize(routes, time, map)
     #     if solution_random.score > best_score_random:
     #         best_sol_random = solution_random
     #         best_score_random = best_sol_random.score
-    #
-    # best_score_greedy = 0
-    # for i in range(iterations):
-    #     solution_greedy = greedy(routes, time, "connections", map)
-    #     if solution_greedy.score > best_score_greedy:
-    #         best_sol_greedy = solution_greedy
-    #         best_score_greedy = best_sol_greedy.score
-    #
+    # stop = timeit.default_timer()
+    # print('Time Random: ', stop - start)
+
+    start = timeit.default_timer()
+    best_score_greedy = 0
+    for i in range(iterations):
+        solution_greedy = greedy(routes, time, "connections", map)
+        if solution_greedy.score > best_score_greedy:
+            best_sol_greedy = solution_greedy
+            best_score_greedy = best_sol_greedy.score
+    print(best_sol_greedy)
+    stop = timeit.default_timer()
+    print('Time Greedy: ', stop - start)
+
+    # start = timeit.default_timer()
     # best_score_greedy1 = 0
     # for i in range(iterations):
     #     solution_greedy1 = greedy(routes, time, "time", map)
     #     if solution_greedy1.score > best_score_greedy1:
     #         best_sol_greedy1 = solution_greedy1
     #         best_score_greedy1 = best_sol_greedy1.score
+    # stop = timeit.default_timer()
+    # print('Time Greedy1: ', stop - start)
     #
+    # start = timeit.default_timer()
     # best_score_greedy2 = 0
     # for i in range(iterations):
     #     solution_greedy2 = greedy(routes, time, "quality", map)
     #     if solution_greedy2.score > best_score_greedy2:
     #         best_sol_greedy2 = solution_greedy2
     #         best_score_greedy2 = best_sol_greedy2.score
-    #
+    # stop = timeit.default_timer()
+    # print('Time Greedy2: ', stop - start)
+
     # print(best_sol_random.score)
     # improve_random = hillclimber(best_sol_random.routes, time, map, min_score, best_sol_random)
     # print(best_sol_greedy.score)
