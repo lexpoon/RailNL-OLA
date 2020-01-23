@@ -17,12 +17,12 @@ def hillclimber1(solution, max_routes, max_time, map, algorithm, remove_routes, 
     data = RailNL(map).data
     best_solution = copy.deepcopy(solution.routes)
     best_score = solution.score
-    print(solution)
+
     #
     for i in range(iterations):
 
         #
-        last_solution = best_solution
+        last_solution = copy.deepcopy(best_solution)
 
         for j in range(remove_routes):
             last_solution.remove(random.choice(last_solution))
@@ -36,7 +36,7 @@ def hillclimber1(solution, max_routes, max_time, map, algorithm, remove_routes, 
             if algorithm == "random":
                 last_solution.append(random_route(connections, max_time, last_solution, data, map))
             elif algorithm == "greedy":
-                last_solution.append(greedy_route(connections, max_time, key, last_solution, data, map))
+                last_solution.append(greedy_route(connections, max_time, "connections", last_solution, data, map))
             elif algorithm == "depth_first":
                 last_solution.append(depth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
             elif algorithm == "breadth_first":
@@ -44,14 +44,11 @@ def hillclimber1(solution, max_routes, max_time, map, algorithm, remove_routes, 
 
         new_solution = Solution(last_solution, map)
         new_score = new_solution.score
-        print(new_solution)
-        print("-----")
+
         if new_score > best_score:
             best_score = new_score
             best_solution = new_solution.routes
 
     best_solution = Solution(best_solution, map)
-    print("--------------")
-    print(best_solution)
 
     return best_solution
