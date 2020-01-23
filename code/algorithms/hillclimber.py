@@ -3,10 +3,10 @@ from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
 from classes.solution import Solution
-from randomize import randomize
-from greedy import greedy
-from depth_first import depth_first
-from breadth_first import breadth_first
+from randomize import randomize, random_route
+from greedy import greedy, greedy_route
+from depth_first import depth_first, depth_first_route
+from breadth_first import breadth_first, breadth_first_route
 
 import random, copy
 

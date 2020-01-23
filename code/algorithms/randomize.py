@@ -16,11 +16,11 @@ def randomize(map, max_routes, max_time):
     solution_routes = []
 
     # Keep track of fraction of used connections
-    total_num_connections = len(all_connections(map))
+    num_connections = len(all_connections(map))
     connections_dict = connections_station(data)
 
     # Make random routes untill it is not possible anymore due to the constrains
-    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < total_num_connections:
+    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
         random_route(connections_dict, max_time, solution_routes, data, map)
         connections_dict = update_connections(solution_routes, data, map)
 

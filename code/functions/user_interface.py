@@ -17,7 +17,7 @@ def get_map_info():
 
 def get_create_algorithm():
     algorithm = ''
-    while algorithm != "random" and algorithm != "r" and algorithm != "greedy" and algorithm != "g" and algorithm != "depth first" and algorithm != "d" and algorithm != "breadth first" and algorithm != "b":
+    while algorithm != "random" and algorithm != "r" and algorithm != "greedy" and algorithm != "g" and algorithm != "depth_first" and algorithm != "d" and algorithm != "breadth_first" and algorithm != "b":
         algorithm = input("Met welk algoritme wil je een oplossing generen? Random (R/r), Greedy (G/g), Depth First (D/p) of Bread First (B/b)?\n").lower()
 
         if algorithm == "random" or algorithm == "r":
@@ -34,42 +34,55 @@ def get_create_algorithm():
 
             while key != "connecties" and key != "c" and key != "tijd" and key != "t" and key != "score" and key != "s":
                 key = input("Op basis waarvan wil je het Greedy algoritme runnen? Connecties (C/c), Tijd (T/t) of Score (S/s)?\n").lower()
-                if key == "tijd" or key == "t":
-                    key = "time"
-                elif key == "score" or key == "s":
-                    key = "connections"
+
+            if key == "connecties" or key == "c":
+                key = "connections"
+            elif key == "tijd" or key == "t":
+                key = "time"
+            else:
+                key = "quality"
 
         elif algorithm == "depth first" or algorithm == "d":
             algorithm = "depth_first"
             key = None
-            depth = get_int("Na hoeveel stations wil je beginnen met prunen?")
-            ratio = get_float("Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n")
+            depth = ''
+            ratio = ''
+            while isinstance(depth, int) != True:
+                depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
+            while isinstance(ratio, float) != True:
+                ratio = get_float("Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n")
 
         elif algorithm == "breadth first" or algorithm == "b":
             algorithm = "breadth_first"
             key = None
             depth = ''
             ratio = ''
-            while isinstance(iterations, int) != True:
-                depth = get_int("Na hoeveel stations wil je beginnen met prunen?")
-            while isinstance(iterations, float) != True:
+            while isinstance(depth, int) != True:
+                depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
+            while isinstance(ratio, float) != True:
                 ratio = get_float("Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n")
 
     return [algorithm, key, depth, ratio]
 
 def get_improve_algorithm():
-    algorithm = tuple()
-    while algorithm != "hillclimber" and algorithm != "h" and algorithm != "less is more" and algorithm != "l" and algorithm != "simulated annealing" and algorithm != "s":
-        algorithm[0] = input("Met welk algoritme wil je een oplossing generen? Less is More (L/l), Hillclimbee (H/h), Simulated Annealing (S/s)?\n").lower()
+    algorithm = ''
+    while algorithm != "hillclimber" and algorithm != "h" and algorithm != "short route swap" and algorithm != "l" and algorithm != "simulated annealing" and algorithm != "s":
+        algorithm = input("Met welk algoritme wil je een oplossing generen? Short Route Swap (S/s), Hillclimber (H/h), Simulated Annealing (A/a)?\n").lower()
 
-    if algorithm == "hillclimber" or algorithm == "h" or algorithm == "simulated annealing" or algorithm == "s":
+    if algorithm == "hillclimber" or algorithm == "h" or algorithm == "simulated annealing" or algorithm == "a":
         route_info = get_create_algorithm()
+        if algorithm == "hillclimber" or algorithm == "h":
+            algorithm = "hillclimber"
+        else:
+            algorithm = "simulated annealing"
+        route_info[0] = [algorithm, route_info[0]]
     else:
-        route_info = ["less_is_more", None, None, None]
+        route_info = ["short_route_swap", None, None, None]
 
     return [route_info[0], route_info[1], route_info[2], route_info[3]]
 
 def next_step():
+    next_step = ''
     while next_step != "v" and next_step != "n" and next_step != "q":
         next_step = input("Opties: Gebruik verbeter algoritme (V/v), Nieuwe oplossing genereren (N/n), Stoppen (Q/q)\n").lower()
 

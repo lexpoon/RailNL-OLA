@@ -18,11 +18,11 @@ def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
   solution_routes = []
 
   # Keep track of fraction of used connections
-  all_connections = len(all_connections(map))
+  num_connections = len(all_connections(map))
   connections_dict = connections_station(data)
 
   # Make random routes untill it is not possible anymore due to the constrains
-  while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
+  while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
       breadth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
       connections_dict = update_connections(solution_routes, data, map)
 
