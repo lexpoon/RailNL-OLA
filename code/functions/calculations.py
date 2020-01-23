@@ -1,22 +1,28 @@
 import csv
 
-def calc_stations(map):
-    """Determine total number of stations in the data."""
 
+def all_stations(map):
+    """Determine total number of stations based on map"""
+
+    # Get stations by lines in csv
     with open(f"data/Stations{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
-        num_stations = 0
+        stations = set()
         for line in csv_reader:
-            num_stations += 1
+            stations.add(line)
 
-        return num_stations
+        return stations
+
 
 def calc_connections(map):
-    """Determine total number of connections in the data."""
+    """Determine total number of connections based on map"""
 
+    # Count number of connections
     with open(f"data/Connecties{map}.csv", "r") as f:
         csv_reader = csv.reader(f)
         connections = set()
+
+        # remove possible duplicate connections
         for line in csv_reader:
             connection = (line[0], line[1])
             connection = tuple(sorted(connection))
@@ -24,8 +30,11 @@ def calc_connections(map):
 
         return connections
 
+
 def calc_used_connections(routes):
     """Determine used connections in solution."""
+
+
     used_connections = set()
     for route in routes:
         for i in range(len(route.route) - 1):

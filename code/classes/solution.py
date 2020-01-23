@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route
+from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route
 
 class Solution(object):
     """Solution class with a possible output and its score."""

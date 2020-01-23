@@ -11,7 +11,7 @@ from station import Station
 from route import Route
 from solution import Solution
 from import_data import RailNL
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
+from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
 from randomize import randomize
 from greedy import greedy
 from depth_first import depth_first
@@ -37,38 +37,38 @@ def main(map, routes, time, iterations):
     stop = timeit.default_timer()
     print('Time Random: ', stop - start)
 
-    start = timeit.default_timer()
-    best_score_greedy = 0
-    for i in range(iterations):
-        solution_greedy = greedy(routes, time, "connections", map)
-        if solution_greedy.score > best_score_greedy:
-            best_sol_greedy = solution_greedy
-            best_score_greedy = best_sol_greedy.score
-    print(best_sol_greedy)
-    stop = timeit.default_timer()
-    print('Time Greedy: ', stop - start)
+    # start = timeit.default_timer()
+    # best_score_greedy = 0
+    # for i in range(iterations):
+    #     solution_greedy = greedy(routes, time, "connections", map)
+    #     if solution_greedy.score > best_score_greedy:
+    #         best_sol_greedy = solution_greedy
+    #         best_score_greedy = best_sol_greedy.score
+    # print(best_sol_greedy)
+    # stop = timeit.default_timer()
+    # print('Time Greedy: ', stop - start)
 
-    start = timeit.default_timer()
-    best_score_greedy1 = 0
-    for i in range(iterations):
-        solution_greedy1 = greedy(routes, time, "time", map)
-        if solution_greedy1.score > best_score_greedy1:
-            best_sol_greedy1 = solution_greedy1
-            best_score_greedy1 = best_sol_greedy1.score
-    print(best_sol_greedy1)
-    stop = timeit.default_timer()
-    print('Time Greedy1: ', stop - start)
+    # start = timeit.default_timer()
+    # best_score_greedy1 = 0
+    # for i in range(iterations):
+    #     solution_greedy1 = greedy(routes, time, "time", map)
+    #     if solution_greedy1.score > best_score_greedy1:
+    #         best_sol_greedy1 = solution_greedy1
+    #         best_score_greedy1 = best_sol_greedy1.score
+    # print(best_sol_greedy1)
+    # stop = timeit.default_timer()
+    # print('Time Greedy1: ', stop - start)
 
-    start = timeit.default_timer()
-    best_score_greedy2 = 0
-    for i in range(iterations):
-        solution_greedy2 = greedy(routes, time, "quality", map)
-        if solution_greedy2.score > best_score_greedy2:
-            best_sol_greedy2 = solution_greedy2
-            best_score_greedy2 = best_sol_greedy2.score
-    print(best_sol_greedy2)
-    stop = timeit.default_timer()
-    print('Time Greedy2: ', stop - start)
+    # start = timeit.default_timer()
+    # best_score_greedy2 = 0
+    # for i in range(iterations):
+    #     solution_greedy2 = greedy(routes, time, "quality", map)
+    #     if solution_greedy2.score > best_score_greedy2:
+    #         best_sol_greedy2 = solution_greedy2
+    #         best_score_greedy2 = best_sol_greedy2.score
+    # print(best_sol_greedy2)
+    # stop = timeit.default_timer()
+    # print('Time Greedy2: ', stop - start)
 
     # start = timeit.default_timer()
     # best_score_depth = 0
@@ -125,11 +125,11 @@ def main(map, routes, time, iterations):
 
     visualize_random = visualisation(best_sol_random.routes, map)
     # visualize_random_improvement = visualisation(improve_random.routes, map)
-    visualize_greedy = visualisation(best_sol_greedy.routes, map)
+    # visualize_greedy = visualisation(best_sol_greedy.routes, map)
     # visualize_greedy_improvement = visualisation(improve_greedy.routes, map)
-    visualize_greedy1 = visualisation(best_sol_greedy1.routes, map)
+    # visualize_greedy1 = visualisation(best_sol_greedy1.routes, map)
     # visualize_greedy1_improvement = visualisation(improve_greedy1.routes, map)
-    visualize_greedy2 = visualisation(best_sol_greedy2.routes, map)
+    # visualize_greedy2 = visualisation(best_sol_greedy2.routes, map)
     # visualize_greedy2_improvement = visualisation(improve_greedy2.routes, map)
     # visualize_depth = visualisation(best_sol_depth.routes, map)
     # visualize_depth_improvement = visualisation(improve_depth.routes, map)

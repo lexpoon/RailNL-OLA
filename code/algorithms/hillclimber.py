@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
+from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -56,7 +56,7 @@ def hillclimber(greedy_output, time, map, min_score):
                         index = traject.route.index(station)
                         first_part = list(traject.route[:index+1])
                         last_part = list(traject.route[index:])
-                        
+
                         # Find neighbour station that has no connection
                         unused_connections = calc_connections(map) - calc_used_connections(solution.routes)
 
@@ -71,7 +71,7 @@ def hillclimber(greedy_output, time, map, min_score):
 
                             if str(connection[1])==str(station):
                                 new_station = data[str(connection[0])]
-                                                    
+
                         # Create temporary route with unconnected station added and calculate new score
                         temp_route = first_part + [new_station] + last_part
                         route_index = solution.routes.index(traject)
@@ -87,14 +87,14 @@ def hillclimber(greedy_output, time, map, min_score):
                             print('Added station:', new_station)
                             print('Improved to:', temp_score)
                             # continue
-                        
+
                         else:
                             return False
                             print('not improving, end while loop')
                             # improving = False
                             test(greedy_output.routes, map)
                             # break
-                                              
+
     # s = ('Final score: ', str(Solution(greedy_output.routes, map).score))
     # return s
 
@@ -122,7 +122,7 @@ def hillclimber(greedy_output, time, map, min_score):
 
     #     # Randomly choose station to connect with
     #     connection = random.choice(station.connections)
-        
+
         # Create new route with station added at the start or end of the original route
         # if route_list.index(station) == len(route_list):
         #     # new_connection = (station, connection[0])
@@ -146,10 +146,10 @@ def hillclimber(greedy_output, time, map, min_score):
         #     print('new route:', new_route)
         #     # if ...:
         #     print('Swapped: ', new_station)
-        #     greedy_output.routes[route_index].route = Route(new_route, map).route        
+        #     greedy_output.routes[route_index].route = Route(new_route, map).route
 
         # check op tijd
-        # als je in het midden komt, 
+        # als je in het midden komt,
 
 
         # Delete first or last station from route
@@ -163,9 +163,3 @@ def hillclimber(greedy_output, time, map, min_score):
         # solution = solution
 
         # return Solution(greedy_output.routes, map)
-
-
-
-
-
-

@@ -1,0 +1,3 @@
+veranderingen:
+
+calc_stations -> len(all_stations)
