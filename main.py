@@ -30,11 +30,11 @@ def main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, re
 
     #
     if definition == 'create':
-        best_solution = start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio)
+        solution_algorithm = start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio)
     else:
-        best_solution = improve_algorithm()
+        solution_algorithm = improve_algorithm()
 
-    return best_solution
+    return solution_algorithm
 
 def start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio):
     """Find best routes based on input algorithm"""
@@ -101,7 +101,7 @@ def improve_algorithm(map, max_routes, max_time, algorithm, min_score, key, iter
 
 if __name__ == "__main__":
     best_solution = {"solution": '', "score": 0}
-    iterations = 0
+    iterations = ''
 
     print("Welkom bij RailNL!")
     print("We gaan proberen een zo goed mogelijke dienstregeling vinden.")
@@ -117,8 +117,12 @@ if __name__ == "__main__":
     depth = info[2]
     ratio = info[3]
 
-    while isinstance(iterations, int) != True:
+    while isinstance(iterations, int) == False:
         iterations = input("Hoevaak wil je een nieuwe oplossing genereren?\n")
+        try:
+            iterations = int(iterations)
+        except:
+            iterations = iterations
 
     solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes=None, solution=None, definition="create")
 

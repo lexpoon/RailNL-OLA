@@ -1,7 +1,7 @@
 def get_map_info():
     map = ''
     while map != "holland" and map != "h" and map != "nationaal" and map != "n":
-        map = str(input("Voor welke map wil je een oplossing generen? Holland (h/H) of Nationaal (n/N)? \n").lower())
+        map = input("Voor welke map wil je een oplossing generen? Holland (h/H) of Nationaal (n/N)? \n").lower()
 
 
     if map == "holland" or map == "h":
