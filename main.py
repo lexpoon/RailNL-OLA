@@ -1,6 +1,6 @@
 import os, sys, timeit
 
-directory = os.path.dirname(os.path.realpath(_file_))
+directory = os.path.dirname(os.path.realpath(__file__))
 sys.path.append(os.path.join(directory, "code"))
 sys.path.append(os.path.join(directory, "code", "classes"))
 sys.path.append(os.path.join(directory, "code", "algorithms"))
@@ -11,95 +11,100 @@ from station import Station
 from route import Route
 from solution import Solution
 from import_data import RailNL
-from functions.calculations import calc_connections, connections_station, update_connections
+from functions.calculations import all_connections, connections_station, update_connections
+from functions.user_interface import get_map_info, get_create_algorithm, get_improve_algorithm, next_step
 from randomize import randomize
 from greedy import greedy
 from depth_first import depth_first
 from breadth_first import breadth_first
+from short_route_swap import short_route_swap
 from hillclimber import hillclimber
-from hillclimber1 import hillclimber1
+# from simulated_annealing import simulated_annealing
 from visualize import visualisation
 
-def main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, definition):
+def main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes, solution, definition):
 
+    #
     data = RailNL(map).data
+    min_score = 10000/len(all_connections(map)) - 105
 
-    min_score = 10000/len(calc_connections(map)) - 105
-
-def get_map_info():
-    return map, max_routes, max_time
-
+    #
     if definition == 'create':
-        start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio)
+        best_solution = start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio)
     else:
-        improve_algorithm()
+        best_solution = improve_algorithm()
 
-    def start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio):
-        """Find best routes based on input algorithm"""
+    return best_solution
 
-        if algorithm == "random":
-            best_score = 0
-            for i in range(iterations):
-                solution = randomize(map, max_routes, max_time)
-                if solution.score > best_score:
-                    best_solution = solution
+def start_algorithm(map, max_routes, max_time, algorithm, min_score, key, depth, ratio):
+    """Find best routes based on input algorithm"""
 
-        if algorithm == "greedy":
-            best_score = 0
-            for i in range(iterations):
-                solution = greedy(map, max_routes, max_time, key)
-                if solution.score > best_score:
-                    best_solution = solution
+    if algorithm == "random":
+        best_score = 0
+        for i in range(iterations):
+            solution = randomize(map, max_routes, max_time)
+            if solution.score > best_score:
+                best_solution = solution
 
-        if algorithm == "depth_first":
-            best_score = 0
-            for i in range(iterations):
-                solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
-                if solution.score > best_score:
-                    best_solution = solution
+    if algorithm == "greedy":
+        best_score = 0
+        for i in range(iterations):
+            solution = greedy(map, max_routes, max_time, key)
+            if solution.score > best_score:
+                best_solution = solution
 
-        if algorithm == "breadth_first":
-            best_score = 0
-            for i in range(iterations):
-                solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
-                if solution.score > best_score:
-                    best_solution = solution
+    if algorithm == "depth_first":
+        best_score = 0
+        for i in range(iterations):
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+            if solution.score > best_score:
+                best_solution = solution
 
-        visualisation(best_solution)
-        return best_solution
+    if algorithm == "breadth_first":
+        best_score = 0
+        for i in range(iterations):
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+            if solution.score > best_score:
+                best_solution = solution
 
-    def improve_algorithm(map, max_routes, max_time, algorithm, min_score, key, iterations, depth, ratio, remove_routes, solution):
-        """Improve solution based on algorithm"""
+    visualisation(best_solution.routes, map)
 
-        if algorithm == "less_is_more":
-            best_score = 0
-            for i in range(iterations):
-                solution = less_is_more(map, max_time, min_score, solution)
-                if solution.score > best_score:
-                    best_solution = solution
+    return best_solution
 
-        if algorithm == "hillclimber":
-            best_score = 0
-            for i in range(iterations):
-                solution = hillclimber(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution)
-                if solution.score > best_score:
-                    best_solution = solution
+def improve_algorithm(map, max_routes, max_time, algorithm, min_score, key, iterations, depth, ratio, remove_routes, solution, definition):
+    """Improve solution based on algorithm"""
 
-        # if algorithm == "simulated_annealing":
-        #     best_score = 0
-        #     for i in range(iterations):
-        #         solution = simulated_annealing()
-        #         if solution.score > best_score:
-        #             best_solution = solution
+    if algorithm == "less_is_more":
+        best_score = 0
+        for i in range(iterations):
+            solution = less_is_more(map, max_time, min_score, solution)
+            if solution.score > best_score:
+                best_solution = solution
 
-        visualisation(best_solution)
-        return best_solution
+    if algorithm == "hillclimber":
+        best_score = 0
+        for i in range(iterations):
+            solution = hillclimber(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution)
+            if solution.score > best_score:
+                best_solution = solution
+
+    # if algorithm == "simulated_annealing":
+    #     best_score = 0
+    #     for i in range(iterations):
+    #         solution = simulated_annealing(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution)
+    #         if solution.score > best_score:
+    #             best_solution = solution
+
+    visualisation(best_solution.routes, map)
+
+    return best_solution
 
 if __name__ == "__main__":
-    best_solution = {"solution": '', "score"; 0}
+    best_solution = {"solution": '', "score": 0}
+    iterations = 0
 
     print("Welkom bij RailNL!")
-    print("We willen graag de beste oplossing zien te vinden voor onze dienstregeling. Help je ons mee op zo alle reizigers zo snel mogelijk te vervoeren?")
+    print("We gaan proberen een zo goed mogelijke dienstregeling vinden.")
 
     info = get_map_info()
     map = info[0]
@@ -112,21 +117,31 @@ if __name__ == "__main__":
     depth = info[2]
     ratio = info[3]
 
-    iterations = get_int("Hoevaak zou je een nieuwe oplossing willen genereren?")
+    while isinstance(iterations, int) != True:
+        iterations = input("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
-    solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, "create")
+    solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes=None, solution=None, definition="create")
 
     if solution.score > best_solution["score"]:
         best_solution["solution"] = solution.routes
         best_solution["score"] = solution.score
 
-    next_step = get_string("Wil je hierop een verbeter algoritme toepassen? Of wil je een algoritme nog een keer runnen? Improve/Algorith")
+    while True:
+        next_step = next_step()
+        if next_step == "Stoppen":
+            break
 
+        algorithm = next_step[0]
+        key = next_step[1]
+        depth = next_step[2]
+        ratio = next_step[3]
+        definition = next_step[4]
 
+        while isinstance(iterations, int) != True:
+            iterations = input("Hoevaak wil je een route/oplossing genereren?\n")
 
-    iterations = get_int("Hoevaak zou je een nieuwe oplossing willen genereren?")
+        solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes, solution, definition)
 
-    solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, "improve")
-
-
-    best_sol_breadth, routes, "depth_first_route", remove_routes, iteration
+        if solution.score > best_solution["score"]:
+            best_solution["solution"] = solution.routes
+            best_solution["score"] = solution.score

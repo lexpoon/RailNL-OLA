@@ -3,78 +3,52 @@ from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
 from classes.solution import Solution
+from randomize import randomize
 from greedy import greedy
+from depth_first import depth_first
+from breadth_first import breadth_first
 
-import copy
+import random, copy
 
-def hillclimber(greedy_output, time, map, min_score):
+def hillclimber(solution, max_routes, max_time, map, algorithm, remove_routes, iterations, depth, min_score, ratio):
     """"Create hillclimber solution based on greedy output"""
 
-    old_score = greedy_output.score
-
-    # Check if routes contribute to overall score, else delete route
-    for route in greedy_output.routes:
-        if route.score < min_score:
-            greedy_output.routes.remove(route)
-
-    # Update route object
-    routes = []
-    for i in range(len(greedy_output.routes)):
-        greedy_output.routes[i] = greedy_output.routes[i].route
-        greedy_output.routes[i] = Route(greedy_output.routes[:i+1], map)
-
-    # Calculate new score
-    new_score = Solution(greedy_output.routes, map).score
-    improvement = new_score - old_score
-
-    # If all connections are already used, return solution
-    unused_connections = all_connections(map) - all_used_connections(Solution(greedy_output.routes, map).routes)
-    if unused_connections == set():
-        return Solution(greedy_output.routes, map)
-
-    # Update connections that are unused
+    #
     data = RailNL(map).data
-    solution = Solution(greedy_output.routes, map)
-    connections_left = update_connections(solution.routes, data, map)['amount_connections']
+    best_solution = copy.deepcopy(solution.routes)
+    best_score = solution.score
 
-    # Find station in route that has an unused connection
-    for traject in solution.routes:
-        for station in traject.route:
-            if str(station) in connections_left.keys():
-                if connections_left[str(station)] >= 1:
+    #
+    for i in range(iterations):
 
-                    # Create set of tuples with unused connections
-                    unused_connections = all_connections(map) - all_used_connections(solution.routes)
+        #
+        last_solution = copy.deepcopy(best_solution)
 
-                    # If all connections are used, break
-                    if unused_connections == set():
-                        break
+        for j in range(remove_routes):
+            last_solution.remove(random.choice(last_solution))
 
-                    # Find neighbour station that has no connection
-                    for connection in unused_connections:
-                        if str(connection[0])==str(station):
-                            new_station = data[str(connection[1])]
+        for k in range(remove_routes):
 
-                        if str(connection[1])==str(station):
-                            new_station = data[str(connection[0])]
+            #
+            connections = update_connections(last_solution, data, map)
 
-                    # Create temporary route with unconnected station added and calculate new score
-                    index = traject.route.index(station)
-                    first_part = list(traject.route[:index+1])
-                    last_part = list(traject.route[index:])
-                    temp_route = first_part + [new_station] + last_part
+            #
+            if algorithm == "random":
+                last_solution.append(random_route(connections, max_time, last_solution, data, map))
+            elif algorithm == "greedy":
+                last_solution.append(greedy_route(connections, max_time, "connections", last_solution, data, map))
+            elif algorithm == "depth_first":
+                last_solution.append(depth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
+            elif algorithm == "breadth_first":
+                last_solution.append(breadth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
 
-                    # Calculate score based on temporary route added to solution
-                    copy_routes = copy.deepcopy(solution)
-                    route_index = solution.routes.index(traject)
-                    copy_routes.routes[route_index].route = Route([temp_route], map).route
-                    temp_score = Solution(copy_routes.routes, map).score
-                    score_original = solution.score
+        new_solution = Solution(last_solution, map)
+        new_score = new_solution.score
 
-                    # If score has improved in temporary route, add station to actual route
-                    if temp_score > score_original:
-                        greedy_output.routes[route_index] = copy_routes.routes[route_index]
+        if new_score > best_score:
+            best_score = new_score
+            best_solution = new_solution.routes
 
-                    break
+    best_solution = Solution(best_solution, map)
 
-    return Solution(greedy_output.routes, map)
+    return best_solution
