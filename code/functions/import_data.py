@@ -1,25 +1,25 @@
-import sys, csv
 from classes.station import Station
-from classes.route import Route
-from classes.solution import Solution
+
+import csv
+
 
 class RailNL():
-    """Importing all station and connection data into data dictionary."""
+    """Importing all station and connection data into data dictionary"""
 
     def __init__(self, map):
-        """Create rooms and items for the appropriate 'game' version."""
+        """Create stations and connections for RailNL problem"""
 
         self.data = {}
-
         self.stations = self.load_stations(f"data/Stations{map}.csv")
         self.connections = self.load_connections(f"data/Connecties{map}.csv")
 
     def load_stations(self, filename):
-        """Load stations with their coordinates from filename."""
+        """Load stations with their coordinates"""
 
+        # Get stations from CSV and add to datastructure
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
-            next(csv_reader, None)  # skip the header
+            next(csv_reader, None)
             counter = 0
             for line in csv_reader:
                 self.data[line[0]] = Station(counter, line[0], {"long": line[1], "lat": line[2]})
@@ -28,15 +28,19 @@ class RailNL():
         return self.data
 
     def load_connections(self, filename):
-        """Load connections between stations with their duration from filename."""
+        """Load connections between stations with their duration"""
 
+        # Get connections from CSV and add to stations in datastructure
         with open(filename, "r") as f:
             csv_reader = csv.reader(f)
+
+            # Connection goes from both sides, A -> B and B -> A
             for line in csv_reader:
                 self.data[line[0]].add_connection(line[1], float(line[2]))
                 self.data[line[1]].add_connection(line[0], float(line[2]))
 
         return self.data
+
 
 if __name__ == "__main__":
     stations = RailNL()
