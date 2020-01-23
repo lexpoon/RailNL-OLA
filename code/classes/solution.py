@@ -1,10 +1,11 @@
-from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route
+from functions.calculations import all_connections, all_used_connections
+
 
 class Solution(object):
-    """Solution class with a possible output and its score."""
+    """Solution class with a possible output and its score"""
 
     def __init__(self, routes, map):
-        """Initial class."""
+        """Initial class"""
 
         self.routes = routes
         self.time = self.calc_min()
@@ -17,31 +18,33 @@ class Solution(object):
         t = self.calc_t()
         min = self.calc_min()
 
-        score = p*10000 - (t*100 + min)
+        # Formula to calcucate the quality over all routes
+        score = p * 10000 - (t * 100 + min)
 
         return round(score)
 
     def calc_p(self, map):
-        """Calculate the fraction of the compounds ridden."""
+        """Calculate the fraction of used connections"""
 
-        used_connections = len(calc_used_connections(self.routes))
-        all_connections = len(calc_connections(map))
-
-        p = used_connections / all_connections
+        used_connections = len(all_used_connections(self.routes))
+        total_num_connections = len(all_connections(map))
+        p = used_connections / total_num_connections
 
         return p
 
     def calc_t(self):
-        """Calculate the number of routes."""
+        """Calculate the number of routes"""
 
         t = len(self.routes)
 
         return t
 
     def calc_min(self):
-        """Calculate the number of minutes in all sections together."""
+        """Calculate the number of minutes in all sections together"""
 
         total_time = 0
+
+        # Get total time by sum of time of all routes
         for route in self.routes:
             total_time += route.time
 
