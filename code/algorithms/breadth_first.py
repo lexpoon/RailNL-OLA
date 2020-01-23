@@ -8,12 +8,8 @@ from algorithms.greedy import greedy_option
 import random, copy
 import queue
 
-def breadth_first(map, time, routes, depth, min_score, ratio):
+def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
   """Create solution consisting of routes based on breadth first algorithm."""
-
-  # Set algorithm constrains
-  max_routes = routes
-  max_time = time
 
   # Get all data of  stations of current map
   data = RailNL(map).data

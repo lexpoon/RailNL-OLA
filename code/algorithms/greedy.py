@@ -6,13 +6,8 @@ from classes.solution import Solution
 
 import random
 
-def greedy(routes, time, key, map):
+def greedy(map, max_routes, max_time, key):
     """ Create solution consisting of routes based on greedy algorithm. """
-
-    # Set algorithm constrains
-    max_routes = routes
-    max_time = time
-    key = key
 
     # Get all data of the stations
     data = RailNL(map).data

@@ -7,7 +7,7 @@ from greedy import greedy
 
 import copy
 
-def short_route_swap(greedy_output, time, map, min_score):
+def short_route_swap(map, max_time, min_score, greedy_output):
     """"Create hillclimber solution based on greedy output"""
 
     old_score = greedy_output.score

@@ -10,7 +10,7 @@ from breadth_first import breadth_first
 
 import random, copy
 
-def hillclimber(solution, max_routes, max_time, map, algorithm, remove_routes, iterations, depth, min_score, ratio):
+def hillclimber(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution):
     """"Create hillclimber solution based on greedy output"""
 
     #

@@ -9,10 +9,6 @@ import random
 def randomize(map, max_routes, max_time):
     """Create solution consisting of random routes"""
 
-    # Set algorithm constrains
-    max_routes = routes
-    max_time = time
-
     # Get all data of  stations of current map
     data = RailNL(map).data
 
