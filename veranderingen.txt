@@ -1,3 +1,7 @@
 veranderingen:
 
+calculations.py:
 calc_stations -> len(all_stations)
+calc_connections -> all_connections
+calc_used_connections -> all_used_connections
+calc_used_connections_route -> all_used_connections_route
