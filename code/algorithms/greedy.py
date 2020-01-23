@@ -1,4 +1,4 @@
-from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
+from functions.calculations import all_connections, connections_station, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -21,7 +21,7 @@ def greedy(routes, time, key, map):
     solution_routes = []
 
     # Keep track of fraction of used connections
-    all_connections = len(calc_connections(map))
+    all_connections = len(all_connections(map))
     connections_dict = connections_station(data)
 
     # Make greedy routes untill it is not possible anymore due to the constrains

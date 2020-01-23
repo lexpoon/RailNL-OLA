@@ -1,4 +1,4 @@
-from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections, unused_connections
+from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -21,7 +21,7 @@ def depth_first(map, time, routes, depth, min_score, ratio):
   solution_routes = []
 
   # Keep track of fraction of used connections
-  all_connections = len(calc_connections(map))
+  all_connections = len(all_connections(map))
   connections_dict = connections_station(data)
 
   # Make random routes untill it is not possible anymore due to the constrains
@@ -91,7 +91,7 @@ def depth_first_options(routes, route, data):
         possible_connection = (current_station, connection[0])
 
         # Optimal pruning based on archiving used connections
-        if routes == [] or tuple(sorted(possible_connection)) not in calc_used_connections_route(routes):
+        if routes == [] or tuple(sorted(possible_connection)) not in all_used_connections_route(routes):
             connections.append(data[connection[0]])
 
     return connections

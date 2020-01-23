@@ -1,4 +1,4 @@
-from functions.calculations import calc_connections, calc_used_connections, update_connections
+from functions.calculations import all_connections, all_used_connections, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -28,7 +28,7 @@ def hillclimber(greedy_output, time, map, min_score):
     improvement = new_score - old_score
 
     # If all connections are already used, return solution
-    unused_connections = calc_connections(map) - calc_used_connections(Solution(greedy_output.routes, map).routes)
+    unused_connections = all_connections(map) - all_used_connections(Solution(greedy_output.routes, map).routes)
     if unused_connections == set():
         return Solution(greedy_output.routes, map)
 
@@ -44,7 +44,7 @@ def hillclimber(greedy_output, time, map, min_score):
                 if connections_left[str(station)] >= 1:
 
                     # Create set of tuples with unused connections
-                    unused_connections = calc_connections(map) - calc_used_connections(solution.routes)
+                    unused_connections = all_connections(map) - all_used_connections(solution.routes)
 
                     # If all connections are used, break
                     if unused_connections == set():

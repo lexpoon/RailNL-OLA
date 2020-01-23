@@ -1,13 +1,13 @@
-from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections
-from functions.import_data import RailNL
-from classes.station import Station
 from classes.route import Route
 from classes.solution import Solution
+from functions.calculations import all_connections, connections_station, update_connections
+from functions.import_data import RailNL
 
 import random
 
+
 def randomize(routes, time, map):
-    """Create solution consisting of random routes."""
+    """Create solution consisting of random routes"""
 
     # Set algorithm constrains
     max_routes = routes
@@ -20,11 +20,11 @@ def randomize(routes, time, map):
     solution_routes = []
 
     # Keep track of fraction of used connections
-    all_connections = len(calc_connections(map))
+    total_num_connections = len(all_connections(map))
     connections_dict = connections_station(data)
 
     # Make random routes untill it is not possible anymore due to the constrains
-    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
+    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < total_num_connections:
         random_route(connections_dict, max_time, solution_routes, data, map)
         connections_dict = update_connections(solution_routes, data, map)
 
@@ -33,8 +33,9 @@ def randomize(routes, time, map):
 
     return random_solution
 
+
 def random_route(connections, max_time, routes, data, map):
-    """Randomize a route."""
+    """Randomize a route"""
 
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
@@ -58,8 +59,9 @@ def random_route(connections, max_time, routes, data, map):
 
     return routes[-1]
 
+
 def random_options(routes, data, map):
-    """Return possible destinations. Not possible to go to a station that is already on the route."""
+    """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Determine amount of connections and used connections for all Stations
     routes[-1] = Route(routes[len(routes)-1:], map)
