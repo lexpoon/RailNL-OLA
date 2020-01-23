@@ -67,6 +67,8 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
             if solution.score > best_score:
                 best_solution = solution
 
+    print(f"Score: ", best_solution.score)
+    
     visualisation(best_solution.routes, map)
 
     return best_solution
@@ -94,6 +96,9 @@ def improve_algorithm(map, max_routes, max_time, min_score, algorithm, iteration
     #         solution = simulated_annealing(map, max_routes, max_time, algorithm[2], min_score, iterations, depth, ratio, remove_routes, solution)
     #         if solution.score > best_score:
     #             best_solution = solution
+
+    print(f"Initial score: ", solution.score)
+    print(f"Improved score: ", best_solution.score)
 
     visualisation(best_solution.routes, map)
 
