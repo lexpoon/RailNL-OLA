@@ -12,7 +12,7 @@ from route import Route
 from solution import Solution
 from import_data import RailNL
 from functions.calculations import all_connections, connections_station, update_connections
-from functions.user_interface import get_map_info, get_create_algorithm, get_improve_algorithm, next_step
+from functions.user_interface import get_map_info, get_create_algorithm, get_improve_algorithm, next_step, get_int, get_float
 from randomize import randomize
 from greedy import greedy
 from depth_first import depth_first
@@ -118,11 +118,7 @@ if __name__ == "__main__":
     ratio = info[3]
 
     while isinstance(iterations, int) == False:
-        iterations = input("Hoevaak wil je een nieuwe oplossing genereren?\n")
-        try:
-            iterations = int(iterations)
-        except:
-            iterations = iterations
+        iterations = get_int("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
     solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes=None, solution=None, definition="create")
 
@@ -142,7 +138,7 @@ if __name__ == "__main__":
         definition = next_step[4]
 
         while isinstance(iterations, int) != True:
-            iterations = input("Hoevaak wil je een route/oplossing genereren?\n")
+            iterations = get_int("Hoevaak wil je een route/oplossing genereren?\n")
 
         solution = main(map, max_routes, max_time, algorithm, iterations, key, depth, ratio, remove_routes, solution, definition)
 

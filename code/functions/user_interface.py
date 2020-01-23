@@ -48,8 +48,12 @@ def get_create_algorithm():
         elif algorithm == "breadth first" or algorithm == "b":
             algorithm = "breadth_first"
             key = None
-            depth = get_int("Na hoeveel stations wil je beginnen met prunen?")
-            ratio = get_float("Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n")
+            depth = ''
+            ratio = ''
+            while isinstance(iterations, int) != True:
+                depth = get_int("Na hoeveel stations wil je beginnen met prunen?")
+            while isinstance(iterations, float) != True:
+                ratio = get_float("Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n")
 
     return [algorithm, key, depth, ratio]
 
@@ -81,3 +85,21 @@ def next_step():
         return "Stoppen"
 
     return [info[0], info[1], info[2], info[3], definition]
+
+def get_int(text):
+    iterations = input(text)
+    try:
+        iterations = int(iterations)
+    except:
+        iterations = iterations
+
+    return iterations
+
+def get_float(text):
+    iterations = input(text)
+    try:
+        iterations = float(iterations)
+    except:
+        iterations = iterations
+
+    return iterations
