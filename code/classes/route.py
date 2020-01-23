@@ -31,4 +31,4 @@ class Route(object):
         return self.score
 
     def __repr__(self):
-        return f"Route {self.id}: {self.route}"
+        return f"Route {self.id} ({self.time} min.): {self.route}"

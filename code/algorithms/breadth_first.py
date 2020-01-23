@@ -6,9 +6,10 @@ from classes.solution import Solution
 from algorithms.greedy import greedy_option
 
 import random, copy
+import queue
 
-def depth_first(map, time, routes, depth, min_score, ratio):
-  """Create solution consisting of routes based on depth first algorithm."""
+def breadth_first(map, time, routes, depth, min_score, ratio):
+  """Create solution consisting of routes based on breadth first algorithm."""
 
   # Set algorithm constrains
   max_routes = routes
@@ -26,46 +27,47 @@ def depth_first(map, time, routes, depth, min_score, ratio):
 
   # Make random routes untill it is not possible anymore due to the constrains
   while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < all_connections:
-      depth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
+      breadth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
       connections_dict = update_connections(solution_routes, data, map)
 
   # Make solution class and update attributes
-  depth_first_solution = Solution(solution_routes, map)
+  breadth_first_solution = Solution(solution_routes, map)
 
-  return depth_first_solution
+  return breadth_first_solution
 
-def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
-    """Create a depth first route."""
+def breadth_first_route(max_time, map, data, routes, depth, min_score, ratio):
+    """Create a breadth first route."""
 
     # Starting station of route
+    chain = queue.Queue()
     routes.append([])
-    stack = [[greedy_option("connections", routes, data, map)]]
+    chain.put([greedy_option("connections", routes, data, map)])
 
-    # Set details for best route with depth first algorithm
+    # Set details for best route with breadth first algorithm
     best_route = []
     best_score = -100
 
     # Keep searching for routes until no feasible options
-    while len(stack) > 0:
+    while not chain.empty():
 
         # Get top route/station from tree of routes
-        state = stack.pop()
+        state = chain.get()
         routes[-1] = state
 
         # Check time constrains for route
         if len(state) < 2 or len(state) >= 2 and Route(routes[-1:], map).time < max_time:
 
             # Find each possible child from state and add to tree of routes
-            for option in depth_first_options(routes, state, data):
+            for option in breadth_first_options(routes, state, data):
                 child = copy.deepcopy(state)
                 child.append(option)
-                stack.append(child)
+                chain.put(child)
                 routes[-1] = child
                 route = Route(routes, map)
 
                 # Apply Greedy look-ahead with minimal score or with score-route length ratio
-                if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_score/len(best_route.route)):
-                    stack.pop()
+                if len(route.route) > depth and (route.score < min_score or (ratio - 1/20 * len(route.route)) * route.score/len(route.route) < best_score/len(best_route.route)):
+                    chain.get()
 
                 # Check if route is best solution yet
                 if route.score > best_score:
@@ -79,7 +81,7 @@ def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
 
     return best_route
 
-def depth_first_options(routes, route, data):
+def breadth_first_options(routes, route, data):
     """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Set details for possible destionations
