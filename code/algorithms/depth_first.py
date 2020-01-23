@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections, unused_connections
+from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route, connections_station, update_connections, unused_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route

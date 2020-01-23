@@ -1,4 +1,4 @@
-from functions.calculations import calc_stations, calc_connections, calc_used_connections, calc_used_connections_route
+from functions.calculations import calc_connections, calc_used_connections, calc_used_connections_route
 
 class Route(object):
     """Route class with a possible train route and its travel time."""
