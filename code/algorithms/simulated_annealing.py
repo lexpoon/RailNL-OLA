@@ -1,14 +1,14 @@
-from functions.calculations import all_connections, all_used_connections, update_connections
-from functions.import_data import RailNL
-from classes.station import Station
-from classes.route import Route
-from classes.solution import Solution
-from randomize import randomize, random_route
-from greedy import greedy, greedy_route
-from depth_first import depth_first, depth_first_route
 from breadth_first import breadth_first, breadth_first_route
+from classes.solution import Solution
+from depth_first import depth_first, depth_first_route
+from functions.calculations import update_connections
+from functions.import_data import RailNL
+from greedy import greedy, greedy_route
+from randomize import randomize, random_route
 
-import random, copy
+import copy
+import random
+
 
 def simulated_annealing(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution):
     """"Create hillclimber solution based on greedy output"""

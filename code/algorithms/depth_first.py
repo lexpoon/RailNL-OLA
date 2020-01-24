@@ -1,37 +1,39 @@
-from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections
-from functions.import_data import RailNL
-from classes.station import Station
+from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
-from algorithms.greedy import greedy_option
+from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections
+from functions.import_data import RailNL
 
-import random, copy
+import copy
+import random
+
 
 def depth_first(map, max_routes, max_time, min_score, depth, ratio):
-  """Create solution consisting of routes based on depth first algorithm."""
+    """Create solution consisting of routes based on depth first algorithm"""
 
-  # Get all data of  stations of current map
-  data = RailNL(map).data
+    # Get all data of  stations of current map
+    data = RailNL(map).data
 
-  # Make empty list for all routes
-  solution_routes = []
+    # Make empty list for all routes
+    solution_routes = []
 
-  # Keep track of fraction of used connections
-  num_connections = len(all_connections(map))
-  connections_dict = connections_station(data)
+    # Keep track of fraction of used connections
+    num_connections = len(all_connections(map))
+    connections_dict = connections_station(data)
 
-  # Make random routes untill it is not possible anymore due to the constrains
-  while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
-      depth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
-      connections_dict = update_connections(solution_routes, data, map)
+    # Make random routes untill it is not possible anymore due to the constrains
+    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
+        depth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
+        connections_dict = update_connections(solution_routes, data, map)
 
-  # Make solution class and update attributes
-  depth_first_solution = Solution(solution_routes, map)
+    # Make solution class and update attributes
+    depth_first_solution = Solution(solution_routes, map)
 
-  return depth_first_solution
+    return depth_first_solution
+
 
 def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
-    """Create a depth first route."""
+    """Create a depth first route"""
 
     # Starting station of route
     routes.append([])
@@ -74,6 +76,7 @@ def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
     routes[-1] = best_route
 
     return best_route
+
 
 def depth_first_options(routes, route, data):
     """Return possible destinations. Not possible to go to a station that is already on the route"""

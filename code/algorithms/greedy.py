@@ -1,10 +1,10 @@
-from functions.calculations import all_connections, connections_station, update_connections
-from functions.import_data import RailNL
-from classes.station import Station
 from classes.route import Route
 from classes.solution import Solution
+from functions.calculations import all_connections, connections_station, update_connections
+from functions.import_data import RailNL
 
 import random
+
 
 def greedy(map, max_routes, max_time, key):
     """ Create solution consisting of routes based on greedy algorithm. """
@@ -29,8 +29,9 @@ def greedy(map, max_routes, max_time, key):
 
     return greedy_solution
 
+
 def greedy_route(connections, max_time, key, routes, data, map):
-    """Create a greedy route."""
+    """Create a greedy route"""
 
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
@@ -54,8 +55,9 @@ def greedy_route(connections, max_time, key, routes, data, map):
 
     return routes[-1]
 
+
 def greedy_option(key, routes, data, map):
-    """Determine best destination."""
+    """Determine best destination"""
 
     # Determine amount of connections and used connections for all stations
     routes[-1] = Route(routes[len(routes)-1:], map)
@@ -88,7 +90,7 @@ def greedy_option(key, routes, data, map):
 
         # If any options, choose best option which has least connections
         if options:
-            best_option = data[random.choice([k for k,v in options.items() if v==min(list(options.values()))])]
+            best_option = data[random.choice([k for k, v in options.items() if v == min(list(options.values()))])]
             return best_option
 
         return None
@@ -112,7 +114,7 @@ def greedy_option(key, routes, data, map):
 
         # If any options, choose best option which has least connections
         if options:
-            best_option = data[random.choice([k for k,v in options.items() if v==max(list(options.values()))])]
+            best_option = data[random.choice([k for k, v in options.items() if v == max(list(options.values()))])]
             return best_option
 
         return None

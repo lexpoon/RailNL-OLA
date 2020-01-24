@@ -1,11 +1,10 @@
-from functions.calculations import all_connections, all_used_connections, update_connections
-from functions.import_data import RailNL
-from classes.station import Station
 from classes.route import Route
 from classes.solution import Solution
-from greedy import greedy
+from functions.calculations import all_connections, all_used_connections, update_connections
+from functions.import_data import RailNL
 
 import copy
+
 
 def short_route_swap(map, max_time, min_score, greedy_output):
     """"Create hillclimber solution based on greedy output"""
@@ -52,15 +51,15 @@ def short_route_swap(map, max_time, min_score, greedy_output):
 
                     # Find neighbour station that has no connection
                     for connection in unused_connections:
-                        if str(connection[0])==str(station):
+                        if str(connection[0]) == str(station):
                             new_station = data[str(connection[1])]
 
-                        if str(connection[1])==str(station):
+                        if str(connection[1]) == str(station):
                             new_station = data[str(connection[0])]
 
                     # Create temporary route with unconnected station added and calculate new score
                     index = traject.route.index(station)
-                    first_part = list(traject.route[:index+1])
+                    first_part = list(traject.route[:index + 1])
                     last_part = list(traject.route[index:])
                     temp_route = first_part + [new_station] + last_part
 
