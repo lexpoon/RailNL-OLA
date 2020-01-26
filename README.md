@@ -20,10 +20,10 @@ All python scripts are stored inside the 'code' folder. Inside the 'data' folder
 
 ### Testing
 To run the algorithms, enter the following code:
-<pre><code>python main.py</code></pre>
+<code>python main.py</code>
 
 ## Autors
-Olivier van Heck, Lex Poon en Annejet Robijn. 
+Olivier van Heck, Lex Poon and Annejet Robijn. 
 
 ## Acknowledgements
-- Minor Programmeren van de Universiteit van Amsterdam
+Minor Programmeren van de Universiteit van Amsterdam
