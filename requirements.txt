@@ -1,4 +1,1 @@
-copy
-csv
-random
-plotly
+plotly==4.4.0
