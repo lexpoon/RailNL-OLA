@@ -36,7 +36,7 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
             if algorithm == "random":
                 last_solution.append(random_route(map, max_time, data, last_solution))
             elif algorithm == "greedy":
-                last_solution.append(greedy_route(map, max_time, data,last_solution, connections, "connections"))
+                last_solution.append(greedy_route(map, max_time, data, last_solution, "connections"))
             elif algorithm == "depth_first":
                 last_solution.append(depth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
             elif algorithm == "breadth_first":

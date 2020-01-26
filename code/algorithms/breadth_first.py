@@ -8,7 +8,6 @@ import copy
 import random
 import queue
 
-
 def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
     """Create solution consisting of routes based on breadth first algorithm"""
 

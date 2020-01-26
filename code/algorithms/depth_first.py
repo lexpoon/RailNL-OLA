@@ -7,7 +7,6 @@ from functions.import_data import RailNL
 import copy
 import random
 
-
 def depth_first(map, max_routes, max_time, min_score, depth, ratio):
     """Create solution consisting of routes based on depth first algorithm"""
 

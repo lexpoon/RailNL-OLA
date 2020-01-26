@@ -5,7 +5,6 @@ from functions.import_data import RailNL
 
 import random
 
-
 def randomize(map, max_routes, max_time):
     """Create solution consisting of random routes"""
 

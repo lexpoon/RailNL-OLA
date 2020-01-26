@@ -5,7 +5,6 @@ from functions.import_data import RailNL
 
 import random
 
-
 def greedy(map, max_routes, max_time, key):
     """ Create solution consisting of routes based on greedy algorithm. """
 
@@ -21,7 +20,7 @@ def greedy(map, max_routes, max_time, key):
 
     # Make greedy routes untill it is not possible anymore due to the constrains
     while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
-        greedy_route(map, max_time, data, routes, connections, key)
+        greedy_route(map, max_time, data, routes, key)
         connections = update_connections(map, data, routes)
 
     # Make solution class and update attributes
@@ -30,7 +29,7 @@ def greedy(map, max_routes, max_time, key):
     return greedy_solution
 
 
-def greedy_route(map, max_time, data, routes, connections, key):
+def greedy_route(map, max_time, data, routes, key):
     """Create a greedy route"""
 
     # Make new empty route list and add (non-final) route to list of routes
