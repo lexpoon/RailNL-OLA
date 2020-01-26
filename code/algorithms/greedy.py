@@ -107,7 +107,7 @@ def greedy_option(map, data, routes, key):
                     possible_route = routes[-1].copy()
                     possible_routes.append(possible_route)
                     possible_route.append(data[connection[0]])
-                    options[connection[0]] = Route(possible_routes, map).score
+                    options[connection[0]] = Route(map, possible_routes).score
         # All stations possible as starting station
         else:
             options = connections["amount_connections"]

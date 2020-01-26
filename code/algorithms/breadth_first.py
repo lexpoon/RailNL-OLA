@@ -84,7 +84,7 @@ def breadth_first_options(data, routes):
     """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Set details for possible destionations
-    current_station = route[-1][-1].name
+    current_station = routes[-1][-1].name
     connections = []
 
     # Get all possible destionations from current station

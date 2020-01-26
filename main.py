@@ -12,7 +12,7 @@ from route import Route
 from solution import Solution
 from import_data import RailNL
 from functions.calculations import all_connections, connections_station, update_connections
-from functions.user_interface import get_map_info, get_create_algorithm, get_improve_algorithm, next_step, get_int, get_float
+from functions.user_interface import welcome, get_map_info, get_create_algorithm, get_improve_algorithm, check_score, next_step, get_int, get_float
 from randomize import randomize
 from greedy import greedy
 from depth_first import depth_first
@@ -105,25 +105,22 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
 
 if __name__ == "__main__":
     best_solution = {"solution": '', "score": 0}
-    iterations = ''
 
-    print("Welkom bij RailNL!")
-    print("We gaan proberen een zo goed mogelijke dienstregeling vinden.")
+    welcome()
 
-    info = get_map_info()
-    map = info[0]
-    max_routes = info[1]
-    max_time = info[2]
-
-    remove_routes = None
+    map_info = get_map_info()
+    algorithm_info = get_create_algorithm()
+    map = map_info[0]
+    max_routes = map_info[1]
+    max_time = map_info[2]
     solution = None
+    algorithm = algorithm_info[0]
+    iterations = ''
+    key = algorithm_info[1]
+    depth = algorithm_info[2]
+    ratio = algorithm_info[3]
+    remove_routes = None
     formula = None
-
-    info = get_create_algorithm()
-    algorithm = info[0]
-    key = info[1]
-    depth = info[2]
-    ratio = info[3]
     definition = "create"
 
     while isinstance(iterations, int) == False:
@@ -131,33 +128,29 @@ if __name__ == "__main__":
 
     solution = main(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, remove_routes, formula, definition)
 
-    if solution.score > best_solution["score"]:
-        best_solution["solution"] = solution.routes
-        best_solution["score"] = solution.score
+    best_solution = check_score(best_solution, solution)
 
     while True:
-
-        next = ''
         next = next_step()
-        if next == "Stoppen":
-            break
-        elif next[5] == "improve":
-            while isinstance(remove_routes, int) != True:
-                remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
-
+        solution = solution
         algorithm = next[0]
+        iterations = ''
         key = next[1]
         depth = next[2]
         ratio = next[3]
+        remove_routes = ''
         formula = next[4]
         definition = next[5]
 
-        iterations = ''
+        if next == "Stoppen":
+            break
+        elif next[5] == "improve":
+            while isinstance(remove_routes, int) != True and remove_routes <= max_routes:
+                remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
+
         while isinstance(iterations, int) != True:
             iterations = get_int("Hoevaak wil je een route/oplossing genereren?\n")
 
         solution = main(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, remove_routes, formula, definition)
 
-        if solution.score > best_solution["score"]:
-            best_solution["solution"] = solution.routes
-            best_solution["score"] = solution.score
+        best_solution = check_score(best_solution, solution)

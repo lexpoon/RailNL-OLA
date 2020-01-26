@@ -1,3 +1,8 @@
+def welcome():
+    print("Welkom bij RailNL!")
+    print("We gaan proberen een zo goed mogelijke dienstregeling vinden.")
+
+
 def get_map_info():
     map = ''
     while map != "holland" and map != "h" and map != "nationaal" and map != "n":
@@ -89,6 +94,12 @@ def get_improve_algorithm():
 
     return [route_info[0], route_info[1], route_info[2], route_info[3], formula]
 
+def check_score(best_solution, solution):
+    if solution.score > best_solution["score"]:
+        best_solution = {"solution": solution.routes, "score": solution.score}
+
+    return best_solution
+    
 def next_step():
     next_step = ''
     while next_step != "v" and next_step != "n" and next_step != "q":

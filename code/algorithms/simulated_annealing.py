@@ -8,6 +8,7 @@ from randomize import randomize, random_route
 
 import copy
 import random
+from decimal import Decimal
 
 
 def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes, formula):
@@ -51,7 +52,7 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
         elif formula == "exponential":
             temperature = iterations * 0.92 ** i
 
-        acceptatiekans = 2 ** ((best_score - new_score) / temperature)
+        acceptatiekans = 2 ** Decimal((best_score - new_score) / Decimal(temperature))
         randomkans = random.random()
         if acceptatiekans > randomkans:
             best_score = new_score
