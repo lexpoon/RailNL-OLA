@@ -4,7 +4,7 @@ from functions.calculations import all_connections, all_used_connections
 class Solution(object):
     """Solution class with a possible output and its score"""
 
-    def __init__(self, routes, map):
+    def __init__(self, map, routes):
         """Initial class"""
 
         self.routes = routes

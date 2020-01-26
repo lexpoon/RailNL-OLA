@@ -80,7 +80,7 @@ def connections_station(data):
     return connections
 
 
-def update_connections(routes, data, map):
+def update_connections(map, data, routes):
     """Update amount of possible connections with new station in route"""
 
     # Get overview of amount of connections and used connections

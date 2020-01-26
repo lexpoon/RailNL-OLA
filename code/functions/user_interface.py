@@ -66,7 +66,8 @@ def get_create_algorithm():
 
 def get_improve_algorithm():
     algorithm = ''
-    while algorithm != "hillclimber" and algorithm != "h" and algorithm != "short route swap" and algorithm != "l" and algorithm != "simulated annealing" and algorithm != "s":
+    formula = None
+    while algorithm != "hillclimber" and algorithm != "h" and algorithm != "short route swap" and algorithm != "s" and algorithm != "simulated annealing" and algorithm != "a":
         algorithm = input("Met welk algoritme wil je een oplossing generen? Short Route Swap (S/s), Hillclimber (H/h), Simulated Annealing (A/a)?\n").lower()
 
     if algorithm == "hillclimber" or algorithm == "h" or algorithm == "simulated annealing" or algorithm == "a":
@@ -74,12 +75,19 @@ def get_improve_algorithm():
         if algorithm == "hillclimber" or algorithm == "h":
             algorithm = "hillclimber"
         else:
-            algorithm = "simulated annealing"
+            algorithm = "simulated_annealing"
+            while formula != "linear" and formula != "l" and formula != "exponential" and formula != "e":
+                formula = input("Met welk temperatuur wil je de temperatuur generen? Linear (L/l) of Exponentieel (E/e)\n").lower()
+                if formula == "linear" or formula == "l":
+                    formula = "linear"
+                else:
+                    formula = "exponential"
+
         route_info[0] = [algorithm, route_info[0]]
     else:
         route_info = ["short_route_swap", None, None, None]
 
-    return [route_info[0], route_info[1], route_info[2], route_info[3]]
+    return [route_info[0], route_info[1], route_info[2], route_info[3], formula]
 
 def next_step():
     next_step = ''
@@ -92,12 +100,13 @@ def next_step():
 
     elif next_step == 'n':
         info = get_create_algorithm()
+        info.append(None)
         definition = "create"
 
     else:
         return "Stoppen"
 
-    return [info[0], info[1], info[2], info[3], definition]
+    return [info[0], info[1], info[2], info[3], info[4], definition]
 
 def get_int(text):
     iterations = input(text)

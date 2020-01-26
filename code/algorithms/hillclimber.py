@@ -10,7 +10,7 @@ from breadth_first import breadth_first, breadth_first_route
 
 import random, copy
 
-def hillclimber(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution):
+def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -30,25 +30,25 @@ def hillclimber(map, max_routes, max_time, algorithm, min_score, iterations, dep
         for k in range(remove_routes):
 
             #
-            connections = update_connections(last_solution, data, map)
+            connections = update_connections(map, data, last_solution)
 
             #
             if algorithm == "random":
-                last_solution.append(random_route(connections, max_time, last_solution, data, map))
+                last_solution.append(random_route(map, max_time, data, last_solution))
             elif algorithm == "greedy":
-                last_solution.append(greedy_route(connections, max_time, "connections", last_solution, data, map))
+                last_solution.append(greedy_route(map, max_time, data,last_solution, connections, "connections"))
             elif algorithm == "depth_first":
-                last_solution.append(depth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
+                last_solution.append(depth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
             elif algorithm == "breadth_first":
-                last_solution.append(breadth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
+                last_solution.append(breadth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
 
-        new_solution = Solution(last_solution, map)
+        new_solution = Solution(map, last_solution)
         new_score = new_solution.score
 
         if new_score > best_score:
             best_score = new_score
             best_solution = new_solution.routes
 
-    best_solution = Solution(best_solution, map)
+    best_solution = Solution(map, best_solution)
 
     return best_solution

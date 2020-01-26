@@ -6,35 +6,35 @@ from functions.import_data import RailNL
 import copy
 
 
-def short_route_swap(map, max_time, min_score, greedy_output):
-    """"Create hillclimber solution based on greedy output"""
+def short_route_swap(map, max_time, min_score, solution_output):
+    """"Create hillclimber solution based on solution output"""
 
-    old_score = greedy_output.score
+    old_score = solution_output.score
 
     # Check if routes contribute to overall score, else delete route
-    for route in greedy_output.routes:
+    for route in solution_output.routes:
         if route.score < min_score:
-            greedy_output.routes.remove(route)
+            solution_output.routes.remove(route)
 
     # Update route object
     routes = []
-    for i in range(len(greedy_output.routes)):
-        greedy_output.routes[i] = greedy_output.routes[i].route
-        greedy_output.routes[i] = Route(greedy_output.routes[:i+1], map)
+    for i in range(len(solution_output.routes)):
+        solution_output.routes[i] = solution_output.routes[i].route
+        solution_output.routes[i] = Route(map, solution_output.routes[:i+1])
 
     # Calculate new score
-    new_score = Solution(greedy_output.routes, map).score
+    new_score = Solution(map, solution_output.routes).score
     improvement = new_score - old_score
 
     # If all connections are already used, return solution
-    unused_connections = all_connections(map) - all_used_connections(Solution(greedy_output.routes, map).routes)
+    unused_connections = all_connections(map) - all_used_connections(Solution(map, solution_output.routes).routes)
     if unused_connections == set():
-        return Solution(greedy_output.routes, map)
+        return Solution(map, solution_output.routes)
 
     # Update connections that are unused
     data = RailNL(map).data
-    solution = Solution(greedy_output.routes, map)
-    connections_left = update_connections(solution.routes, data, map)['amount_connections']
+    solution = Solution(map, solution_output.routes)
+    connections_left = update_connections(map, data, solution.routes)['amount_connections']
 
     # Find station in route that has an unused connection
     for traject in solution.routes:
@@ -66,14 +66,14 @@ def short_route_swap(map, max_time, min_score, greedy_output):
                     # Calculate score based on temporary route added to solution
                     copy_routes = copy.deepcopy(solution)
                     route_index = solution.routes.index(traject)
-                    copy_routes.routes[route_index].route = Route([temp_route], map).route
-                    temp_score = Solution(copy_routes.routes, map).score
+                    copy_routes.routes[route_index].route = Route(map, [temp_route]).route
+                    temp_score = Solution(map, copy_routes.routes).score
                     score_original = solution.score
 
                     # If score has improved in temporary route, add station to actual route
                     if temp_score > score_original:
-                        greedy_output.routes[route_index] = copy_routes.routes[route_index]
+                        solution_output.routes[route_index] = copy_routes.routes[route_index]
 
                     break
 
-    return Solution(greedy_output.routes, map)
+    return Solution(map, solution_output.routes)

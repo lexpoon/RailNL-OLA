@@ -4,13 +4,13 @@ from functions.calculations import all_connections, all_used_connections_route
 class Route(object):
     """Route class with a possible train route and its travel time"""
 
-    def __init__(self, routes, map):
+    def __init__(self, map, routes):
         """Initial class"""
 
         self.id = len(routes)
         self.route = routes[-1]
         self.time = self.calc_time()
-        self.score = self.calc_score(routes, map)
+        self.score = self.calc_score(map, routes)
 
     def calc_time(self):
         """Determine traveling time of complete route"""
@@ -26,7 +26,7 @@ class Route(object):
 
         return self.time
 
-    def calc_score(self, routes, map):
+    def calc_score(self, map, routes):
         """Determine score of current route"""
 
         # Fraction of based on used connections

@@ -21,16 +21,16 @@ def randomize(map, max_routes, max_time):
 
     # Make random routes untill it is not possible anymore due to the constrains
     while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
-        random_route(connections_dict, max_time, solution_routes, data, map)
-        connections_dict = update_connections(solution_routes, data, map)
+        random_route(map, max_time, data, solution_routes)
+        connections_dict = update_connections(map, data, solution_routes)
 
     # Make solution class and update attributes
-    random_solution = Solution(solution_routes, map)
+    random_solution = Solution(map, solution_routes)
 
     return random_solution
 
 
-def random_route(connections, max_time, routes, data, map):
+def random_route(map, max_time, data, routes):
     """Randomize a route"""
 
     # Make new empty route list and add (non-final) route to list of routes
@@ -41,27 +41,27 @@ def random_route(connections, max_time, routes, data, map):
     routes[-1].append(random.choice(list(data.values())))
 
     # Keep adding stations to the route until no more possible destinations
-    while random_options(routes, data, map) != None:
-        routes[-1].append(random_options(routes, data, map))
+    while random_options(map, data, routes) != None:
+        routes[-1].append(random_options(map, data, routes))
 
         # Check if route meets time constrain, if not end route
-        total_time = Route(routes, map).time
+        total_time = Route(map, routes).time
         if total_time > max_time:
             routes[-1] = routes[-1][:-1]
             break
 
     # Replace route list by final route object in list of routes
-    routes[-1] = Route(routes, map)
+    routes[-1] = Route(map, routes)
 
     return routes[-1]
 
 
-def random_options(routes, data, map):
+def random_options(map, data, routes):
     """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Determine amount of connections and used connections for all Stations
-    routes[-1] = Route(routes[len(routes)-1:], map)
-    connections = update_connections(routes, data, map)
+    routes[-1] = Route(map, routes[len(routes)-1:])
+    connections = update_connections(map, data, routes)
     routes[-1] = routes[-1].route
 
     # Transform route of Station objects to route list of strings

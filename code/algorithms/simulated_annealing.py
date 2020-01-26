@@ -10,7 +10,7 @@ import copy
 import random
 
 
-def simulated_annealing(map, max_routes, max_time, algorithm, min_score, iterations, depth, ratio, remove_routes, solution):
+def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes, formula):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -25,33 +25,38 @@ def simulated_annealing(map, max_routes, max_time, algorithm, min_score, iterati
         last_solution = copy.deepcopy(best_solution)
 
         for j in range(remove_routes):
-            last_solution.remove(random.choice(last_solution))
+            while last_solution:
+                last_solution.remove(random.choice(last_solution))
 
         for k in range(remove_routes):
 
             #
-            connections = update_connections(last_solution, data, map)
+            connections = update_connections(map, data, last_solution)
 
             #
             if algorithm == "random":
-                last_solution.append(random_route(connections, max_time, last_solution, data, map))
+                last_solution.append(random_route(map, max_time, data, last_solution))
             elif algorithm == "greedy":
-                last_solution.append(greedy_route(connections, max_time, "connections", last_solution, data, map))
+                last_solution.append(greedy_route(map, max_time, data, last_solution, connections, "connections"))
             elif algorithm == "depth_first":
-                last_solution.append(depth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
+                last_solution.append(depth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
             elif algorithm == "breadth_first":
-                last_solution.append(breadth_first_route(max_time, map, data, last_solution, depth, min_score, ratio))
+                last_solution.append(breadth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
 
-        new_solution = Solution(last_solution, map)
+        new_solution = Solution(map, last_solution)
         new_score = new_solution.score
 
-        temperatuur = 1
-        acceptatiekans = 2^((best_score - new_score)/temperatuur)
+        if formula == "linear":
+            temperature = iterations / 2 - 0.5 * i
+        elif formula == "exponential":
+            temperature = iterations * 0.92 ** i
+
+        acceptatiekans = 2 ** ((best_score - new_score) / temperature)
         randomkans = random.random()
         if acceptatiekans > randomkans:
             best_score = new_score
             best_solution = new_solution.routes
 
-    best_solution = Solution(best_solution, map)
+    best_solution = Solution(map, best_solution)
 
     return best_solution

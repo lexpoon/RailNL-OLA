@@ -23,21 +23,21 @@ def depth_first(map, max_routes, max_time, min_score, depth, ratio):
 
     # Make random routes untill it is not possible anymore due to the constrains
     while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
-        depth_first_route(max_time, map, data, solution_routes, depth, min_score, ratio)
-        connections_dict = update_connections(solution_routes, data, map)
+        depth_first_route(map, max_time, min_score, data, solution_routes, depth, ratio)
+        connections_dict = update_connections(map, data, solution_routes)
 
     # Make solution class and update attributes
-    depth_first_solution = Solution(solution_routes, map)
+    depth_first_solution = Solution(map, solution_routes)
 
     return depth_first_solution
 
 
-def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
+def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
     """Create a depth first route"""
 
     # Starting station of route
     routes.append([])
-    stack = [[greedy_option("connections", routes, data, map)]]
+    stack = [[greedy_option(map, data, routes, "connections")]]
 
     # Set details for best route with depth first algorithm
     best_route = []
@@ -51,15 +51,15 @@ def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
         routes[-1] = state
 
         # Check time constrains for route
-        if len(state) < 2 or len(state) >= 2 and Route(routes[-1:], map).time < max_time:
+        if len(state) < 2 or len(state) >= 2 and Route(map, routes[-1:]).time < max_time:
 
             # Find each possible child from state and add to tree of routes
-            for option in depth_first_options(routes, state, data):
+            for option in depth_first_options(data, routes):
                 child = copy.deepcopy(state)
                 child.append(option)
                 stack.append(child)
                 routes[-1] = child
-                route = Route(routes, map)
+                route = Route(map, routes)
 
                 # Apply Greedy look-ahead with minimal score or with score-route length ratio
                 if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_score/len(best_route.route)):
@@ -78,11 +78,11 @@ def depth_first_route(max_time, map, data, routes, depth, min_score, ratio):
     return best_route
 
 
-def depth_first_options(routes, route, data):
+def depth_first_options(data, routes):
     """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Set details for possible destionations
-    current_station = route[-1].name
+    current_station = routes[-1][-1].name
     connections = []
 
     # Get all possible destionations from current station

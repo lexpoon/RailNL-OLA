@@ -2,7 +2,7 @@ import csv
 import plotly.graph_objects as go
 from functions.import_data import RailNL
 
-def visualisation(routes_list, map):
+def visualisation(map, routes):
     """ Visualize stations and routes in scattermapbox. """
 
     # Read station longitudes and latitudes from csv into lists
@@ -46,7 +46,7 @@ def visualisation(routes_list, map):
     #         ))
 
     # Visualize route for every route
-    for route in routes_list:
+    for route in routes:
         lon = []
         lat = []
 
