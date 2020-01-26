@@ -9,6 +9,8 @@ T = amount of routes
 min = total amount of minutes used in all routes
 </code></pre>
 
+<img src="code/static/RailNL_preview.jpeg" alt="train connections Netherlands" width="35%">
+
 ## Getting Started
 
 ### Prerequisites
@@ -20,7 +22,7 @@ All python scripts are stored inside the 'code' folder. Inside the 'data' folder
 
 ### Testing
 To run the algorithms, enter the following code:
-<code>python main.py</code>
+<pre><code>python main.py</code></pre>
 
 ## Autors
 Olivier van Heck, Lex Poon and Annejet Robijn. 
