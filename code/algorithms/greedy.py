@@ -13,19 +13,19 @@ def greedy(map, max_routes, max_time, key):
     data = RailNL(map).data
 
     # Make empty list for all routes
-    solution_routes = []
+    routes = []
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
-    connections_dict = connections_station(data)
+    connections = connections_station(data)
 
     # Make greedy routes untill it is not possible anymore due to the constrains
-    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
-        greedy_route(map, max_time, data, solution_routes, connections_dict, key)
-        connections_dict = update_connections(map, data, solution_routes)
+    while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
+        greedy_route(map, max_time, data, routes, connections, key)
+        connections = update_connections(map, data, routes)
 
     # Make solution class and update attributes
-    greedy_solution = Solution(map, solution_routes)
+    greedy_solution = Solution(map, routes)
 
     return greedy_solution
 

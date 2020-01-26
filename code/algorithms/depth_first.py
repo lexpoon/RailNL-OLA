@@ -15,19 +15,19 @@ def depth_first(map, max_routes, max_time, min_score, depth, ratio):
     data = RailNL(map).data
 
     # Make empty list for all routes
-    solution_routes = []
+    routes = []
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
-    connections_dict = connections_station(data)
+    connections = connections_station(data)
 
     # Make random routes untill it is not possible anymore due to the constrains
-    while len(solution_routes) < max_routes and len(connections_dict["used_connections"]) < num_connections:
-        depth_first_route(map, max_time, min_score, data, solution_routes, depth, ratio)
-        connections_dict = update_connections(map, data, solution_routes)
+    while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
+        depth_first_route(map, max_time, min_score, data, routes, depth, ratio)
+        connections = update_connections(map, data, routes)
 
     # Make solution class and update attributes
-    depth_first_solution = Solution(map, solution_routes)
+    depth_first_solution = Solution(map, routes)
 
     return depth_first_solution
 
