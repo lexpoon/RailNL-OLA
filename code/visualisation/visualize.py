@@ -16,7 +16,6 @@ def visualisation(map, routes):
             lat.append(line[1])
             lon.append(line[2])
 
-    # Add dot to figure for each station
     fig = go.Figure(go.Scattermapbox(
         mode = "markers",
         lon = lon,
@@ -24,38 +23,35 @@ def visualisation(map, routes):
         text = station,
         marker = {'size': 10}))
 
-    # # Visualize all possible connections in grey
-    # data = RailNL(map).data
-    # with open(f'data/Connecties{map}.csv', "r") as f:
-    #     csv_reader = csv.reader(f)
-    #     for connection in csv_reader:
-    #         lon = []
-    #         lat = []
-    #         lat.append(data[connection[0]].coordinates["long"])
-    #         lon.append(data[connection[0]].coordinates["lat"])
-    #         lat.append(data[connection[1]].coordinates["long"])
-    #         lon.append(data[connection[1]].coordinates["lat"])
-    #
-    #         # Add route lines to figure
-    #         fig.add_trace(go.Scattermapbox(
-    #             mode = "lines",
-    #             lon = lon,
-    #             lat = lat,
-    #             marker = { 'size': 10, 'color': 'rgb(90, 90, 90)' },
-    #             showlegend = False
-    #         ))
+    # Visualize all possible connections in light grey
+    data = RailNL(map).data
+    with open(f'data/Connecties{map}.csv', "r") as f:
+        csv_reader = csv.reader(f)
+        for connection in csv_reader:
+            lon = []
+            lat = []
+            lat.append(data[connection[0]].coordinates["long"])
+            lon.append(data[connection[0]].coordinates["lat"])
+            lat.append(data[connection[1]].coordinates["long"])
+            lon.append(data[connection[1]].coordinates["lat"])
+    
+            fig.add_trace(go.Scattermapbox(
+                mode = "lines",
+                lon = lon,
+                lat = lat,
+                marker = { 'size': 10, 'color': 'rgb(204, 204, 204)' },
+                showlegend = False
+            ))
 
-    # Visualize route for every route
+    # Visualize every route with a coloured line
     for route in routes:
         lon = []
         lat = []
 
-        # Create two lists of longitutes and latitudes for stations in routes
         for station in route.route:
             lon.append(station.coordinates["lat"])
             lat.append(station.coordinates["long"])
 
-        # Add route lines to figure
         fig.add_trace(go.Scattermapbox(
             mode = "lines",
             lon = lon,
