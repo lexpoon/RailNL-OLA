@@ -1,3 +1,4 @@
+from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
 from functions.calculations import all_connections, connections_station, update_connections
@@ -36,8 +37,8 @@ def random_route(map, max_time, data, routes):
     routes.append([])
     total_time = 0
 
-    # Pick random station as starting point of the route
-    routes[-1].append(random.choice(list(data.values())))
+    # Pick a/the best station as starting point of the route
+    routes[-1].append(greedy_option(map, data, routes, "connections"))
 
     # Keep adding stations to the route until no more possible destinations
     while random_options(map, data, routes) != None:
