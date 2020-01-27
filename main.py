@@ -78,6 +78,7 @@ def main(map, max_routes, max_time, iterations, key=None, min_score=None, depth=
 
     print ("depth first" , best_solution_depth_first)
     print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4))
+    print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
     print ("------")
 
     best_score_breadth_first = 0
@@ -89,8 +90,9 @@ def main(map, max_routes, max_time, iterations, key=None, min_score=None, depth=
 
     print ("breadth first" , best_solution_breadth_first)
     print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4))
+    print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
     print ("------")
 
 
 if __name__ == "__main__":
-    main("Nationaal", 20, 180, 10, "connections", 100, 3, 1.5)
+    main("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)

@@ -1,10 +1,10 @@
-from breadth_first import breadth_first, breadth_first_route
-from classes.solution import Solution
-from depth_first import depth_first, depth_first_route
-from functions.calculations import all_connections, update_connections
+from functions.calculations import all_connections, update_connections, convert_object_to_string, remove_routes
 from functions.import_data import RailNL
-from greedy import greedy, greedy_route
-from randomize import randomize, random_route
+from classes.solution import Solution
+from randomize import random_route
+from greedy import greedy_route
+from depth_first import depth_first_route
+from breadth_first import breadth_first_route
 
 import copy
 import random
@@ -21,10 +21,9 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
     # Voor een x aantal iteraties, vervang routes om te kijken of het een betere oplossing opleverd
     for i in range(iterations):
 
-        last_solution = best_solution
+        last_solution = copy.deepcopy(best_solution)
 
-        for j in range(change_routes):
-            last_solution.routes.remove(random.choice(last_solution.routes))
+        last_solution = remove_routes(last_solution, change_routes)
 
         # Keep track of fraction of used connections
         num_connections = len(all_connections(map))
@@ -65,6 +64,6 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
         if acceptation_probability > random_probability:
             best_solution = new_solution
 
-    best_solution = Solution(map, best_solution)
+    best_solution = Solution(map, best_solution.routes)
 
     return best_solution

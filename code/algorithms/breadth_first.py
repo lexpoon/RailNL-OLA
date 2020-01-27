@@ -49,8 +49,8 @@ def breadth_first_route(map, max_time, min_score, data, routes, depth, ratio, de
         routes[-1] = state
 
         # Find each possible child from state and add to tree of routes
-        if routes[-1][-1] != None and breadth_first_options(data, routes) != None:
-            for option in breadth_first_options(data, routes):
+        if routes[-1][-1] != None and breadth_first_options(data, routes, definition) != None:
+            for option in breadth_first_options(data, routes, definition):
                 child = copy.deepcopy(state)
                 child.append(option)
                 routes[-1] = child
