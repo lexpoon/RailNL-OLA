@@ -8,25 +8,22 @@ import random
 def greedy(map, max_routes, max_time, key):
     """ Create solution consisting of routes based on greedy algorithm. """
 
-    # Get all data of the stations
+    # Get all data from stations in map
     data = RailNL(map).data
 
-    # Make empty list for all routes
+    # Create list where routes can be added
     routes = []
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
     connections = connections_station(data)
 
-    # Make greedy routes untill it is not possible anymore due to the constrains
+    # Make greedy routes until it is not possible anymore due to the constrains
     while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
         greedy_route(map, max_time, data, routes, key)
         connections = update_connections(map, data, routes)
 
-    # Make solution class and update attributes
-    greedy_solution = Solution(map, routes)
-
-    return greedy_solution
+    return Solution(map, routes)
 
 
 def greedy_route(map, max_time, data, routes, key):
@@ -38,11 +35,11 @@ def greedy_route(map, max_time, data, routes, key):
     # Pick a/the best station as starting point of the route
     routes[-1].append(greedy_option(map, data, routes, "connections"))
 
-    # Keep adding stations to the route until ..........
+    # Keep adding stations to the route until constraints are met
     while greedy_option(map, data, routes, key) != None:
         routes[-1].append(greedy_option(map, data, routes, key))
 
-        # Check if route meets time constrain, if not end route
+        # Check if route meets time constrain
         total_time = Route(map, routes).time
         if total_time > max_time:
             routes[-1] = routes[-1][:-1]

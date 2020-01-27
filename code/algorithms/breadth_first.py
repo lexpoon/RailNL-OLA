@@ -9,27 +9,24 @@ import random
 import queue
 
 def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
-    """Create solution consisting of routes based on breadth first algorithm"""
+    """Create solution consisting of set of routes based on breadth first algorithm"""
 
-    # Get all data of  stations of current map
+    # Get all data for stations in current map
     data = RailNL(map).data
 
-    # Make empty list for all routes
+    # Create list where routes can be added
     routes = []
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
     connections = connections_station(data)
 
-    # Make random routes untill it is not possible anymore due to the constrains
+    # Create random routes until it is not possible anymore due to the constrains
     while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
         breadth_first_route(map, max_time, min_score, data, routes, depth, ratio)
         connections = update_connections(map, data, routes)
 
-    # Make solution class and update attributes
-    breadth_first_solution = Solution(map, routes)
-
-    return breadth_first_solution
+    return Solution(map, routes)
 
 
 def breadth_first_route(map, max_time, min_score, data, routes, depth, ratio):
@@ -63,7 +60,9 @@ def breadth_first_route(map, max_time, min_score, data, routes, depth, ratio):
                 chain.put(child)
 
                 # Apply Greedy look-ahead with minimal score or with score-route length ratio
-                if len(route.route) > depth and (route.score < min_score or (ratio - 1/20 * len(route.route)) * route.score/len(route.route) < best_route.score/len(best_route.route)):
+                if len(route.route) > depth and (route.score < min_score 
+                        or (ratio - 1/20 * len(route.route)) * route.score/len(route.route) 
+                        < best_route.score/len(best_route.route)):
                     chain.get()
 
                 # Check if route is best solution yet

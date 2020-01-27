@@ -8,27 +8,24 @@ import copy
 import random
 
 def depth_first(map, max_routes, max_time, min_score, depth, ratio):
-    """Create solution consisting of routes based on depth first algorithm"""
+    """Create solution consisting of set of routes based on depth first algorithm"""
 
-    # Get all data of  stations of current map
+    # Get all data from stations in current map
     data = RailNL(map).data
 
-    # Make empty list for all routes
+    # Create list where routes can be added
     routes = []
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
     connections = connections_station(data)
 
-    # Make random routes untill it is not possible anymore due to the constrains
+    # Make random routes until it is not possible anymore due to the constrains
     while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
         depth_first_route(map, max_time, min_score, data, routes, depth, ratio)
         connections = update_connections(map, data, routes)
 
-    # Make solution class and update attributes
-    depth_first_solution = Solution(map, routes)
-
-    return depth_first_solution
+    return Solution(map, routes)
 
 
 def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
