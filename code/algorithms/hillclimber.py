@@ -1,10 +1,10 @@
+from breadth_first import breadth_first_route
+from classes.solution import Solution
+from depth_first import depth_first_route
 from functions.calculations import all_connections, update_connections, convert_object_to_string, remove_routes
 from functions.import_data import RailNL
-from classes.solution import Solution
-from randomize import random_route
 from greedy import greedy_route
-from depth_first import depth_first_route
-from breadth_first import breadth_first_route
+from randomize import random_route
 
 import copy
 import random
