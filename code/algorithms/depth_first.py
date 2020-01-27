@@ -22,13 +22,13 @@ def depth_first(map, max_routes, max_time, min_score, depth, ratio):
 
     # Make random routes until it is not possible anymore due to the constrains
     while len(routes) < max_routes and len(connections["used_connections"]) < num_connections:
-        depth_first_route(map, max_time, min_score, data, routes, depth, ratio)
+        depth_first_route(map, max_time, min_score, data, routes, depth, ratio, definition=None)
         connections = update_connections(map, data, routes)
 
     return Solution(map, routes)
 
 
-def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
+def depth_first_route(map, max_time, min_score, data, routes, depth, ratio, definition):
     """Create a depth first route"""
 
     # Starting station of route
@@ -46,29 +46,32 @@ def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
         routes[-1] = state
 
         # Find each possible child from state and add to tree of routes
-        for option in depth_first_options(data, routes):
-            child = copy.deepcopy(state)
-            child.append(option)
-            routes[-1] = child
-            route = Route(map, routes)
+        if routes[-1][-1] != None and depth_first_options(data, routes, definition) != None:
+            for option in depth_first_options(data, routes, definition):
+                child = copy.deepcopy(state)
+                child.append(option)
+                routes[-1] = child
+                route = Route(map, routes)
 
-            # Check time constrains for route
-            if route.time < max_time:
-                stack.append(child)
+                # Check time constrains for route
+                if route.time < max_time:
+                    stack.append(child)
 
-                # Apply Greedy look-ahead with minimal score or with score-route length ratio
-                if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_route.score/len(best_route.route)):
-                    stack.pop()
+                    # Apply Greedy look-ahead with minimal score or with score-route length ratio
+                    if len(route.route) > depth and (route.score < min_score
+                            or ratio * route.score/len(route.route)
+                            < best_route.score/len(best_route.route)):
+                        stack.pop()
 
-                # Check if route is best solution yet
-                best_route = choose_best_route(route, best_route)
+                    # Check if route is best solution yet
+                    best_route = choose_best_route(route, best_route)
 
     routes[-1] = best_route
 
     return best_route
 
 
-def depth_first_options(data, routes):
+def depth_first_options(data, routes, definition):
     """Return possible destinations. Not possible to go to a station that is already on the route"""
 
     # Set details for possible destionations
@@ -79,8 +82,12 @@ def depth_first_options(data, routes):
     for connection in data[current_station].connections:
         possible_connection = (current_station, connection[0])
 
-        # Optimal pruning based on archiving used connections
-        if routes == [] or tuple(sorted(possible_connection)) not in all_used_connections_route(routes):
+        # Only use optimal pruning based on archiving used connections, when creating solution
+        if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection)) not in all_used_connections_route(routes))):
             connections.append(data[connection[0]])
+
+
+    if connections == []:
+        return None
 
     return connections

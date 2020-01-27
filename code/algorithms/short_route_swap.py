@@ -24,7 +24,6 @@ def short_route_swap(map, max_time, min_score, solution_output):
     improvement = new_score - old_score
 
     # Return solution if all connections are already used
-    routes = 
     unused_connections = all_connections(map) - all_used_connections(Solution(map, solution_output.routes).routes)
     if unused_connections == set():
         return Solution(map, solution_output.routes)
@@ -66,7 +65,7 @@ def short_route_swap(map, max_time, min_score, solution_output):
                     temp_score = Solution(map, copy_routes.routes).score
                     score_original = solution.score
 
-                    # Add station to route if score has improved 
+                    # Add station to route if score has improved
                     if temp_score > score_original:
                         solution_output.routes[route_index] = copy_routes.routes[route_index]
 

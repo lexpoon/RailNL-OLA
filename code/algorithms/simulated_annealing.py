@@ -11,7 +11,7 @@ import random
 from decimal import Decimal
 
 
-def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes, formula):
+def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, change_routes, formula):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -23,14 +23,14 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
 
         last_solution = best_solution
 
-        for j in range(remove_routes):
+        for j in range(change_routes):
             last_solution.routes.remove(random.choice(last_solution.routes))
 
         # Keep track of fraction of used connections
         num_connections = len(all_connections(map))
         connections = update_connections(map, data, last_solution.routes)
 
-        for k in range(remove_routes):
+        for k in range(change_routes):
 
             # Stop adding routes if all connections are used in solution
             if len(connections["used_connections"]) > num_connections:
@@ -38,13 +38,14 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
 
             # Add route following input algorithm
             if algorithm == "random":
-                last_solution.routes.append(random_route(map, max_time, data, last_solution.routes))
+                random_route(map, max_time, data, last_solution.routes)
             elif algorithm == "greedy":
-                last_solution.routes.append(greedy_route(map, max_time, data, last_solution.routes, "connections"))
+                greedy_route(map, max_time, data, last_solution.routes, "connections")
             elif algorithm == "depth_first":
-                last_solution.routes.append(depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
             elif algorithm == "breadth_first":
-                last_solution.routes.append(breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
+
 
             # Update used connections
             connections = update_connections(map, data, last_solution.routes)

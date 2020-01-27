@@ -126,3 +126,12 @@ def choose_best_route(route, best_route):
         best_route = random.choice([route, best_route])
 
     return best_route
+
+def convert_object_to_string(route):
+    """Convert a route of station objects to a route of station names"""
+
+    route_list = []
+    for station in route.route:
+        route_list.append(station.name)
+
+    return route_list

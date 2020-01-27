@@ -1,4 +1,4 @@
-from functions.calculations import all_connections, update_connections
+from functions.calculations import all_connections, update_connections, convert_object_to_string
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -10,7 +10,7 @@ from breadth_first import breadth_first, breadth_first_route
 
 import random, copy
 
-def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes):
+def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, change_routes):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -23,14 +23,14 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
         #
         last_solution = copy.deepcopy(best_solution)
 
-        for j in range(remove_routes):
-            last_solution.routes.remove(random.choice(last_solution.routes))
+        #
+        last_solution = remove_routes(last_solution, change_routes)
 
         # Keep track of fraction of used connections
         num_connections = len(all_connections(map))
         connections = update_connections(map, data, last_solution.routes)
 
-        for k in range(remove_routes):
+        for k in range(change_routes):
 
             # Stop adding routes if all connections are used in solution
             if len(connections["used_connections"]) > num_connections:
@@ -38,17 +38,16 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
 
             # Add route following input algorithm
             if algorithm == "random":
-                last_solution.routes.append(random_route(map, max_time, data, last_solution.routes))
+                andom_route(map, max_time, data, last_solution.routes)
             elif algorithm == "greedy":
-                last_solution.routes.append(greedy_route(map, max_time, data, last_solution.routes, "connections"))
+                greedy_route(map, max_time, data, last_solution.routes, "connections")
             elif algorithm == "depth_first":
-                last_solution.routes.append(depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
             elif algorithm == "breadth_first":
-                last_solution.routes.append(breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
 
             # Update used connections
             connections = update_connections(map, data, last_solution.routes)
-
 
         new_solution = Solution(map, last_solution.routes)
 
@@ -58,3 +57,34 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
     best_solution = Solution(map, best_solution.routes)
 
     return best_solution
+
+def remove_routes(solution, change_routes):
+    """Remove routes of the solution"""
+
+    while change_routes > 0:
+        route = random.choice(solution.routes)
+        solution.routes.remove(route)
+        change_routes -= 1
+
+        while depending_route_options(solution.routes, route) != [] and change_routes > 0:
+            options = depending_route_options(solution.routes, route)
+            option = random.choice(options)
+            solution.routes.remove(option)
+            change_routes -= 1
+
+    return solution
+
+def depending_route_options(routes, main_route):
+    """Return routes which are connected to the main route"""
+
+    options = set()
+    main_route = convert_object_to_string(main_route)
+
+    for route in routes:
+        for station1 in main_route:
+            for station in route.route:
+                if station.name == station1:
+                    options.add(route)
+                    break
+
+    return list(options)
