@@ -36,9 +36,9 @@ def random_route(map, max_time, data, routes):
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
     total_time = 0
-
+    
     # Pick a/the best station as starting point of the route
-    routes[-1].append(greedy_option(map, data, routes, "connections"))
+    routes[-1].append(data[random.choice(list(data.keys()))])
 
     # Keep adding stations to the route until no more possible destinations
     while random_options(map, data, routes) != None:

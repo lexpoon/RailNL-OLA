@@ -50,7 +50,7 @@ def delete_short_route(map, min_score, solution):
     unused_connections = all_connections(map) - all_used_connections(Solution(map, solution.routes).routes)
 
     if unused_connections == set() or improvement >= 0:
-        return False 
+        return False
 
     return Solution(map, solution.routes)
 
@@ -74,10 +74,10 @@ def add_unused_connection(solution, map, data, traject, connections_left):
 
                     elif str(connection[1]) == str(station):
                         new_station = data[str(connection[0])]
-                    
+
                     else:
                         return False
-                                            
+
                 # Create temporary route with unconnected station added to calculate new score
                 index = traject.route.index(station)
                 first_part = list(traject.route[:index + 1])
@@ -91,7 +91,7 @@ def add_unused_connection(solution, map, data, traject, connections_left):
                 temp_score = Solution(map, copy_routes.routes).score
                 score_original = solution.score
 
-                # Add station to route if score has improved 
+                # Add station to route if score has improved
                 if temp_score > score_original:
                     solution.routes[route_index] = copy_routes.routes[route_index]
 

@@ -1,17 +1,17 @@
-from breadth_first import breadth_first, breadth_first_route
+from breadth_first import breadth_first_route
 from classes.solution import Solution
-from depth_first import depth_first, depth_first_route
-from functions.calculations import all_connections, update_connections
+from depth_first import depth_first_route
+from functions.calculations import all_connections, update_connections, convert_object_to_string, remove_routes
 from functions.import_data import RailNL
-from greedy import greedy, greedy_route
-from randomize import randomize, random_route
+from greedy import greedy_route
+from randomize import random_route
 
 import copy
 import random
 from decimal import Decimal
 
 
-def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, remove_routes, formula):
+def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, iterations, depth, ratio, change_routes, formula):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -21,16 +21,15 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
     # Voor een x aantal iteraties, vervang routes om te kijken of het een betere oplossing opleverd
     for i in range(iterations):
 
-        last_solution = best_solution
+        last_solution = copy.deepcopy(best_solution)
 
-        for j in range(remove_routes):
-            last_solution.routes.remove(random.choice(last_solution.routes))
+        last_solution = remove_routes(last_solution, change_routes)
 
         # Keep track of fraction of used connections
         num_connections = len(all_connections(map))
         connections = update_connections(map, data, last_solution.routes)
 
-        for k in range(remove_routes):
+        for k in range(change_routes):
 
             # Stop adding routes if all connections are used in solution
             if len(connections["used_connections"]) > num_connections:
@@ -38,13 +37,14 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
 
             # Add route following input algorithm
             if algorithm == "random":
-                last_solution.routes.append(random_route(map, max_time, data, last_solution.routes))
+                random_route(map, max_time, data, last_solution.routes)
             elif algorithm == "greedy":
-                last_solution.routes.append(greedy_route(map, max_time, data, last_solution.routes, "connections"))
+                greedy_route(map, max_time, data, last_solution.routes, "connections")
             elif algorithm == "depth_first":
-                last_solution.routes.append(depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
             elif algorithm == "breadth_first":
-                last_solution.routes.append(breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
+                breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio, "improve")
+
 
             # Update used connections
             connections = update_connections(map, data, last_solution.routes)
@@ -64,6 +64,6 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
         if acceptation_probability > random_probability:
             best_solution = new_solution
 
-    best_solution = Solution(map, best_solution)
+    best_solution = Solution(map, best_solution.routes)
 
     return best_solution
