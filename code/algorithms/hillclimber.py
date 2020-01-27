@@ -1,4 +1,4 @@
-from functions.calculations import all_connections, all_used_connections, update_connections
+from functions.calculations import all_connections, update_connections
 from functions.import_data import RailNL
 from classes.station import Station
 from classes.route import Route
@@ -15,8 +15,7 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
 
     #
     data = RailNL(map).data
-    best_solution = copy.deepcopy(solution.routes)
-    best_score = solution.score
+    best_solution = solution
 
     #
     for i in range(iterations):
@@ -25,30 +24,37 @@ def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, itera
         last_solution = copy.deepcopy(best_solution)
 
         for j in range(remove_routes):
-            last_solution.remove(random.choice(last_solution))
+            last_solution.routes.remove(random.choice(last_solution.routes))
+
+        # Keep track of fraction of used connections
+        num_connections = len(all_connections(map))
+        connections = update_connections(map, data, last_solution.routes)
 
         for k in range(remove_routes):
 
-            #
-            connections = update_connections(map, data, last_solution)
+            # Stop adding routes if all connections are used in solution
+            if len(connections["used_connections"]) > num_connections:
+                break
 
-            #
+            # Add route following input algorithm
             if algorithm == "random":
-                last_solution.append(random_route(map, max_time, data, last_solution))
+                last_solution.routes.append(random_route(map, max_time, data, last_solution.routes))
             elif algorithm == "greedy":
-                last_solution.append(greedy_route(map, max_time, data, last_solution, "connections"))
+                last_solution.routes.append(greedy_route(map, max_time, data, last_solution.routes, "connections"))
             elif algorithm == "depth_first":
-                last_solution.append(depth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
+                last_solution.routes.append(depth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
             elif algorithm == "breadth_first":
-                last_solution.append(breadth_first_route(map, max_time, min_score, data, last_solution, depth, ratio))
+                last_solution.routes.append(breadth_first_route(map, max_time, min_score, data, last_solution.routes, depth, ratio))
 
-        new_solution = Solution(map, last_solution)
-        new_score = new_solution.score
+            # Update used connections
+            connections = update_connections(map, data, last_solution.routes)
 
-        if new_score > best_score:
-            best_score = new_score
-            best_solution = new_solution.routes
 
-    best_solution = Solution(map, best_solution)
+        new_solution = Solution(map, last_solution.routes)
+
+        if new_solution.score > last_solution.score:
+            best_solution = new_solution
+
+    best_solution = Solution(map, best_solution.routes)
 
     return best_solution

@@ -34,7 +34,6 @@ def greedy_route(map, max_time, data, routes, key):
 
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
-    total_time = 0
 
     # Pick a/the best station as starting point of the route
     routes[-1].append(greedy_option(map, data, routes, "connections"))
@@ -94,7 +93,7 @@ def greedy_option(map, data, routes, key):
 
         return None
 
-    elif key == "quality":
+    elif key == "score":
         # Check if route has station. If so, determine (unused) connections of current station
         if routes[-1] != []:
             # Make list of already used connections in current route

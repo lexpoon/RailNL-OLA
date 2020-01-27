@@ -1,4 +1,5 @@
 import csv
+import random
 
 
 def all_stations(map):
@@ -115,3 +116,13 @@ def update_connections(map, data, routes):
                             connections["amount_connections"].pop(route.route[i].name)
 
     return connections
+
+def choose_best_route(route, best_route):
+    """Return route with best score"""
+
+    if route.score > best_route.score:
+        best_route = route
+    elif route.score == best_route.score:
+        best_route = random.choice([route, best_route])
+
+    return best_route

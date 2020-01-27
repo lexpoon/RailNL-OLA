@@ -1,7 +1,7 @@
 from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
-from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections
+from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections, choose_best_route
 from functions.import_data import RailNL
 
 import copy
@@ -39,8 +39,7 @@ def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
     stack = [[greedy_option(map, data, routes, "connections")]]
 
     # Set details for best route with depth first algorithm
-    best_route = []
-    best_score = -100
+    best_route = Route(map, stack)
 
     # Keep searching for routes until no feasible options
     while len(stack) > 0:
@@ -49,28 +48,23 @@ def depth_first_route(map, max_time, min_score, data, routes, depth, ratio):
         state = stack.pop()
         routes[-1] = state
 
-        # Check time constrains for route
-        if len(state) < 2 or len(state) >= 2 and Route(map, routes[-1:]).time < max_time:
+        # Find each possible child from state and add to tree of routes
+        for option in depth_first_options(data, routes):
+            child = copy.deepcopy(state)
+            child.append(option)
+            routes[-1] = child
+            route = Route(map, routes)
 
-            # Find each possible child from state and add to tree of routes
-            for option in depth_first_options(data, routes):
-                child = copy.deepcopy(state)
-                child.append(option)
+            # Check time constrains for route
+            if route.time < max_time:
                 stack.append(child)
-                routes[-1] = child
-                route = Route(map, routes)
 
                 # Apply Greedy look-ahead with minimal score or with score-route length ratio
-                if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_score/len(best_route.route)):
+                if len(route.route) > depth and (route.score < min_score or ratio * route.score/len(route.route) < best_route.score/len(best_route.route)):
                     stack.pop()
 
                 # Check if route is best solution yet
-                if route.score > best_score:
-                    best_route = route
-                    best_score = best_route.score
-                elif route.score == best_score:
-                    best_route = random.choice([route, best_route])
-                    best_score = best_route.score
+                best_route = choose_best_route(route, best_route)
 
     routes[-1] = best_route
 
