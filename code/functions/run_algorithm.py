@@ -24,6 +24,7 @@ def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, ke
 
     return solution_algorithm
 
+
 def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio):
     """Find best routes based on input algorithm"""
 
@@ -49,7 +50,7 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     if algorithm == "depth_first":
         best_score = 0
         for i in range(iterations):
-            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio, definition=None)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -58,7 +59,7 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     if algorithm == "breadth_first":
         best_score = 0
         for i in range(iterations):
-            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio, definition=None)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -76,7 +77,7 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     # Run short route swap algorithm and find best solution
     if algorithm == "short_route_swap":
         best_score = 0
-        for i in range(iterations):
+        for i in range(int(iterations)):
             solution = short_route_swap(map, max_time, min_score, solution)
             if solution.score > best_score:
                 best_solution = solution
@@ -85,7 +86,7 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     # Run hillclimber algorithm and find best solution
     elif algorithm[0] == "hillclimber":
         best_score = 0
-        for i in range(iterations):
+        for i in range(int(iterations)):
             solution = hillclimber(map, max_routes, max_time, min_score, solution, algorithm[1], iterations, depth, ratio, remove_routes)
             if solution.score > best_score:
                 best_solution = solution
