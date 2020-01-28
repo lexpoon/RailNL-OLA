@@ -1,5 +1,5 @@
 import csv
-import random
+from random import choice as rd_choice
 
 
 def all_stations(map):
@@ -123,7 +123,7 @@ def choose_best_route(route, best_route):
     if route.score > best_route.score:
         best_route = route
     elif route.score == best_route.score:
-        best_route = random.choice([route, best_route])
+        best_route = rd_choice([route, best_route])
 
     return best_route
 
@@ -140,13 +140,13 @@ def remove_routes(solution, change_routes):
     """Remove routes of the solution"""
 
     while change_routes > 0:
-        route = random.choice(solution.routes)
+        route = rd_choice(solution.routes)
         solution.routes.remove(route)
         change_routes -= 1
 
         while depending_route_options(solution.routes, route) != [] and change_routes > 0:
             options = depending_route_options(solution.routes, route)
-            option = random.choice(options)
+            option = rd_choice(options)
             solution.routes.remove(option)
             change_routes -= 1
 

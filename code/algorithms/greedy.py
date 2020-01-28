@@ -2,8 +2,8 @@ from classes.route import Route
 from classes.solution import Solution
 from functions.calculations import all_connections, connections_station, update_connections
 from functions.import_data import RailNL
+from random import choice as rd_choice
 
-import random
 
 def greedy(map, max_routes, max_time, key):
     """ Create solution consisting of routes based on greedy algorithm. """
@@ -15,7 +15,7 @@ def greedy(map, max_routes, max_time, key):
     routes = []
 
     # Keep track of fraction of used connections
-    num_connections = len(all_connections(map))
+    num_connections = len(fn.all_connections(map))
     connections = connections_station(data)
 
     # Make greedy routes until it is not possible anymore due to the constrains
@@ -85,7 +85,7 @@ def greedy_option(map, data, routes, key):
 
         # If any options, choose best option which has least connections
         if options:
-            best_option = data[random.choice([k for k, v in options.items() if v == min(list(options.values()))])]
+            best_option = data[rd_choice([k for k, v in options.items() if v == min(list(options.values()))])]
             return best_option
 
         return None
@@ -109,7 +109,7 @@ def greedy_option(map, data, routes, key):
 
         # If any options, choose best option which has least connections
         if options:
-            best_option = data[random.choice([k for k, v in options.items() if v == max(list(options.values()))])]
+            best_option = data[rd_choice([k for k, v in options.items() if v == max(list(options.values()))])]
             return best_option
 
         return None

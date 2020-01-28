@@ -1,6 +1,5 @@
 from classes.station import Station
-
-import csv
+from csv import reader
 
 
 class RailNL():
@@ -18,7 +17,7 @@ class RailNL():
 
         # Get stations from CSV and add to datastructure
         with open(filename, "r") as f:
-            csv_reader = csv.reader(f)
+            csv_reader = reader(f)
             next(csv_reader, None)
             counter = 0
             for line in csv_reader:
@@ -32,7 +31,7 @@ class RailNL():
 
         # Get connections from CSV and add to stations in datastructure
         with open(filename, "r") as f:
-            csv_reader = csv.reader(f)
+            csv_reader = reader(f)
 
             # Connection goes from both sides, A -> B and B -> A
             for line in csv_reader:

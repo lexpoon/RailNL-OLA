@@ -78,9 +78,10 @@
 
 from classes.route import Route
 from classes.solution import Solution
+from copy import deepcopy
 from functions.calculations import all_connections, all_used_connections, update_connections
 from functions.import_data import RailNL
-import copy
+
 
 def short_route_swap(map, max_time, min_score, solution_output):
     """"Create hillclimber solution based on solution output"""
@@ -164,7 +165,7 @@ def add_unused_connection(solution, map, data, traject, connections_left):
                 temp_route = first_part + [new_station] + last_part
 
                 # Calculate score based on solution with temporary route added
-                copy_routes = copy.deepcopy(solution)
+                copy_routes = deepcopy(solution)
                 route_index = solution.routes.index(traject)
                 copy_routes.routes[route_index].route = Route(map, [temp_route]).route
                 temp_score = Solution(map, copy_routes.routes).score
@@ -175,3 +176,5 @@ def add_unused_connection(solution, map, data, traject, connections_left):
                     solution.routes[route_index] = copy_routes.routes[route_index]
 
                 break
+
+        return Solution(map, solution.routes)

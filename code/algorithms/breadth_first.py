@@ -1,12 +1,10 @@
 from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
+from copy import deepcopy
 from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections, choose_best_route
 from functions.import_data import RailNL
-
-import copy
-import random
-import queue
+from queue import Queue
 
 def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
     """Create solution consisting of set of routes based on breadth first algorithm"""
@@ -33,7 +31,7 @@ def breadth_first_route(map, max_time, min_score, data, routes, depth, ratio, de
     """Create a breadth first route"""
 
     # Starting station of route
-    chain = queue.Queue()
+    chain = Queue()
     routes.append([])
     start = [greedy_option(map, data, routes, "connections")]
     chain.put(start)
@@ -51,7 +49,7 @@ def breadth_first_route(map, max_time, min_score, data, routes, depth, ratio, de
         # Find each possible child from state and add to tree of routes
         if routes[-1][-1] != None and breadth_first_options(data, routes, definition) != None:
             for option in breadth_first_options(data, routes, definition):
-                child = copy.deepcopy(state)
+                child = deepcopy(state)
                 child.append(option)
                 routes[-1] = child
                 route = Route(map, routes)
