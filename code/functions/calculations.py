@@ -130,14 +130,6 @@ def remove_routes(solution, change_routes):
 
     return solution
 
-def convert_object_to_string(route):
-    """Convert a route of station objects to a route of station names"""
-
-    route_list = []
-    for station in route.route:
-        route_list.append(station.name)
-
-    return route_list
 
 def depending_route_options(routes, main_route):
     """Return routes which are connected to the main route"""
@@ -153,3 +145,13 @@ def depending_route_options(routes, main_route):
                     break
 
     return list(options)
+
+
+def convert_object_to_string(route):
+    """Convert a route of station objects to a route of station names"""
+
+    route_list = []
+    for station in route.route:
+        route_list.append(station.name)
+
+    return route_list
