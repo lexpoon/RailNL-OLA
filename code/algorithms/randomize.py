@@ -1,7 +1,7 @@
 from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
-from functions.calculations import all_connections, connections_station, update_connections
+from functions.calculations import all_connections, connections_station, convert_object_to_string, update_connections
 from functions.import_data import RailNL
 from random import choice as rd_choice
 
@@ -63,10 +63,8 @@ def random_options(map, data, routes):
     connections = update_connections(map, data, routes)
     routes[-1] = routes[-1].route
 
-    # Transform route of Station objects to route list of strings
-    route_list = []
-    for station in routes[-1]:
-        route_list.append(station.name)
+    # Convert route of Station objects to route list of strings
+    route_list = convert_object_to_string(routes[-1])
 
     # Determine all possible connections from current station
     options = []

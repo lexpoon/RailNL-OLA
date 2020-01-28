@@ -1,6 +1,6 @@
 from classes.route import Route
 from classes.solution import Solution
-from functions.calculations import all_connections, connections_station, update_connections
+from functions.calculations import all_connections, connections_station, convert_object_to_string, update_connections
 from functions.import_data import RailNL
 from random import choice as rd_choice
 
@@ -64,10 +64,8 @@ def greedy_option(map, data, routes, key):
     # Choose best option (not yet in route) from current station based on minimum of connections or time
     if key == "connections" or key == "time":
 
-        # Transform route of Station objects to route list of strings
-        route_list = []
-        for station in routes[-1]:
-            route_list.append(station.name)
+        # Convert route of Station objects to route list of strings
+        route_list = convert_object_to_string(routes[-1])
 
         # Check if route has station. If so, determine (unused) connections of current station
         if route_list != []:

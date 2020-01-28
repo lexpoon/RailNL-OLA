@@ -2,7 +2,7 @@ from breadth_first import breadth_first_route
 from classes.solution import Solution
 from copy import deepcopy
 from depth_first import depth_first_route
-from functions.calculations import all_connections, update_connections, convert_object_to_string, remove_routes
+from functions.calculations import all_connections, update_connections, remove_routes
 from functions.import_data import RailNL
 from greedy import greedy_route
 from randomize import random_route

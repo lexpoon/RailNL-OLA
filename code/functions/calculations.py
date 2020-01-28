@@ -2,19 +2,6 @@ import csv
 from random import choice as rd_choice
 
 
-def all_stations(map):
-    """Determine the stations based on map"""
-
-    # Get stations by lines of CSV file
-    with open(f"data/Stations{map}.csv", "r") as f:
-        csv_reader = csv.reader(f)
-        stations = set()
-        for line in csv_reader:
-            stations.add(line)
-
-        return stations
-
-
 def all_connections(map):
     """Determine the connections based on map"""
 
@@ -127,15 +114,6 @@ def choose_best_route(route, best_route):
 
     return best_route
 
-def convert_object_to_string(route):
-    """Convert a route of station objects to a route of station names"""
-
-    route_list = []
-    for station in route.route:
-        route_list.append(station.name)
-
-    return route_list
-
 def remove_routes(solution, change_routes):
     """Remove routes of the solution"""
 
@@ -151,6 +129,15 @@ def remove_routes(solution, change_routes):
             change_routes -= 1
 
     return solution
+
+def convert_object_to_string(route):
+    """Convert a route of station objects to a route of station names"""
+
+    route_list = []
+    for station in route.route:
+        route_list.append(station.name)
+
+    return route_list
 
 def depending_route_options(routes, main_route):
     """Return routes which are connected to the main route"""
