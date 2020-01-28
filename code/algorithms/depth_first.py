@@ -82,7 +82,8 @@ def depth_first_options(data, routes, definition):
         possible_connection = (current_station, connection[0])
 
         # Only use optimal pruning based on archiving used connections, when creating solution
-        if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection)) not in all_used_connections_route(routes))):
+        if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection)) 
+                not in all_used_connections_route(routes))):
             connections.append(data[connection[0]])
 
     if connections == []:

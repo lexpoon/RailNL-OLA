@@ -11,7 +11,8 @@ from solution import Solution
 from visualize import visualisation
 
 
-def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition):
+def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, key, 
+    depth, ratio, change_routes, formula, definition):
     """Run algorithm of choice for user"""
 
     data = RailNL(map).data
@@ -19,14 +20,17 @@ def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, ke
 
     # Run algorithm based on input
     if definition == 'create':
-        solution_algorithm = start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio)
+        solution_algorithm = start_algorithm(map, max_routes, max_time, min_score, 
+            algorithm, iterations, key, depth, ratio)
     else:
-        solution_algorithm = improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition)
+        solution_algorithm = improve_algorithm(map, max_routes, max_time, min_score, 
+            solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition)
 
     return solution_algorithm
 
 
-def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio):
+def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations, key, 
+    depth, ratio):
     """Find best routes based on input algorithm"""
 
     # Run random algorithm and find best solution
@@ -72,7 +76,8 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     return best_solution
 
 
-def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition):
+def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, 
+    depth, ratio, change_routes, formula, definition):
     """Improve solution based on algorithm"""
 
     # Run short route swap algorithm and find best solution
@@ -88,7 +93,8 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     elif algorithm[0] == "hillclimber":
         best_score = 0
         for i in range(int(iterations)):
-            solution = hillclimber(map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, change_routes)
+            solution = hillclimber(map, max_routes, max_time, min_score, solution, algorithm[1], 
+                depth, ratio, change_routes)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -97,7 +103,8 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     elif algorithm[0] == "simulated_annealing":
         best_score = 0
         for i in range(iterations):
-            solution = simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, change_routes, i, iterations, formula)
+            solution = simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm[1], 
+                depth, ratio, change_routes, i, iterations, formula)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
