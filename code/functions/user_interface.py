@@ -2,12 +2,14 @@ from functions.calculations import all_connections, connections_station, update_
 from functions.run_algorithm import improve_algorithm, run_algorithm, start_algorithm
 
 def user_interface():
-    """Start user interface"""
+    """Interaction with user to run, improve and visualize all algorithms"""
 
+    # Welcome user and start first algorithm
     welcome()
     map_info = get_map_info()
     algorithm_info = get_create_algorithm()
 
+    # Set variables to user input
     map = map_info[0]
     max_routes = map_info[1]
     max_time = map_info[2]
@@ -21,15 +23,19 @@ def user_interface():
     formula = None
     definition = "create"
 
+    # Ask user for iterations
     while type(iterations) != int:
         iterations = get_int("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
+    # Create solution with input algorithm
     solution = run_algorithm(
             map, max_routes, max_time, solution, algorithm, iterations, key, depth,
             ratio, remove_routes, formula, definition)
 
+    # Update best score
     best_solution = {"solution": '', "score": 0}
     best_solution = check_score(best_solution, solution)
+
 
     while True:
         next = next_step()
@@ -37,6 +43,7 @@ def user_interface():
         if next == "stop":
             break
 
+        # Set variables to user input
         algorithm = next[0]
         iterations = ''
         key = next[1]
@@ -46,19 +53,23 @@ def user_interface():
         formula = next[4]
         definition = next[5]
 
+        # Ask for amount of routes 
         if next[5] == "improve" and algorithm != "short_route_swap":
             while remove_routes == None or type(remove_routes) != int:
                 remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
                 if remove_routes >= max_routes:
                     remove_routes = None
 
+        # Ask for amount of solutions
         while type(iterations) != int:
             iterations = get_int("Hoevaak wil je een oplossing genereren?\n")
 
+        # Create solution
         solution = run_algorithm(
             map, max_routes, max_time, solution, algorithm, iterations, key, depth,
             ratio, remove_routes, formula, definition)
 
+        # Update best solution
         best_solution = check_score(best_solution, solution)
 
 
@@ -97,21 +108,25 @@ def get_create_algorithm():
     algorithm = ''
     options = ['random', 'r', 'greedy', 'g', 'depth_first', 'd', 'breadth_first', 'b']
 
+    # Ask user for algorithm
     while algorithm not in options:
         algorithm = input(
             "Met welk algoritme wil je een oplossing generen? Random (R/r), Greedy (G/g), Depth First (D/p) of Breadth First (B/b)?\n"
         ).lower()
 
+    # Set input variables for random algorithm
     if algorithm == "random" or algorithm == "r":
         algorithm = "random"
         key = depth = ratio = None
 
+    # Set input variables for greedy algorithm
     elif algorithm == "greedy" or algorithm == "g":
         algorithm = "greedy"
         key = ''
         depth = ratio = None
         options = ['connecties', 'c', 'tijd', 't', 'score', 's']
 
+        # Ask user for greedy type
         while key not in options:
             key = input(
                 "Op basis waarvan wil je het Greedy algoritme runnen? Connecties (C/c), Tijd (T/t) of Score (S/s)?\n"
@@ -126,6 +141,7 @@ def get_create_algorithm():
         else:
             key = "score"
 
+    # Set input variables for depth first algorithm
     elif algorithm == "depth first" or algorithm == "d":
         algorithm = "depth_first"
         key = None
@@ -139,6 +155,7 @@ def get_create_algorithm():
                 "Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n"
             )
 
+    # Set input variables for breadth first algorithm
     elif algorithm == "breadth first" or algorithm == "b":
         algorithm = "breadth_first"
         key = None
@@ -162,12 +179,15 @@ def get_improve_algorithm():
     formula = None
     options = ['hillclimber', 'h', 'short route swap', 's', 'simulated annealing', 'a']
 
+    # Ask user for improvement algorithm
     while algorithm not in options:
         algorithm = input(
             "Met welk algoritme wil je een oplossing generen? Short Route Swap (S/s), Hillclimber (H/h), Simulated Annealing (A/a)?\n"
         ).lower()
 
     options = ['hillclimber', 'h', 'simulated annealing', 'a']
+
+    # Ask user which algorithm to use with hillclimber or simulated annealing
     if algorithm in options:
         route_info = get_create_algorithm()
 
