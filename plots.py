@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-import numpy as np
 import os
 import sys
 
@@ -189,5 +188,5 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
-    main("Nationaal", 20, 180, 100, "depth first", None, 100, 3, 1.2)
-    # main("Nationaal", 20, 180, 100, "breadth first", None, 100, 3, 1.2)
+    # main("Nationaal", 20, 180, 100, "depth first", None, 100, 3, 1.2)
+    main("Nationaal", 20, 180, 100, "breadth first", None, 100, 3, 1.2)
