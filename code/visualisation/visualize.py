@@ -1,11 +1,12 @@
 import plotly.graph_objects as go
+
 from csv import reader
 from functions.import_data import RailNL
 
 
 def visualisation(map, routes):
-    """ Visualize stations and routes in scattermapbox. """
-    
+    """ Visualize stations and routes in scattermapbox."""
+
     # Add stations to visualisation
     fig = visualize_stations(map)
 
@@ -27,7 +28,7 @@ def visualisation(map, routes):
 
 
 def visualize_stations(map):
-    """Add a marker to scattermapbox for each station in map"""
+    """Add a marker to scattermapbox for each station in map."""
 
     # Read station longitudes and latitudes from csv into lists
     with open(f"data/Stations{map}.csv", "r") as f:
@@ -51,7 +52,7 @@ def visualize_stations(map):
     return fig
 
 def visualize_all_connections(map, fig):
-    """Add a grey line for each possible connection to scattermapbox"""
+    """Add a grey line for each possible connection to scattermapbox."""
 
     data = RailNL(map).data
 
@@ -65,7 +66,7 @@ def visualize_all_connections(map, fig):
             lon.append(data[connection[0]].coordinates["lat"])
             lat.append(data[connection[1]].coordinates["long"])
             lon.append(data[connection[1]].coordinates["lat"])
-    
+
             # Add grey trace for each connection
             fig.add_trace(go.Scattermapbox(
                 mode = "lines",
@@ -78,7 +79,7 @@ def visualize_all_connections(map, fig):
     return fig
 
 def visualize_routes(routes, fig):
-    """Add a coloured line to scattermapbox for each route"""
+    """Add a coloured line to scattermapbox for each route."""
 
     # Visualize every route with a coloured line
     for route in routes:

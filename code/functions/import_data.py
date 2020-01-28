@@ -3,17 +3,17 @@ from csv import reader
 
 
 class RailNL():
-    """Importing all station and connection data into data dictionary"""
+    """Importing all station and connection data into data dictionary."""
 
     def __init__(self, map):
-        """Create stations and connections for RailNL problem"""
+        """Create stations and connections for RailNL problem."""
 
         self.data = {}
         self.stations = self.load_stations(f"data/Stations{map}.csv")
         self.connections = self.load_connections(f"data/Connecties{map}.csv")
 
     def load_stations(self, filename):
-        """Load stations with their coordinates"""
+        """Load stations with their coordinates."""
 
         # Get stations from CSV and add to datastructure
         with open(filename, "r") as f:
@@ -27,7 +27,7 @@ class RailNL():
         return self.data
 
     def load_connections(self, filename):
-        """Load connections between stations with their duration"""
+        """Load connections between stations with their duration."""
 
         # Get connections from CSV and add to stations in datastructure
         with open(filename, "r") as f:

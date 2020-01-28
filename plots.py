@@ -20,7 +20,7 @@ from simulated_annealing import simulated_annealing
 
 
 def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
-    """Select the type of visualisation by de-comment a function"""
+    """Select the type of visualisation by de-comment a function."""
 
     # boxplot(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     # iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
@@ -28,7 +28,7 @@ def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_sc
 
 
 def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
-    """Visualize a boxplot for all algorithms"""
+    """Visualize a boxplot for all algorithms."""
 
     random = []
     greedy_connections = []
@@ -62,7 +62,7 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
 
 
 def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
-    """Visualize a lineplot of algorithm scores of selected algorithm"""
+    """Visualize a lineplot of algorithm scores of selected algorithm."""
 
     score = []
 
@@ -83,7 +83,7 @@ def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_s
 
 
 def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
-    """"Visualize the iterative algorithms based on a basic/constructive algorithm"""
+    """"Visualize the iterative algorithms based on a basic/constructive algorithm."""
 
     # Get the algorithm solution to apply a iterative algorithm on
     best_score = 0
@@ -139,7 +139,7 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
 
 
 def lineplot(score, algorithm, key=None, type=None):
-    """Create lineplot of selected algorithm"""
+    """Create lineplot of selected algorithm."""
 
     plt.plot(score)
     plt.xlabel("Number of Iterations")

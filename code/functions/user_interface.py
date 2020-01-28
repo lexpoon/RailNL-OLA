@@ -2,7 +2,7 @@ from functions.calculations import all_connections, connections_station, update_
 from functions.run_algorithm import improve_algorithm, run_algorithm, start_algorithm
 
 def user_interface():
-    """Interaction with user to run, improve and visualize all algorithms"""
+    """Interaction with user to run, improve and visualize all algorithms."""
 
     # Welcome user and start first algorithm
     welcome()
@@ -76,14 +76,14 @@ def user_interface():
 
 
 def welcome():
-    """Welcome user"""
+    """Welcome user."""
 
     print("Welkom bij RailNL!")
     print("We gaan proberen een zo goed mogelijke intercity dienstregeling vinden.")
 
 
 def get_map_info():
-    """Ask user for map preferences"""
+    """Ask user for map preferences."""
 
     map = ''
     options = ['holland', 'h', 'nationaal', 'n']
@@ -105,7 +105,7 @@ def get_map_info():
 
 
 def get_create_algorithm():
-    """Ask user for algorithm preferences"""
+    """Ask user for algorithm preferences."""
 
     algorithm = ''
     options = ['random', 'r', 'greedy', 'g', 'depth_first', 'd', 'breadth_first', 'b']
@@ -175,7 +175,7 @@ def get_create_algorithm():
 
 
 def get_improve_algorithm():
-    """Ask user for preferences for improvement algorithm"""
+    """Ask user for preferences for improvement algorithm."""
 
     algorithm = ''
     formula = None
@@ -220,7 +220,7 @@ def get_improve_algorithm():
 
 
 def check_score(best_solution, solution):
-    """Update best score history"""
+    """Update best score history."""
 
     if solution.score > best_solution["score"]:
         best_solution = {"solution": solution.routes, "score": solution.score}
@@ -229,7 +229,7 @@ def check_score(best_solution, solution):
 
 
 def next_step():
-    """Ask user for next step"""
+    """Ask user for next step."""
 
     next_step = ''
     options = ['v', 'n', 'q']
@@ -255,7 +255,7 @@ def next_step():
 
 
 def get_int(text):
-    """Check if input is integer"""
+    """Check if input is integer."""
 
     iterations = input(text)
 
@@ -268,7 +268,7 @@ def get_int(text):
 
 
 def get_float(text):
-    """Check if input is float"""
+    """Check if input is float."""
 
     iterations = input(text)
 

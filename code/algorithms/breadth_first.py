@@ -6,6 +6,7 @@ from functions.calculations import all_connections, all_used_connections_route, 
 from functions.import_data import RailNL
 from queue import Queue
 
+
 def breadth_first(map, max_routes, max_time, min_score, depth, ratio):
     """Create solution consisting of set of routes based on breadth first algorithm.
 

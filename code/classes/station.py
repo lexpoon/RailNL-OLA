@@ -1,5 +1,5 @@
 class Station(object):
-    """Station class that gives its coordinates and connections"""
+    """Station class that gives its coordinates and connections."""
 
     def __init__(self, id, name, coordinates):
         """Initialise class"""
@@ -10,7 +10,7 @@ class Station(object):
         self.connections = []
 
     def add_connection(self, destination, time):
-        """Add connections to corresponding station"""
+        """Add connections to corresponding station."""
 
         self.connections.append((destination, time))
 

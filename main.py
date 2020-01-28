@@ -10,6 +10,7 @@ sys.path.append(os.path.join(directory, "code", "visualisation"))
 
 from functions.user_interface import user_interface
 
+
 def main():
     user_interface()
 

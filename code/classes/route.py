@@ -2,7 +2,7 @@ from functions.calculations import all_connections, all_used_connections_route
 
 
 class Route(object):
-    """Route class with a possible train route and its travel time"""
+    """Route class with a possible train route and its travel time."""
 
     def __init__(self, map, routes):
         """Initial class"""
@@ -13,7 +13,7 @@ class Route(object):
         self.score = self.calc_score(map, routes)
 
     def calc_time(self):
-        """Determine traveling time of complete route"""
+        """Determine traveling time of complete route."""
 
         # Set start time of route
         self.time = 0
@@ -27,7 +27,7 @@ class Route(object):
         return self.time
 
     def calc_score(self, map, routes):
-        """Determine score of current route"""
+        """Determine score of current route."""
 
         # Fraction of based on used connections
         p = len(all_used_connections_route(routes)) / len(all_connections(map))

@@ -30,7 +30,7 @@ def randomize(map, max_routes, max_time):
 
 
 def random_route(map, max_time, data, routes):
-    """Randomize a route"""
+    """Randomize a route."""
 
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
