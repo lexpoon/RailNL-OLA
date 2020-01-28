@@ -5,7 +5,7 @@ class Route(object):
     """Route class with a possible train route and its travel time."""
 
     def __init__(self, map, routes):
-        """Initial class"""
+        """Initial class."""
 
         self.id = len(routes)
         self.route = routes[-1]
