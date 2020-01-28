@@ -88,7 +88,7 @@ def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_s
 def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
 
     best_score = 0
-    for i in range(iterations):
+    for i in range(20):
         if algorithm == "random":
             solution = randomize(map, max_routes, max_time)
         elif algorithm == "greedy":
@@ -109,9 +109,9 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
     score_sa_exponential = [best_solution.score]
 
     for i in range(iterations):
-        hc_solution = hillclimber(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3)
-        sa_solution_linear = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "linear")
-        sa_solution_exponential = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "exponential")
+        hc_solution = hillclimber(map, max_routes, max_time, min_score, best_solution, "depth_first", depth, ratio, 3)
+        sa_solution_linear = simulated_annealing(map, max_routes, max_time, min_score, best_solution, "depth_first", depth, ratio, 3, i, iterations, "linear")
+        sa_solution_exponential = simulated_annealing(map, max_routes, max_time, min_score, best_solution, "depth_first", depth, ratio, 3, i, iterations, "exponential")
 
         if hc_solution.score > best_score_hc:
             best_score_hc = hc_solution.score
@@ -162,9 +162,9 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, None, None, 100, 3, 1.2)
 
     """iterations or Hillclimber and Simulated Annealing"""
-    main("Nationaal", 20, 180, 10, "random")
+    # main("Nationaal", 20, 180, 10, "random")
     # main("Nationaal", 20, 180, 100, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
-    # main("Nationaal", 20, 180, 100, "depth_first", None, 100, 3, 1.2)
+    main("Nationaal", 20, 180, 50, "random", "connections", 100, 3, 1.2)
     # main("Nationaal", 20, 180, 100, "breadth_first", None, 100, 3, 1.2)

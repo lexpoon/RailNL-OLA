@@ -41,9 +41,9 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
 
     # Set temperature depending of formula
     if formula == "linear":
-        temperature = iterations / 2 - 0.5 * i
+        temperature = iterations - 0.5 * i
     elif formula == "exponential":
-        temperature = iterations * 0.92 ** i
+        temperature = iterations * (0.95 ** i)
 
     # Determine if new solution needs to be accepted
     acceptation_probability = 2 ** Decimal((last_solution.score - new_solution.score) / Decimal(temperature))
@@ -62,7 +62,7 @@ def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio
     depth (int)             length of route after which can be pruned
     ratio (int)             score/length ratio in order to best solution after which can be pruned
     change_routes (int)     amount of routes that can be improved
-    definition (str)        options: [Create, Improve]. Goal of algorithm 
+    definition (str)        options: [Create, Improve]. Goal of algorithm
     """
 
     # Keep track of fraction of used connections
