@@ -71,12 +71,14 @@ def greedy_option(map, data, routes, key):
         if route_list != []:
             for connection in data[route_list[-1]].connections:
                 possible_connection = (route_list[-1], connection[0])
+
                 # Check if connection has not yet been made, then add station to dict with corresponding amount of connections
                 if tuple(sorted(possible_connection)) not in connections["used_connections"]:
                     if key == "connections":
                         options[connection[0]] = connections["amount_connections"][connection[0]]
                     elif key == "time":
                         options[connection[0]] = connection[1]
+
         # All stations possible as starting station
         else:
             options = connections["amount_connections"]
@@ -89,11 +91,14 @@ def greedy_option(map, data, routes, key):
         return None
 
     elif key == "score":
+
         # Check if route has station. If so, determine (unused) connections of current station
         if routes[-1] != []:
+
             # Make list of already used connections in current route
             for connection in routes[-1][-1].connections:
                 possible_connection = (routes[-1][-1].name, connection[0])
+
                 # Check if connection has not yet been made, then add station to dict with corresponding amount of connections
                 if tuple(sorted(possible_connection)) not in connections["used_connections"]:
                     possible_routes = []
@@ -101,6 +106,7 @@ def greedy_option(map, data, routes, key):
                     possible_routes.append(possible_route)
                     possible_route.append(data[connection[0]])
                     options[connection[0]] = Route(map, possible_routes).score
+                    
         # All stations possible as starting station
         else:
             options = connections["amount_connections"]
