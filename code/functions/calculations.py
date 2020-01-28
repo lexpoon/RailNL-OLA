@@ -126,3 +126,43 @@ def choose_best_route(route, best_route):
         best_route = random.choice([route, best_route])
 
     return best_route
+
+def convert_object_to_string(route):
+    """Convert a route of station objects to a route of station names"""
+
+    route_list = []
+    for station in route.route:
+        route_list.append(station.name)
+
+    return route_list
+
+def remove_routes(solution, change_routes):
+    """Remove routes of the solution"""
+
+    while change_routes > 0:
+        route = random.choice(solution.routes)
+        solution.routes.remove(route)
+        change_routes -= 1
+
+        while depending_route_options(solution.routes, route) != [] and change_routes > 0:
+            options = depending_route_options(solution.routes, route)
+            option = random.choice(options)
+            solution.routes.remove(option)
+            change_routes -= 1
+
+    return solution
+
+def depending_route_options(routes, main_route):
+    """Return routes which are connected to the main route"""
+
+    options = set()
+    main_route = convert_object_to_string(main_route)
+
+    for route in routes:
+        for station1 in main_route:
+            for station in route.route:
+                if station.name == station1:
+                    options.add(route)
+                    break
+
+    return list(options)
