@@ -36,3 +36,5 @@ As you can see, the hillclimber algorithm improves the most in the first 20 iter
 
 <img src="Random_Simulated Annealing (Linear)_100.png" alt="iterations simulated annealing" width="45%">
 
+### Boxplot: Utrecht deleted (advanced)
+<img src="Boxplot_zonder_utrecht.png">
