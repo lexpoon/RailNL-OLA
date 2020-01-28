@@ -17,7 +17,6 @@ from hillclimber import hillclimber
 from randomize import randomize
 from short_route_swap import short_route_swap
 from simulated_annealing import simulated_annealing
-from statistics import mean
 
 
 def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
