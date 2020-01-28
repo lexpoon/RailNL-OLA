@@ -47,7 +47,7 @@ def user_interface():
             break
 
         elif next[5] == "improve" and algorithm!="short_route_swap":
-            while remove_routes == None:#isinstance(remove_routes, int) == False and remove_routes==None:
+            while remove_routes == None or type(remove_routes) != int:#isinstance(remove_routes, int) == False and remove_routes==None:
                 remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
                 if remove_routes >= max_routes:
                     remove_routes = None
@@ -103,55 +103,55 @@ def get_create_algorithm():
             "Met welk algoritme wil je een oplossing generen? Random (R/r), Greedy (G/g), Depth First (D/p) of Breadth First (B/b)?\n"
         ).lower()
 
-        if algorithm == "random" or algorithm == "r":
-            algorithm = "random"
-            key = depth = ratio = None
+    if algorithm == "random" or algorithm == "r":
+        algorithm = "random"
+        key = depth = ratio = None
 
-        elif algorithm == "greedy" or algorithm == "g":
-            algorithm = "greedy"
-            key = ''
-            depth = ratio = None
-            options = ['connecties', 'c', 'tijd', 't', 'score', 's']
+    elif algorithm == "greedy" or algorithm == "g":
+        algorithm = "greedy"
+        key = ''
+        depth = ratio = None
+        options = ['connecties', 'c', 'tijd', 't', 'score', 's']
 
-            while key not in options:
-                key = input(
-                    "Op basis waarvan wil je het Greedy algoritme runnen? Connecties (C/c), Tijd (T/t) of Score (S/s)?\n"
-                ).lower()
+        while key not in options:
+            key = input(
+                "Op basis waarvan wil je het Greedy algoritme runnen? Connecties (C/c), Tijd (T/t) of Score (S/s)?\n"
+            ).lower()
 
-            if key == "connecties" or key == "c":
-                key = "connections"
+        if key == "connecties" or key == "c":
+            key = "connections"
 
-            elif key == "tijd" or key == "t":
-                key = "time"
+        elif key == "tijd" or key == "t":
+            key = "time"
 
-            else:
-                key = "quality"
+        else:
+            key = "quality"
 
-        elif algorithm == "depth first" or algorithm == "d":
-            algorithm = "depth_first"
-            key = None
-            depth = ratio = ''
+    elif algorithm == "depth first" or algorithm == "d":
+        algorithm = "depth_first"
+        key = None
+        depth = ratio = ''
 
-            while isinstance(depth, int) != True:
-                depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
+        while type(depth) != int:
+            depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
 
-            while isinstance(ratio, float) != True:
-                ratio = get_float(
-                    "Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n"
-                )
+        while type(ratio) != float:
+            ratio = get_float(
+                "Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n"
+            )
 
-        elif algorithm == "breadth first" or algorithm == "b":
-            algorithm = "breadth_first"
-            key = None
-            depth = ratio = ''
+    elif algorithm == "breadth first" or algorithm == "b":
+        algorithm = "breadth_first"
+        key = None
+        depth = ratio = ''
 
-            while isinstance(depth, int) != True:
-                depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
+        while type(depth) != int:
+            depth = get_int("Na hoeveel stations wil je beginnen met prunen?\n")
 
-            while isinstance(ratio, float) != True:
-                ratio = get_float(
-                    "Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n"
-                )
+        while type(ratio) != float:
+            ratio = get_float(
+                "Bij welke ratio (score/lengte route) achterstand op de beste score wil je stoppen met zoeken?\n"
+            )
 
     return [algorithm, key, depth, ratio]
 
