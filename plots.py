@@ -21,9 +21,12 @@ from statistics import mean
 
 
 def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
+    """Select the type of visualisation by de-comment a function"""
+
     # boxplot(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     # iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
+
 
 def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
     """Visualize a boxplot for all algorithms"""
@@ -35,7 +38,7 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
     depth_first_score = []
     breadth_first_score = []
 
-    # iterate x num of times to create dataset based on scores
+    # Create dataset based on algorithm scores
     for i in range(iterations):
         random.append(randomize(map, max_routes, max_time).score)
         greedy_connections.append(greedy(map, max_routes, max_time, "connections").score)
@@ -43,13 +46,6 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
         greedy_score.append(greedy(map, max_routes, max_time, "score").score)
         depth_first_score.append(depth_first(map, max_routes, max_time, min_score, depth, ratio).score)
         breadth_first_score.append(breadth_first(map, max_routes, max_time, min_score, depth, ratio).score)
-
-    print (f"random, mean: {mean(random)}, minimum: {min(random)}, maximum: {max(random)}")
-    print (f"greedy_connections, mean: {mean(greedy_connections)}, minimum: {min(greedy_connections)}, maximum: {max(greedy_connections)}")
-    print (f"greedy_time, mean: {mean(greedy_time)}, minimum: {min(greedy_time)}, maximum: {max(greedy_time)}")
-    print (f"greedy_score, mean: {mean(greedy_score)}, minimum: {min(greedy_score)}, maximum: {max(greedy_score)}")
-    print (f"depth_first_score, mean: {mean(depth_first_score)}, minimum: {min(depth_first_score)}, maximum: {max(depth_first_score)}")
-    print (f"breadth_first_score, mean: {mean(breadth_first_score)}, minimum: {min(breadth_first_score)}, maximum: {max(breadth_first_score)}")
 
     # Create boxplot based on all scores
     colors = ["steelblue", "tomato", "coral", "lightsalmon", "lightgreen", "lightblue"]
@@ -64,6 +60,7 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
     plt.ylabel(f"K Score")
     plt.title("Boxplot Algorithms")
     plt.show()
+
 
 def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
     """Visualize a lineplot of algorithm scores of selected algorithm"""
@@ -82,11 +79,14 @@ def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_s
             solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
         score.append(solution.score)
 
+    # Show visualisation
     lineplot(score, algorithm, key=None)
 
 
 def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
+    """"Visualize the iterative algorithms based on a basic/constructive algorithm"""
 
+    # Get the algorithm solution to apply a iterative algorithm on
     best_score = 0
     for i in range(20):
         if algorithm == "random":
@@ -101,6 +101,7 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
             best_score = solution.score
             best_solution = solution
 
+    # Set variables for running the iterative algorithms
     best_score_hc = best_solution.score
     best_score_sa_linear = best_solution.score
     best_score_sa_exponential = best_solution.score
@@ -108,6 +109,7 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
     score_sa_linear = [best_solution.score]
     score_sa_exponential = [best_solution.score]
 
+    # Apply the hillclimber and simulated annealing on the solution
     for i in range(iterations):
         hc_solution = hillclimber(map, max_routes, max_time, min_score, best_solution, "depth_first", depth, ratio, 3)
         sa_solution_linear = simulated_annealing(map, max_routes, max_time, min_score, best_solution, "depth_first", depth, ratio, 3, i, iterations, "linear")
@@ -131,9 +133,11 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
         else:
             score_sa_exponential.append(score_hc[-1])
 
+    # Show the iterative algorithm solutions
     lineplot(score_hc, algorithm, key, "Hill Climber")
     lineplot(score_sa_linear, algorithm, "Simulated Annealing (Linear)")
     lineplot(score_sa_exponential, algorithm, "Simulated Annealing (Exponential)")
+
 
 def lineplot(score, algorithm, key=None, type=None):
     """Create lineplot of selected algorithm"""
