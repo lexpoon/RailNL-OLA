@@ -117,11 +117,13 @@ def choose_best_route(route, best_route):
 def remove_routes(solution, change_routes):
     """Remove routes of the solution"""
 
+    # Remove random routes
     while change_routes > 0:
         route = rd_choice(solution.routes)
         solution.routes.remove(route)
         change_routes -= 1
 
+        # Remove route connected to earlier removed route
         while depending_route_options(solution.routes, route) != [] and change_routes > 0:
             options = depending_route_options(solution.routes, route)
             option = rd_choice(options)

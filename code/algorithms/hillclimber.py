@@ -11,20 +11,23 @@ from randomize import random_route
 def hillclimber(map, max_routes, max_time, min_score, solution, algorithm, depth, ratio, change_routes):
     """"Create hillclimber solution based on greedy output"""
 
-    #
+    # Get all data from stations in map
     data = RailNL(map).data
+
+    # Set best solution which can should be improved
     best_solution = solution
 
-    #
+    # Remove routes that needs to be changed
     last_solution = deepcopy(best_solution)
     last_solution = remove_routes(last_solution, change_routes)
 
-    # Create solution of new routes
+    # Add routes to solution to get new solution
     new_routes = add_routes(map, max_time, min_score, data, last_solution,
         algorithm, depth, ratio, change_routes, "improve")
 
     new_solution = Solution(map, new_routes)
 
+    # Change best solution if needed
     if new_solution.score > last_solution.score:
         best_solution = new_solution
 
@@ -38,11 +41,8 @@ def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio
     num_connections = len(all_connections(map))
     connections = update_connections(map, data, solution.routes)
 
-    for k in range(change_routes):
-
-        # Stop adding routes if all connections are used in solution
-        if len(connections["used_connections"]) > num_connections:
-            break
+    # Keep adding new routes untill all connections have been added to a route
+    while i < change_routes and len(connections["used_connections"]) < num_connections:
 
         # Add route following input algorithm
         if algorithm == "random":
