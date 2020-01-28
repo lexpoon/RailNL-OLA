@@ -25,15 +25,15 @@ from plots import histogram_bar, histogram_multiple, iteration_lineplot_random, 
 
 def main(map, max_routes, max_time, iterations, key=None, min_score=None, depth=None, ratio=None):
 
-    # best_score_random = 0
-    # for i in range(iterations):
-    #     randomize_solution = randomize(map, max_routes, max_time)
-    #     if randomize_solution.score > best_score_random:
-    #         best_score_random = randomize_solution.score
-    #         best_solution_random = randomize_solution
+    best_score_random = 0
+    for i in range(iterations):
+        randomize_solution = randomize(map, max_routes, max_time)
+        if randomize_solution.score > best_score_random:
+            best_score_random = randomize_solution.score
+            best_solution_random = randomize_solution
     #
     # print ("random", best_solution_random)
-    # print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_random, "depth_first", iterations, depth, ratio, 4))
+    print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_random, "depth_first", iterations, depth, ratio, 4))
     # print ("------")
     #
     # best_score_greedy = 0
@@ -70,28 +70,28 @@ def main(map, max_routes, max_time, iterations, key=None, min_score=None, depth=
     # print ("------")
     #
     best_score_depth_first = 0
-    for i in range(iterations):
-        depth_first_solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
-        if depth_first_solution.score > best_score_depth_first:
-            best_score_depth_first = depth_first_solution.score
-            best_solution_depth_first = depth_first_solution
-
-    print ("depth first" , best_solution_depth_first)
-    print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4))
-    print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
-    print ("------")
-
-    best_score_breadth_first = 0
-    for i in range(iterations):
-        breadth_first_solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
-        if breadth_first_solution.score > best_score_breadth_first:
-            best_score_breadth_first = breadth_first_solution.score
-            best_solution_breadth_first = breadth_first_solution
-
-    print ("breadth first" , best_solution_breadth_first)
-    print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4))
-    print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
-    print ("------")
+    # for i in range(iterations):
+    #     depth_first_solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+    #     if depth_first_solution.score > best_score_depth_first:
+    #         best_score_depth_first = depth_first_solution.score
+    #         best_solution_depth_first = depth_first_solution
+    #
+    # print ("depth first" , best_solution_depth_first)
+    # print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4))
+    # print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_depth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
+    # print ("------")
+    #
+    # best_score_breadth_first = 0
+    # for i in range(iterations):
+    #     breadth_first_solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+    #     if breadth_first_solution.score > best_score_breadth_first:
+    #         best_score_breadth_first = breadth_first_solution.score
+    #         best_solution_breadth_first = breadth_first_solution
+    #
+    # print ("breadth first" , best_solution_breadth_first)
+    # print ("hillclimber", hillclimber(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4))
+    # print("simulated annealing", simulated_annealing(map, max_routes, max_time, min_score, best_solution_breadth_first, "depth_first", iterations, depth, ratio, 4, "exponential"))
+    # print ("------")
 
 def histogram_basic(map, max_routes, max_time, iterations, key=None, min_score=None, depth=None, ratio=None):
 
@@ -123,10 +123,10 @@ def iterations_random(map, max_routes, max_time, iterations, key=None, min_score
     randomize_score = [0]
     for i in range(iterations):
         randomize_solution = randomize(map, max_routes, max_time)
-        if randomize_solution.score > randomize_score[-1]:
-            randomize_score.append(randomize_solution.score)
-        else:
-            randomize_score.append(randomize_score[-1])
+        # if randomize_solution.score > randomize_score[-1]:
+        #     randomize_score.append(randomize_solution.score)
+        # else:
+        #     randomize_score.append(randomize_score[-1])
 
     iteration_lineplot_random(randomize_score)
 
@@ -236,24 +236,24 @@ def histogram_extended(map, max_routes, max_time, iterations, key=None, min_scor
     histogram_multiple(best_solution_random, best_solution_greedy, best_solution_depth_first, best_solution_breadth_first)
 
 if __name__ == "__main__":
-    # main("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    histogram_basic("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
-
-    iterations_random("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
-    iterations_random("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
-    iterations_random("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
-
-    iterations_greedy("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
-
-    iterations_greedy("Nationaal", 20, 180, 10, "time", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 100, "time", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 1000, "time", 100, 3, 1.2)
-
-    iterations_greedy("Nationaal", 20, 180, 10, "score", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 100, "score", 100, 3, 1.2)
-    iterations_greedy("Nationaal", 20, 180, 1000, "score", 100, 3, 1.2)
+    main("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    # histogram_basic("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+    #
+    # iterations_random("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
+    # iterations_random("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+    # iterations_random("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
+    #
+    # iterations_greedy("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
+    #
+    # iterations_greedy("Nationaal", 20, 180, 10, "time", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 100, "time", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1000, "time", 100, 3, 1.2)
+    #
+    # iterations_greedy("Nationaal", 20, 180, 10, "score", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 100, "score", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1000, "score", 100, 3, 1.2)
 
     # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
     # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
@@ -261,5 +261,11 @@ if __name__ == "__main__":
     # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
 
     # iterations_depth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    # iterations_depth("Nationaal", 20, 180, 10, "connections", 100, 3, 1.5)
+    # iterations_depth("Nationaal", 20, 180, 100, "connections", 100, 3, 1.5)
+    #
     # iterations_breadth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    # iterations_breadth("Nationaal", 20, 180, 10, "connections", 100, 3, 1.5)
+    # iterations_breadth("Nationaal", 20, 180, 100, "connections", 100, 3, 1.5)
+
     # histogram_extended("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
