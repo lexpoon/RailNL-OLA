@@ -153,7 +153,8 @@ def lineplot(score, algorithm, key=None, type=None):
         plt.title(f"{name} {key.capitalize()}")
     if type is not None:
         plt.title(f"{name} {type.capitalize()}")
-    plt.show()
+    # plt.show()
+    plt.savefig(f"{name}_{key}_100")
 
 
 if __name__ == "__main__":
@@ -161,7 +162,7 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, None, None, 100, 3, 1.2)
 
     """iterations or Hillclimber and Simulated Annealing"""
-    main("Nationaal", 20, 180, 100, "random")
+    main("Nationaal", 20, 180, 10, "random")
     # main("Nationaal", 20, 180, 100, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
