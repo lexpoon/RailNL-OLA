@@ -6,7 +6,7 @@ from functions.import_data import RailNL
 from random import choice as rd_choice
 
 def randomize(map, max_routes, max_time):
-    """Create solution consisting of random routes"""
+    """Create solution consisting of random routes."""
 
     # Get all data of  stations of current map
     data = RailNL(map).data
@@ -56,7 +56,7 @@ def random_route(map, max_time, data, routes):
 
 
 def random_options(map, data, routes):
-    """Return possible destinations. Not possible to go to a station that is already on the route"""
+    """Return possible destinations. Not possible to go to a station that is already on the route."""
 
     # Determine amount of connections and used connections for all Stations
     routes[-1] = Route(map, routes[len(routes)-1:])

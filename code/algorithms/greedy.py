@@ -6,7 +6,11 @@ from random import choice as rd_choice
 
 
 def greedy(map, max_routes, max_time, key):
-    """ Create solution consisting of routes based on greedy algorithm. """
+    """Create solution consisting of routes based on greedy algorithm.
+
+    Keyword arguments:
+    key (str)       options: [Connections, Time, Score]. Method Greedy makes choices
+    """
 
     # Get all data from stations in map
     data = RailNL(map).data
@@ -27,7 +31,11 @@ def greedy(map, max_routes, max_time, key):
 
 
 def greedy_route(map, max_time, data, routes, key):
-    """Create a greedy route"""
+    """Create a greedy route.
+
+    Keyword arguments:
+    key (str)       options:[Connections, Time, Score]. Method Greedy makes choices
+    """
 
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
@@ -52,7 +60,11 @@ def greedy_route(map, max_time, data, routes, key):
 
 
 def greedy_option(map, data, routes, key):
-    """Determine best destination"""
+    """Determine best destination.
+
+    Keyword arguments:
+    key (str)       options:[Connections, Time, Score]. Method Greedy makes choices
+    """
 
     # Determine amount of connections and used connections for all stations
     routes[-1] = Route(map, routes[len(routes)-1:])
@@ -106,7 +118,7 @@ def greedy_option(map, data, routes, key):
                     possible_routes.append(possible_route)
                     possible_route.append(data[connection[0]])
                     options[connection[0]] = Route(map, possible_routes).score
-                    
+
         # All stations possible as starting station
         else:
             options = connections["amount_connections"]
