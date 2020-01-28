@@ -53,12 +53,14 @@ def user_interface():
         formula = next[4]
         definition = next[5]
 
-        # Ask for amount of routes 
+        # Ask for amount of routes
         if next[5] == "improve" and algorithm != "short_route_swap":
-            while remove_routes == None or type(remove_routes) != int:
-                remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
+            while remove_routes == None:
+                while type(remove_routes) != int:
+                    remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
                 if remove_routes >= max_routes:
                     remove_routes = None
+
 
         # Ask for amount of solutions
         while type(iterations) != int:
@@ -196,11 +198,11 @@ def get_improve_algorithm():
 
         else:
             algorithm = "simulated_annealing"
-            options = ['linear', 'l', 'exponential', 'e']
 
+            options = ['linear', 'l', 'exponential', 'e']
             while formula not in options:
                 formula = input(
-                    "Met welk temperatuur wil je de temperatuur generen? Linear (L/l) of Exponentieel (E/e)\n"
+                    "Met welke functie wil je de temperatuur generen? Linear (L/l) of Exponentieel (E/e)\n"
                 ).lower()
 
                 if formula == "linear" or formula == "l":

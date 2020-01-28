@@ -137,7 +137,7 @@ def depending_route_options(routes, main_route):
     """Return routes which are connected to the main route"""
 
     options = set()
-    main_route = convert_object_to_string(main_route)
+    main_route = convert_object_to_string(main_route.route)
 
     for route in routes:
         for station1 in main_route:
@@ -153,7 +153,7 @@ def convert_object_to_string(route):
     """Convert a route of station objects to a route of station names"""
 
     route_list = []
-    for station in route.route:
+    for station in route:
         route_list.append(station.name)
 
     return route_list

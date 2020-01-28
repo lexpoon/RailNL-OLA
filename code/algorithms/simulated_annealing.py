@@ -52,7 +52,8 @@ def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio
     connections = update_connections(map, data, solution.routes)
 
     # Keep adding new routes untill all connections have been added to a route
-    while i < change_routes and len(connections["used_connections"]) < num_connections:
+    counter = 0
+    while counter < change_routes and len(connections["used_connections"]) < num_connections:
 
         # Add route following input algorithm
         if algorithm == "random":
@@ -66,5 +67,7 @@ def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio
 
         # Update used connections
         connections = update_connections(map, data, solution.routes)
+
+        counter += 1
 
     return solution.routes
