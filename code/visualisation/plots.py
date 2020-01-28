@@ -5,10 +5,15 @@ if __name__ == "__main__":
     main("Nationaal", 20, 180, 1, "Connections", 100, 3, 1.5)
 
 """
+from depth_first import depth_first
+from breadth_first import breadth_first
 from functions.calculations import all_connections
+from greedy import greedy
 from hillclimber import hillclimber
+from randomize import randomize
 from short_route_swap import short_route_swap
 from simulated_annealing import simulated_annealing
+from statistics import mean
 
 import numpy as np
 import matplotlib.pyplot as plt
@@ -31,27 +36,63 @@ def histogram_bar(randomize, greedy, depth_first, breadth_first):
     plt.show()
 
 
-def iteration_lineplot_random(random):
-    plt.plot(random)
-    plt.ylabel('score random')
+def boxplot(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
+    # Random test data
+    np.random.seed(19680801)
+    all_data = [np.random.normal(0, std, size=100) for std in range(1, 4)]
+    labels = ['x1', 'x2', 'x3']
+
+    fig, axes = plt.subplots(nrows=1, ncols=2, figsize=(9, 4))
+
+    # rectangular box plot
+    bplot1 = axes[0].boxplot(all_data,
+                             vert=True,  # vertical box alignment
+                             patch_artist=True,  # fill with color
+                             labels=labels)  # will be used to label x-ticks
+    axes[0].set_title('Rectangular box plot')
+
+    # notch shape box plot
+    bplot2 = axes[1].boxplot(all_data,
+                             notch=True,  # notch shape
+                             vert=True,  # vertical box alignment
+                             patch_artist=True,  # fill with color
+                             labels=labels)  # will be used to label x-ticks
+    axes[1].set_title('Notched box plot')
+
+    # fill with colors
+    colors = ['pink', 'lightblue', 'lightgreen']
+    for bplot in (bplot1, bplot2):
+        for patch, color in zip(bplot['boxes'], colors):
+            patch.set_facecolor(color)
+
+    # adding horizontal grid lines
+    for ax in axes:
+        ax.yaxis.grid(True)
+        ax.set_xlabel('Three separate samples')
+        ax.set_ylabel('Observed values')
+
     plt.show()
 
+def lineplot_iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
 
-def iteration_lineplot_greedy(greedy):
-    plt.plot(greedy)
-    plt.ylabel('score greedy')
-    plt.show()
-
-
-def iteration_lineplot_depth(depth_first):
-    plt.plot(depth_first)
-    plt.ylabel('score depth first')
-    plt.show()
-
-
-def iteration_lineplot_breadth(breadth_first):
-    plt.plot(breadth_first)
-    plt.ylabel('score breadth first')
+    score = []
+    for i in range(iterations):
+        if algorithm == "random":
+            solution = randomize(map, max_routes, max_time)
+        elif algorithm == "greedy":
+            solution = greedy(map, max_routes, max_time, key)
+        elif algorithm == "depth first":
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+        elif algorithm == "breadth first":
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+        score.append(solution.score)
+    plt.plot(score)
+    plt.xlabel("Number of Iterations")
+    plt.ylabel(f"K Score")
+    if key is None:
+        plt.title(f"{algorithm}")
+    if key is not None:
+        plt.title(f"{algorithm} {key}")
     plt.show()
 
 

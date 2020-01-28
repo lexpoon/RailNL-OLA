@@ -21,7 +21,8 @@ def user_interface():
     formula = None
     definition = "create"
 
-    while isinstance(iterations, int) == False:
+    # while isinstance(iterations, int) == False:
+    while type(iterations) != int:
         iterations = get_int("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
     solution = run_algorithm(
@@ -33,7 +34,6 @@ def user_interface():
 
     while True:
         next = next_step()
-        solution = solution
         algorithm = next[0]
         iterations = ''
         key = next[1]
@@ -47,12 +47,13 @@ def user_interface():
             break
 
         elif next[5] == "improve" and algorithm!="short_route_swap":
-            while isinstance(remove_routes, int) == False and remove_routes==None:
+            while remove_routes == None:#isinstance(remove_routes, int) == False and remove_routes==None:
                 remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
                 if remove_routes >= max_routes:
                     remove_routes = None
 
-        while isinstance(iterations, int) != True and algorithm!="short_route_swap":
+        #isinstance(iterations, int) != True and
+        while type(iterations) != int:
             iterations = get_int("Hoevaak wil je een oplossing genereren?\n")
 
         solution = run_algorithm(
@@ -73,11 +74,10 @@ def get_map_info():
     """Ask user for map preferences"""
 
     map = ''
+    options = ['holland', 'h', 'nationaal', 'n']
 
-    while map != "holland" and map != "h" and map != "nationaal" and map != "n":
-        map = input(
-            "Voor welke map wil je een oplossing generen? Holland (h/H) of Nationaal (n/N)? \n"
-        ).lower()
+    while map not in options:
+        map = input("Voor welke map wil je een oplossing generen? Holland (h/H) of Nationaal (n/N)? \n").lower()
 
     if map == "holland" or map == "h":
         map = "Holland"
@@ -96,10 +96,11 @@ def get_create_algorithm():
     """Ask user for algorithm preferences"""
 
     algorithm = ''
+    options = ['random', 'r', 'greedy', 'g', 'depth_first', 'd', 'breadth_first', 'b']
 
-    while algorithm != "random" and algorithm != "r" and algorithm != "greedy" and algorithm != "g" and algorithm != "depth_first" and algorithm != "d" and algorithm != "breadth_first" and algorithm != "b":
+    while algorithm not in options:
         algorithm = input(
-            "Met welk algoritme wil je een oplossing generen? Random (R/r), Greedy (G/g), Depth First (D/p) of Bread First (B/b)?\n"
+            "Met welk algoritme wil je een oplossing generen? Random (R/r), Greedy (G/g), Depth First (D/p) of Breadth First (B/b)?\n"
         ).lower()
 
         if algorithm == "random" or algorithm == "r":
@@ -110,8 +111,9 @@ def get_create_algorithm():
             algorithm = "greedy"
             key = ''
             depth = ratio = None
+            options = ['connecties', 'c', 'tijd', 't', 'score', 's']
 
-            while key != "connecties" and key != "c" and key != "tijd" and key != "t" and key != "score" and key != "s":
+            while key not in options:
                 key = input(
                     "Op basis waarvan wil je het Greedy algoritme runnen? Connecties (C/c), Tijd (T/t) of Score (S/s)?\n"
                 ).lower()
@@ -159,13 +161,15 @@ def get_improve_algorithm():
 
     algorithm = ''
     formula = None
+    options = ['hillclimber', 'h', 'short route swap', 's', 'simulated annealing', 'a']
 
-    while algorithm != "hillclimber" and algorithm != "h" and algorithm != "short route swap" and algorithm != "s" and algorithm != "simulated annealing" and algorithm != "a":
+    while algorithm not in options:
         algorithm = input(
             "Met welk algoritme wil je een oplossing generen? Short Route Swap (S/s), Hillclimber (H/h), Simulated Annealing (A/a)?\n"
         ).lower()
 
-    if algorithm == "hillclimber" or algorithm == "h" or algorithm == "simulated annealing" or algorithm == "a":
+    options = ['hillclimber', 'h', 'simulated annealing', 'a']
+    if algorithm in options:
         route_info = get_create_algorithm()
 
         if algorithm == "hillclimber" or algorithm == "h":
@@ -173,8 +177,9 @@ def get_improve_algorithm():
 
         else:
             algorithm = "simulated_annealing"
+            options = ['linear', 'l', 'exponential', 'e']
 
-            while formula != "linear" and formula != "l" and formula != "exponential" and formula != "e":
+            while formula not in options:
                 formula = input(
                     "Met welk temperatuur wil je de temperatuur generen? Linear (L/l) of Exponentieel (E/e)\n"
                 ).lower()
@@ -206,8 +211,9 @@ def next_step():
     """Ask user for next step"""
 
     next_step = ''
+    options = ['v', 'n', 'q']
 
-    while next_step != "v" and next_step != "n" and next_step != "q":
+    while next_step not in options:
         next_step = input(
             "Gebruik verbeter algoritme (V/v), Nieuwe oplossing genereren (N/n), of Stoppen (Q/q)\n"
             ).lower()
