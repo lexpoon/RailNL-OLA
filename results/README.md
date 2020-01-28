@@ -39,6 +39,5 @@ As you can see, the hillclimber algorithm improves the most in the first 20 iter
 ### Boxplot: Utrecht and Amsterdam deleted (advanced)
 To see what important nodes are, we looked at which stations show large differences in scores when they are not included in the timetable. Utrecht and Amsterdam are the two largest stations investigated. At Utrecht, the score is significantly higher and there is especially an extremely smaller variation in the score.  This can also be explained by the high number of connections to and from Utrecht (9). In Amsterdam there is almost no difference: neither in the average score nor in the variation. Amsterdam also has (only) 4 connections.
 
-Translated with www.DeepL.com/Translator (free version)
 <img src="Boxplot_zonder_utrecht.png" alt="boxplot utrecht" width="45%">
 <img src="boxplot_zonder_amsterdam.png" alt="boxplot amsterdam" width="45%">
