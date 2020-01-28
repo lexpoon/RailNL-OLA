@@ -95,6 +95,11 @@ def main(map, max_routes, max_time, iterations, key=None, min_score=None, depth=
 
 def histogram_basic(map, max_routes, max_time, iterations, key=None, min_score=None, depth=None, ratio=None):
 
+    score_random = []
+    for i in range(iterations):
+        random_solution = randomize(map, max_routes, max_time)
+        score_random.append(random_solution.score)
+
     score_greedy = []
     for i in range(iterations):
         greedy_solution = greedy(map, max_routes, max_time, key)
@@ -232,9 +237,29 @@ def histogram_extended(map, max_routes, max_time, iterations, key=None, min_scor
 
 if __name__ == "__main__":
     # main("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    histogram_basic("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    iterations_random("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    iterations_depth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    iterations_breadth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
-    histogram_extended("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    histogram_basic("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+
+    iterations_random("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
+    iterations_random("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+    iterations_random("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
+
+    iterations_greedy("Nationaal", 20, 180, 10, "connections", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 100, "connections", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 1000, "connections", 100, 3, 1.2)
+
+    iterations_greedy("Nationaal", 20, 180, 10, "time", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 100, "time", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 1000, "time", 100, 3, 1.2)
+
+    iterations_greedy("Nationaal", 20, 180, 10, "score", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 100, "score", 100, 3, 1.2)
+    iterations_greedy("Nationaal", 20, 180, 1000, "score", 100, 3, 1.2)
+
+    # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
+    # iterations_greedy("Nationaal", 20, 180, 1, "connections", 100, 3, 1.2)
+
+    # iterations_depth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    # iterations_breadth("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)
+    # histogram_extended("Nationaal", 20, 180, 1, "connections", 100, 3, 1.5)

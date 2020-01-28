@@ -9,6 +9,7 @@ from functions.calculations import all_connections
 from hillclimber import hillclimber
 from short_route_swap import short_route_swap
 from simulated_annealing import simulated_annealing
+from statistics import mean 
 
 import numpy as np
 import matplotlib.pyplot as plt
