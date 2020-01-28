@@ -21,7 +21,7 @@ T = amount of routes
 min = total amount of minutes used in all routes
 </code></pre>
 
-<img src="doc/RailNL_preview.jpeg" alt="train connections Netherlands" width="35%">
+<img src="results/RailNL_preview.jpeg" alt="train connections Netherlands" width="35%">
 
 ## Getting Started
 
