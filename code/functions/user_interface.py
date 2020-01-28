@@ -26,7 +26,7 @@ def user_interface():
         iterations = get_int("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
     solution = run_algorithm(
-            map, max_routes, max_time, solution, algorithm, iterations, key, depth, 
+            map, max_routes, max_time, solution, algorithm, iterations, key, depth,
             ratio, remove_routes, formula, definition)
 
     best_solution = {"solution": '', "score": 0}
@@ -57,7 +57,7 @@ def user_interface():
             iterations = get_int("Hoevaak wil je een oplossing genereren?\n")
 
         solution = run_algorithm(
-            map, max_routes, max_time, solution, algorithm, iterations, key, depth, 
+            map, max_routes, max_time, solution, algorithm, iterations, key, depth,
             ratio, remove_routes, formula, definition)
 
         best_solution = check_score(best_solution, solution)
@@ -125,7 +125,7 @@ def get_create_algorithm():
             key = "time"
 
         else:
-            key = "quality"
+            key = "score"
 
     elif algorithm == "depth first" or algorithm == "d":
         algorithm = "depth_first"

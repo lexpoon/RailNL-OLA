@@ -10,7 +10,7 @@ from random import random
 from randomize import random_route
 
 
-def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, depth, ratio, iterations, i, change_routes, formula):
+def simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm, depth, ratio, change_routes, i, iterations, formula):
     """"Create hillclimber solution based on greedy output"""
 
     #
@@ -37,7 +37,7 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
     random_probability = random()
     if acceptation_probability > random_probability:
         best_solution = new_solution
-        
+
     return best_solution
 
 def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio,

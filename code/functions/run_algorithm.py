@@ -10,9 +10,9 @@ from hillclimber import hillclimber
 from simulated_annealing import simulated_annealing
 from visualize import visualisation
 
-def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, remove_routes, formula, definition):
+def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition):
     """Run algorithm of choice for user"""
-    
+
     data = RailNL(map).data
     min_score = 10000/len(all_connections(map)) - 105
 
@@ -20,7 +20,7 @@ def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, ke
     if definition == 'create':
         solution_algorithm = start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio)
     else:
-        solution_algorithm = improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, remove_routes, formula, definition)
+        solution_algorithm = improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition)
 
     return solution_algorithm
 
@@ -50,7 +50,7 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     if algorithm == "depth_first":
         best_score = 0
         for i in range(iterations):
-            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio, definition=None)
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -59,7 +59,7 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     if algorithm == "breadth_first":
         best_score = 0
         for i in range(iterations):
-            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio, definition=None)
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -71,7 +71,7 @@ def start_algorithm(map, max_routes, max_time, min_score, algorithm, iterations,
     return best_solution
 
 
-def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, remove_routes, formula, definition):
+def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition):
     """Improve solution based on algorithm"""
 
     # Run short route swap algorithm and find best solution
@@ -87,7 +87,7 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     elif algorithm[0] == "hillclimber":
         best_score = 0
         for i in range(int(iterations)):
-            solution = hillclimber(map, max_routes, max_time, min_score, solution, algorithm[1], iterations, depth, ratio, remove_routes)
+            solution = hillclimber(map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, change_routes)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score
@@ -96,7 +96,7 @@ def improve_algorithm(map, max_routes, max_time, min_score, solution, algorithm,
     elif algorithm[0] == "simulated_annealing":
         best_score = 0
         for i in range(iterations):
-            solution = simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm[1], iterations, depth, ratio, remove_routes, formula)
+            solution = simulated_annealing(map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, change_routes, i, iterations, formula)
             if solution.score > best_score:
                 best_solution = solution
                 best_score = solution.score

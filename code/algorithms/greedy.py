@@ -15,7 +15,7 @@ def greedy(map, max_routes, max_time, key):
     routes = []
 
     # Keep track of fraction of used connections
-    num_connections = len(fn.all_connections(map))
+    num_connections = len(all_connections(map))
     connections = connections_station(data)
 
     # Make greedy routes until it is not possible anymore due to the constrains
