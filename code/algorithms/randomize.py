@@ -3,8 +3,7 @@ from classes.route import Route
 from classes.solution import Solution
 from functions.calculations import all_connections, connections_station, update_connections
 from functions.import_data import RailNL
-
-import random
+from random import choice as rd_choice
 
 def randomize(map, max_routes, max_time):
     """Create solution consisting of random routes"""
@@ -36,9 +35,9 @@ def random_route(map, max_time, data, routes):
     # Make new empty route list and add (non-final) route to list of routes
     routes.append([])
     total_time = 0
-    
+
     # Pick a/the best station as starting point of the route
-    routes[-1].append(data[random.choice(list(data.keys()))])
+    routes[-1].append(data[rd_choice(list(data.keys()))])
 
     # Keep adding stations to the route until no more possible destinations
     while random_options(map, data, routes) != None:
@@ -78,7 +77,7 @@ def random_options(map, data, routes):
 
     # If any options, return random option
     if options:
-        random_option = data[random.choice(options)]
+        random_option = data[rd_choice(options)]
         return random_option
 
     return None

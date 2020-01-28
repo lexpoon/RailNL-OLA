@@ -1,11 +1,10 @@
 from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
+from copy import deepcopy
 from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections, choose_best_route
 from functions.import_data import RailNL
 
-import copy
-import random
 
 def depth_first(map, max_routes, max_time, min_score, depth, ratio):
     """Create solution consisting of set of routes based on depth first algorithm"""
@@ -48,7 +47,7 @@ def depth_first_route(map, max_time, min_score, data, routes, depth, ratio, defi
         # Find each possible child from state and add to tree of routes
         if routes[-1][-1] != None and depth_first_options(data, routes, definition) != None:
             for option in depth_first_options(data, routes, definition):
-                child = copy.deepcopy(state)
+                child = deepcopy(state)
                 child.append(option)
                 routes[-1] = child
                 route = Route(map, routes)
