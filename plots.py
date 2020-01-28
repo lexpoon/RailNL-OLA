@@ -23,7 +23,7 @@ from statistics import mean
 def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
     # boxplot(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     # iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
-    # hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
+    hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
 
 def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
     """Visualize a boxplot for all algorithms"""
@@ -111,7 +111,7 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
     for i in range(iterations):
         hc_solution = hillclimber(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3)
         sa_solution_linear = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "linear")
-        sa_solution_exponential = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "linear")
+        sa_solution_exponential = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "exponential")
 
         if hc_solution.score > best_score_hc:
             best_score_hc = hc_solution.score
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, None, None, 100, 3, 1.2)
 
     """iterations or Hillclimber and Simulated Annealing"""
-    # main("Nationaal", 20, 180, 100, "random")
+    main("Nationaal", 20, 180, 100, "random")
     # main("Nationaal", 20, 180, 100, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
