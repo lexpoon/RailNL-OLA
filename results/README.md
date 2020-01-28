@@ -14,22 +14,18 @@ This boxplot shows the solution scores for all algorithms, with each 100 iterati
 
 ## Iterations
 
-<img src="iterations_random_100.png" alt="iterations random" width="45%">
-<img src="iterations_greedy_connections_100.png" alt="iterations greedy connections" width="45%">
+<img src="iterations_random_100.png" alt="iterations random" width="45%"> <img src="iterations_greedy_connections_100.png" alt="iterations greedy connections" width="45%">
 
 In the first graph, results of running the random algorithm 100 times are shown. In the second graph, results of the greedy algorithm are shown, where connections are made based on the station with the least amount of connections. It is visible that this algorithm often reaches a certain local optimum, and only once reaches a higher optmium. However, the local optimum this algorithm often reaches, is still higher than all optima the random algorithm finds.
 
-<img src="iterations_greedy_score_100.png" alt="iterations greedy score" width="45%">
-<img src="iterations_greedy_time_100.png" alt="iterations greedy time" width="45%">
+<img src="iterations_greedy_score_100.png" alt="iterations greedy score" width="45%"> <img src="iterations_greedy_time_100.png" alt="iterations greedy time" width="45%">
 
 Both greedy graphs show similar results. In both graphs, the score fluctuates between 6450 and 6650.
 
-<img src="iterations_breadth_first_100.png" alt="iterations breadth first" width="45%">
-<img src="iterations_depth_first_100.png" alt="iterations depth first" width="45%">
+<img src="iterations_breadth_first_100.png" alt="iterations breadth first" width="45%"> <img src="iterations_depth_first_100.png" alt="iterations depth first" width="45%">
 
 
-<img src="Random_connections_100.png" alt="iterations hillclimber" width="45%">
-<img src="Random_Simulated Annealing (Exponential)_100.png" alt="iterations simulated annealing" width="45%">
+<img src="Random_connections_100.png" alt="iterations hillclimber" width="45%"><img src="Random_Simulated Annealing (Exponential)_100.png" alt="iterations simulated annealing" width="45%">
 
 As you can see, the hillclimber algorithm improves the most in the first 20 iterations. After that, very little improvement can be seen. This can be explained because there is limited room for improvement. We only change two routes in the solution. Another reason could be that we only ran the algorithm 50 times, with more iterations the results could improve more. In future research, more iterations could be used and more routes could be changed at the same time.
 
