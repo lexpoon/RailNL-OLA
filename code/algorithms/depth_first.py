@@ -85,7 +85,6 @@ def depth_first_options(data, routes, definition):
         if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection)) not in all_used_connections_route(routes))):
             connections.append(data[connection[0]])
 
-
     if connections == []:
         return None
 
