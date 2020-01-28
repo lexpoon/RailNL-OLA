@@ -1,8 +1,0 @@
-boxplot:
-
-random, mean: 4416.19, minimum: 2780, maximum: 5644
-greedy_connections, mean: 6560.09, minimum: 6258, maximum: 6749
-greedy_time, mean: 6562, minimum: 6449, maximum: 6649
-greedy_score, mean: 6584, minimum: 6449, maximum: 6649
-depth_first_score, mean: 6514.06, minimum: 5620, maximum: 6838
-breadth_first_score, mean: 4997.22, minimum: 3992, maximum: 5864
