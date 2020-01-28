@@ -36,7 +36,7 @@ def add_routes(map, max_time, min_score, data, solution, algorithm, depth, ratio
 
     # Keep track of fraction of used connections
     num_connections = len(all_connections(map))
-    connections = update_connections(map, data, last_solution.routes)
+    connections = update_connections(map, data, solution.routes)
 
     for k in range(change_routes):
 

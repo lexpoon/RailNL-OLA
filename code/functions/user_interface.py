@@ -1,5 +1,5 @@
-from functions.run_algorithm import run_algorithm, start_algorithm, improve_algorithm
 from functions.calculations import all_connections, connections_station, update_connections
+from functions.run_algorithm import run_algorithm, start_algorithm, improve_algorithm
 
 def user_interface():
     """Start user interface"""
@@ -21,7 +21,6 @@ def user_interface():
     formula = None
     definition = "create"
 
-    # while isinstance(iterations, int) == False:
     while type(iterations) != int:
         iterations = get_int("Hoevaak wil je een nieuwe oplossing genereren?\n")
 
@@ -34,6 +33,10 @@ def user_interface():
 
     while True:
         next = next_step()
+
+        if next == "stop":
+            break
+
         algorithm = next[0]
         iterations = ''
         key = next[1]
@@ -43,16 +46,12 @@ def user_interface():
         formula = next[4]
         definition = next[5]
 
-        if next == "stop":
-            break
-
-        elif next[5] == "improve" and algorithm!="short_route_swap":
-            while remove_routes == None or type(remove_routes) != int:#isinstance(remove_routes, int) == False and remove_routes==None:
+        if next[5] == "improve" and algorithm != "short_route_swap":
+            while remove_routes == None or type(remove_routes) != int:
                 remove_routes = get_int("Hoeveel nieuwe routes per keer wil je genereren?\n")
                 if remove_routes >= max_routes:
                     remove_routes = None
 
-        #isinstance(iterations, int) != True and
         while type(iterations) != int:
             iterations = get_int("Hoevaak wil je een oplossing genereren?\n")
 
