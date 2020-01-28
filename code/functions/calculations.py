@@ -3,7 +3,7 @@ from random import choice as rd_choice
 
 
 def all_connections(map):
-    """Determine the connections based on map"""
+    """Determine the connections based on map."""
 
     # Get connections of map from CSV file
     with open(f"data/Connecties{map}.csv", "r") as f:
@@ -20,7 +20,7 @@ def all_connections(map):
 
 
 def all_used_connections(routes):
-    """Determine used connections in solution"""
+    """Determine used connections in solution."""
 
     used_connections = set()
 
@@ -35,7 +35,7 @@ def all_used_connections(routes):
 
 
 def all_used_connections_route(routes):
-    """Determine new used connections in last route"""
+    """Determine new used connections in last route."""
 
     # Check if any was route created earlier, and determine used connections
     if len(routes) > 1:
@@ -57,7 +57,7 @@ def all_used_connections_route(routes):
 
 
 def connections_station(data):
-    """Determine overview of amount of connections for each station based on used connections"""
+    """Determine overview of amount of connections for each station based on used connections."""
 
     connections = {"amount_connections": {}, "used_connections": set()}
 
@@ -69,7 +69,7 @@ def connections_station(data):
 
 
 def update_connections(map, data, routes):
-    """Update amount of possible connections with new station in route"""
+    """Update amount of possible connections with new station in route."""
 
     # Get overview of amount of connections and used connections
     connections = connections_station(data)
@@ -105,7 +105,7 @@ def update_connections(map, data, routes):
     return connections
 
 def choose_best_route(route, best_route):
-    """Return route with best score"""
+    """Return route with best score."""
 
     if route.score > best_route.score:
         best_route = route
@@ -115,7 +115,7 @@ def choose_best_route(route, best_route):
     return best_route
 
 def remove_routes(solution, change_routes):
-    """Remove routes of the solution"""
+    """Remove routes of the solution."""
 
     # Remove random routes
     while change_routes > 0:
@@ -134,7 +134,7 @@ def remove_routes(solution, change_routes):
 
 
 def depending_route_options(routes, main_route):
-    """Return routes which are connected to the main route"""
+    """Return routes which are connected to the main route."""
 
     options = set()
     main_route = convert_object_to_string(main_route.route)
@@ -150,7 +150,7 @@ def depending_route_options(routes, main_route):
 
 
 def convert_object_to_string(route):
-    """Convert a route of station objects to a route of station names"""
+    """Convert a route of station objects to a route of station names."""
 
     route_list = []
     for station in route:

@@ -6,7 +6,7 @@ from functions.import_data import RailNL
 
 
 def short_route_swap(map, max_time, min_score, solution_output):
-    """"Create hillclimber solution based on solution output"""
+    """"Create hillclimber solution based on solution output."""
 
     # Delete short routes from solution
     solution = delete_short_route(map, min_score, solution_output)
@@ -31,7 +31,7 @@ def short_route_swap(map, max_time, min_score, solution_output):
 
 
 def delete_short_route(map, min_score, solution):
-    """Delete short route or route that doesn't contribute to K score from route"""
+    """Delete short route or route that doesn't contribute to K score from route."""
 
     old_score = solution.score
 
@@ -59,7 +59,12 @@ def delete_short_route(map, min_score, solution):
 
 
 def add_unused_connection(solution, map, data, traject, connections_left):
-    """Add unused connection to route"""
+    """Add unused connection to route.
+
+    Keyword arguments:
+    traject (obj)           route
+    connections_left (list) list of unused connections tuples
+    """
 
     # Find station in route that can still make new connection
     for station in traject.route:

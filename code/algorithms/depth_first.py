@@ -7,7 +7,12 @@ from functions.import_data import RailNL
 
 
 def depth_first(map, max_routes, max_time, min_score, depth, ratio):
-    """Create solution consisting of set of routes based on depth first algorithm"""
+    """Create solution consisting of set of routes based on depth first algorithm.
+
+    Keyword arguments:
+    depth (int)         length of route after which can be pruned
+    ratio (int)         score/length ratio in order to best solution after which can be pruned
+    """
 
     # Get all data from stations in current map
     data = RailNL(map).data
@@ -28,7 +33,13 @@ def depth_first(map, max_routes, max_time, min_score, depth, ratio):
 
 
 def depth_first_route(map, max_time, min_score, data, routes, depth, ratio, definition):
-    """Create a depth first route"""
+    """Create a depth first route.
+
+    Keyword arguments:
+    depth (int)         length of route after which can be pruned
+    ratio (int)         score/length ratio in order to best solution after which can be pruned
+    definition (str)    options: [Create, Improve]. Goal of algorithm
+    """
 
     # Starting station of route
     routes.append([])
@@ -71,7 +82,11 @@ def depth_first_route(map, max_time, min_score, data, routes, depth, ratio, defi
 
 
 def depth_first_options(data, routes, definition):
-    """Return possible destinations. Not possible to go to a station that is already on the route"""
+    """Return possible destinations. Not possible to go to a station that is already on the route.
+
+    Keyword arguments:
+    definition (str)    options: [Create, Improve]. Goal of algorithm
+    """
 
     # Set details for possible destionations
     current_station = routes[-1][-1].name
@@ -82,7 +97,7 @@ def depth_first_options(data, routes, definition):
         possible_connection = (current_station, connection[0])
 
         # Only use optimal pruning based on archiving used connections, when creating solution
-        if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection)) 
+        if definition == None or (definition == "improve" and (routes == [] or tuple(sorted(possible_connection))
                 not in all_used_connections_route(routes))):
             connections.append(data[connection[0]])
 

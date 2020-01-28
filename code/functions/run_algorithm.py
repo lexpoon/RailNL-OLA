@@ -12,9 +12,20 @@ from visualize import visualisation
 
 
 def run_algorithm(
-        map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, 
+        map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio,
         change_routes, formula, definition):
-    """Run algorithm of choice for user"""
+    """Run algorithm of choice for user.
+
+    Keyword arguments:
+    algorithm (str)         algorithm that will be used to improve solution
+    iterations (int)        total iterations of improving
+    key (str)               options: [Connections, Time, Score]. Method Greedy makes choices
+    depth (int)             length of route after which can be pruned
+    ratio (int)             score/length ratio in order to best solution after which can be pruned
+    change_routes (int)     amount of routes that can be improved
+    formula (str)           temperature formula
+    definition (str)        options:[Create, Improve]. Goal of algorithm
+    """
 
     data = RailNL(map).data
     min_score = 10000/len(all_connections(map)) - 105
@@ -25,7 +36,7 @@ def run_algorithm(
             map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio)
     else:
         solution_algorithm = improve_algorithm(
-            map, max_routes, max_time, min_score, solution, algorithm, iterations, key, 
+            map, max_routes, max_time, min_score, solution, algorithm, iterations, key,
             depth, ratio, change_routes, formula, definition)
 
     return solution_algorithm
@@ -33,7 +44,15 @@ def run_algorithm(
 
 def start_algorithm(
         map, max_routes, max_time, min_score, algorithm, iterations, key, depth, ratio):
-    """Find best routes based on input algorithm"""
+    """Find best routes based on input algorithm.
+
+    Keyword arguments:
+    algorithm (str)         algorithm that will be used to improve solution
+    iterations (int)        total iterations of improving
+    key (str)               options: [Connections, Time, Score]. Method Greedy makes choices
+    depth (int)             length of route after which can be pruned
+    ratio (int)             score/length ratio in order to best solution after which can be pruned
+    """
 
     # Run random algorithm and find best solution
     if algorithm == "random":
@@ -79,9 +98,20 @@ def start_algorithm(
 
 
 def improve_algorithm(
-        map, max_routes, max_time, min_score, solution, algorithm, iterations, key, 
+        map, max_routes, max_time, min_score, solution, algorithm, iterations, key,
         depth, ratio, change_routes, formula, definition):
-    """Improve solution based on algorithm"""
+    """Improve solution based on algorithm.
+
+    Keyword arguments:
+    algorithm (str)         algorithm that will be used to improve solution
+    iterations (int)        total iterations of improving
+    key (str)               options: [Connections, Time, Score]. Method Greedy makes choices
+    depth (int)             length of route after which can be pruned
+    ratio (int)             score/length ratio in order to best solution after which can be pruned
+    change_routes (int)     amount of routes that can be improved
+    formula (str)           temperature formula
+    definition (str)        options:[Create, Improve]. Goal of algorithm
+    """
 
     # Run short route swap algorithm and find best solution
     if algorithm == "short_route_swap":
@@ -97,7 +127,7 @@ def improve_algorithm(
         best_score = 0
         for i in range(int(iterations)):
             solution = hillclimber(
-                map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, 
+                map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio,
                 change_routes)
             if solution.score > best_score:
                 best_solution = solution
@@ -108,7 +138,7 @@ def improve_algorithm(
         best_score = 0
         for i in range(iterations):
             solution = simulated_annealing(
-                map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio, 
+                map, max_routes, max_time, min_score, solution, algorithm[1], depth, ratio,
                 change_routes, i, iterations, formula)
             if solution.score > best_score:
                 best_solution = solution
