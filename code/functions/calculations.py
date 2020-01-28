@@ -1,4 +1,4 @@
-import csv
+from csv import reader
 from random import choice as rd_choice
 
 
@@ -7,7 +7,7 @@ def all_connections(map):
 
     # Get connections of map from CSV file
     with open(f"data/Connecties{map}.csv", "r") as f:
-        csv_reader = csv.reader(f)
+        csv_reader = reader(f)
         connections = set()
 
         # Remove duplicate connections

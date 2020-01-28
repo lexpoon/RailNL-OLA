@@ -1,5 +1,5 @@
 from functions.calculations import all_connections, connections_station, update_connections
-from functions.run_algorithm import run_algorithm, start_algorithm, improve_algorithm
+from functions.run_algorithm import improve_algorithm, run_algorithm, start_algorithm
 
 def user_interface():
     """Start user interface"""

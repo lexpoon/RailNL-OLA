@@ -1,14 +1,15 @@
-from solution import Solution
-from import_data import RailNL
-from functions.calculations import all_connections, connections_station, update_connections
-from randomize import randomize
-from greedy import greedy
-from depth_first import depth_first
 from breadth_first import breadth_first
-from short_route_swap import short_route_swap
+from depth_first import depth_first
+from functions.calculations import all_connections, connections_station, update_connections
+from greedy import greedy
 from hillclimber import hillclimber
+from import_data import RailNL
+from randomize import randomize
+from short_route_swap import short_route_swap
 from simulated_annealing import simulated_annealing
+from solution import Solution
 from visualize import visualisation
+
 
 def run_algorithm(map, max_routes, max_time, solution, algorithm, iterations, key, depth, ratio, change_routes, formula, definition):
     """Run algorithm of choice for user"""

@@ -2,7 +2,7 @@ from algorithms.greedy import greedy_option
 from classes.route import Route
 from classes.solution import Solution
 from copy import deepcopy
-from functions.calculations import all_connections, all_used_connections_route, connections_station, update_connections, choose_best_route
+from functions.calculations import all_connections, all_used_connections_route, choose_best_route, connections_station, update_connections
 from functions.import_data import RailNL
 from queue import Queue
 
