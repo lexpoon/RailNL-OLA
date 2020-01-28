@@ -21,26 +21,9 @@ from statistics import mean
 
 
 def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
-    lineplot_iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     # boxplot(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
-
-
-def histogram_bar(randomize, greedy, depth_first, breadth_first):
-
-    # Make a mean dataset
-    height = [mean(randomize), mean(greedy), mean(depth_first), mean(breadth_first)]
-    bars = ("Randomize", "Greedy (connections)", "Depth first", "Breadth first")
-    y_pos = np.arange(len(bars))
-
-    # Create bars
-    plt.bar(y_pos, height)
-
-    # Create names on the x-axis
-    plt.xticks(y_pos, bars)
-
-    # Show graphic
-    plt.show()
-
+    # iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
+    # hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
 
 def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
     """Visualize a boxplot for all algorithms"""
@@ -82,7 +65,7 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
     plt.title("Boxplot Algorithms")
     plt.show()
 
-def lineplot_iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
+def iterations(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
     """Visualize a lineplot of algorithm scores of selected algorithm"""
 
     score = []
@@ -93,100 +76,94 @@ def lineplot_iterations(map, max_routes, max_time, iterations, algorithm, key=No
             solution = randomize(map, max_routes, max_time)
         elif algorithm == "greedy":
             solution = greedy(map, max_routes, max_time, key)
-        elif algorithm == "depth first":
+        elif algorithm == "depth_first":
             solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
-        elif algorithm == "breadth first":
+        elif algorithm == "breadth_first":
             solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
         score.append(solution.score)
 
-    # Create lineplot of selected algorithm
+    lineplot(score, algorithm, key=None)
+
+
+def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key=None, min_score=None, depth=None, ratio=None):
+
+    best_score = 0
+    for i in range(iterations):
+        if algorithm == "random":
+            solution = randomize(map, max_routes, max_time)
+        elif algorithm == "greedy":
+            solution = greedy(map, max_routes, max_time, key)
+        elif algorithm == "depth_first":
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+        elif algorithm == "breadth_first":
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+        if solution.score > best_score:
+            best_score = solution.score
+            best_solution = solution
+
+    best_score_hc = best_solution.score
+    best_score_sa_linear = best_solution.score
+    best_score_sa_exponential = best_solution.score
+    score_hc = [best_solution.score]
+    score_sa_linear = [best_solution.score]
+    score_sa_exponential = [best_solution.score]
+
+    for i in range(iterations):
+        hc_solution = hillclimber(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3)
+        sa_solution_linear = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "linear")
+        sa_solution_exponential = simulated_annealing(map, max_routes, max_time, min_score, best_solution, algorithm, depth, ratio, 3, i, iterations, "linear")
+
+        if hc_solution.score > best_score_hc:
+            best_score_hc = hc_solution.score
+            score_hc.append(hc_solution.score)
+        else:
+            score_hc.append(score_hc[-1])
+
+        if sa_solution_linear.score > best_score_sa_linear:
+            best_score_sa = sa_solution_linear.score
+            score_sa_linear.append(sa_solution_linear.score)
+        else:
+            score_sa_linear.append(score_hc[-1])
+
+        if sa_solution_exponential.score > best_score_sa_exponential:
+            best_score_sa = sa_solution_exponential.score
+            score_sa_exponential.append(sa_solution_exponential.score)
+        else:
+            score_sa_exponential.append(score_hc[-1])
+
+    lineplot(score_hc, algorithm, key, "Hill Climber")
+    lineplot(score_sa_linear, algorithm, "Simulated Annealing (Linear)")
+    lineplot(score_sa_exponential, algorithm, "Simulated Annealing (Exponential)")
+
+def lineplot(score, algorithm, key=None, type=None):
+    """Create lineplot of selected algorithm"""
+
     plt.plot(score)
     plt.xlabel("Number of Iterations")
     plt.ylabel(f"K Score")
+
+    # Create correct title
+    name = algorithm.split("_")
+    name = [x.capitalize() for x in name]
+    name = ' '.join(name)
+
     if key is None:
-        plt.title(algorithm.capitalize())
+        plt.title(name)
     if key is not None:
-        plt.title(f"{algorithm.capitalize()} {key.capitalize()}")
+        plt.title(f"{name} {key.capitalize()}")
+    if type is not None:
+        plt.title(f"{name} {type.capitalize()}")
     plt.show()
 
-
-def histogram_multiple(random, greedy, depth_first, breadth_first):
-
-    original_solutions = (random, greedy, depth_first, breadth_first)
-
-    map = "Nationaal"
-    max_routes = 20
-    max_time = 180
-    min_score = 10000/len(all_connections(map)) - 105
-    algorithm = "depth_first"
-    iterations = 20
-    depth = 3
-    ratio = 1.5
-    remove_routes = 4
-    formula = "linear"
-
-    # set width of bar
-    barWidth = 0.15
-
-    # set height of bar
-    BASIC = []
-    SRS = []
-    HC = []
-    SA = [1,2,3,4]
-
-    for solution in original_solutions:
-        BASIC.append(solution.score)
-
-    short_route_swap_solution = [short_route_swap(map, max_routes, 100, solution)
-                                for solution in original_solutions]
-
-    for solution in short_route_swap_solution:
-        SRS.append(solution.score)
-
-    hillclimber_solution = [hillclimber(map, max_routes, max_time, min_score,
-                                        solution, algorithm, iterations,
-                                        depth, ratio, remove_routes)
-                                        for solution in original_solutions]
-
-    for solution in hillclimber_solution:
-        HC.append(solution.score)
-
-    simulated_annealing_solution = [simulated_annealing(map, max_routes, max_time,
-                                                        min_score, solution, algorithm,
-                                                        iterations, depth, ratio,
-                                                        remove_routes, formula)
-                                                        for solution in original_solutions]
-
-    for solution in simulated_annealing_solution:
-        SA.append(solution.score)
-
-    # Set position of bar on X axis
-    r1 = np.arange(len(BASIC))
-    r2 = [x + barWidth for x in r1]
-    r3 = [x + barWidth for x in r2]
-    r4 = [x + barWidth for x in r3]
-
-    # Make the plot
-    plt.bar(r1, BASIC, color="red", width=barWidth, edgecolor="white", label="Basic")
-    plt.bar(r2, SRS, color="green", width=barWidth, edgecolor="white", label="Short Route Swap")
-    plt.bar(r3, HC, color="blue", width=barWidth, edgecolor="white", label="Hill Climber")
-    plt.bar(r4, SA, color="green", width=barWidth, edgecolor="white", label="Simulated Annealing")
-
-    # Add xticks on the middle of the group bars
-    plt.xlabel("Algorithms", fontweight="bold")
-    plt.xticks([r + barWidth * 1.5 for r in r1], ["Random", "Greedy (connections)", "Depth First", "Breadth First"])
-    # Create legend & Show graphic
-    plt.legend()
-    plt.show()
 
 if __name__ == "__main__":
     """boxplot"""
     # main("Nationaal", 20, 180, 100, None, None, 100, 3, 1.2)
 
-    """iterations"""
+    """iterations or Hillclimber and Simulated Annealing"""
     # main("Nationaal", 20, 180, 100, "random")
     # main("Nationaal", 20, 180, 100, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
-    # main("Nationaal", 20, 180, 100, "depth first", None, 100, 3, 1.2)
-    main("Nationaal", 20, 180, 100, "breadth first", None, 100, 3, 1.2)
+    # main("Nationaal", 20, 180, 100, "depth_first", None, 100, 3, 1.2)
+    # main("Nationaal", 20, 180, 100, "breadth_first", None, 100, 3, 1.2)
