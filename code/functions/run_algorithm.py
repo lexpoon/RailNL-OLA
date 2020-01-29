@@ -39,6 +39,8 @@ def run_algorithm(
             map, max_routes, max_time, min_score, solution, algorithm, iterations, key,
             depth, ratio, change_routes, formula, definition)
 
+    print(solution_algorithm)
+
     return solution_algorithm
 
 

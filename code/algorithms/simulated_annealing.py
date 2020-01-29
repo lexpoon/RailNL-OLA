@@ -41,12 +41,12 @@ def simulated_annealing(map, max_routes, max_time, min_score, solution, algorith
 
     # Set temperature depending of formula
     if formula == "linear":
-        temperature = iterations - 0.5 * i
+        temperature = iterations / 2 - 0.5 * i
     elif formula == "exponential":
-        temperature = iterations * (0.95 ** i)
+        temperature = iterations / 2 * (0.995 ** i)
 
     # Determine if new solution needs to be accepted
-    acceptation_probability = 2 ** Decimal((last_solution.score - new_solution.score) / Decimal(temperature))
+    acceptation_probability = 2 ** Decimal((new_solution.score - last_solution.score) / Decimal(temperature))
     random_probability = random()
     if acceptation_probability > random_probability:
         best_solution = new_solution
