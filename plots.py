@@ -167,9 +167,9 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, None, None, min_score, 3, 1.2)
 
     """iterations or Hillclimber and Simulated Annealing"""
-    main("Nationaal", 20, 180, 2, "random", None, min_score, 3, 1.2)
-    # main("Nationaal", 20, 180, 2, "greedy", "connections")
-    # main("Nationaal", 20, 180, 100, "greedy", "time")
-    # main("Nationaal", 20, 180, 100, "greedy", "score")
-    # main("Nationaal", 20, 180, 2, "depth_first", "connections", min_score, 3, 1.2)
-    # main("Nationaal", 20, 180, 100, "breadth_first", None, min_score, 3, 1.2)
+    # main("Nationaal", 20, 180, 2, "random", None, min_score, 3, 1.5)
+    main("Nationaal", 20, 180, 1000, "greedy", "connections", min_score, 3, 1.5)
+    # main("Nationaal", 20, 180, 100, "greedy", "time", min_score, 3, 1.5)
+    # main("Nationaal", 20, 180, 100, "greedy", "score", min_score, 3, 1.5)
+    # main("Nationaal", 20, 180, 2, "depth_first", "connections", min_score, 3, 1.5)
+    # main("Nationaal", 20, 180, 100, "breadth_first", None, min_score, 3, 1.5)
