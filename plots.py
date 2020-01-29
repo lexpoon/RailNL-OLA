@@ -132,9 +132,6 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
         else:
             score_sa_exponential.append(score_sa_exponential[-1])
 
-    # return score_hc, score_sa_linear, score_sa_exponential
-
-
     # Show the iterative algorithm solutions
     lineplot(score_hc, algorithm, key, "Hill Climber")
     lineplot(score_sa_linear, algorithm, "Simulated Annealing (Linear)")
@@ -162,7 +159,6 @@ def lineplot(score, algorithm, key=None, type=None):
     # plt.show()
     plt.savefig(f"{name}_{key}_100")
     plt.clf()
-
 
 if __name__ == "__main__":
     min_score = 10000/89-105
