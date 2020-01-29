@@ -87,15 +87,15 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
 
     # Get the algorithm solution to apply a iterative algorithm on
     best_score = 0
-    for i in range(20):
+    for i in range(iterations):
         if algorithm == "random":
             solution = randomize(map, max_routes, max_time)
         elif algorithm == "greedy":
             solution = greedy(map, max_routes, max_time, key)
         elif algorithm == "depth_first":
-            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio)
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio, "improve")
         elif algorithm == "breadth_first":
-            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio)
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio, "improve")
         if solution.score > best_score:
             best_score = solution.score
             best_solution = solution
@@ -121,16 +121,19 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
             score_hc.append(score_hc[-1])
 
         if sa_solution_linear.score > best_score_sa_linear:
-            best_score_sa = sa_solution_linear.score
+            best_score_sa_linear = sa_solution_linear.score
             score_sa_linear.append(sa_solution_linear.score)
         else:
-            score_sa_linear.append(score_hc[-1])
+            score_sa_linear.append(score_sa_linear[-1])
 
         if sa_solution_exponential.score > best_score_sa_exponential:
-            best_score_sa = sa_solution_exponential.score
+            best_score_sa_exponential = sa_solution_exponential.score
             score_sa_exponential.append(sa_solution_exponential.score)
         else:
-            score_sa_exponential.append(score_hc[-1])
+            score_sa_exponential.append(score_sa_exponential[-1])
+
+    # return score_hc, score_sa_linear, score_sa_exponential
+
 
     # Show the iterative algorithm solutions
     lineplot(score_hc, algorithm, key, "Hill Climber")
@@ -161,13 +164,15 @@ def lineplot(score, algorithm, key=None, type=None):
 
 
 if __name__ == "__main__":
+    min_score = 10000/89-105
+
     """boxplot"""
-    # main("Nationaal", 20, 180, 100, None, None, 100, 3, 1.2)
+    # main("Nationaal", 20, 180, 100, None, None, min_score, 3, 1.2)
 
     """iterations or Hillclimber and Simulated Annealing"""
-    # main("Nationaal", 20, 180, 10, "random")
-    # main("Nationaal", 20, 180, 100, "greedy", "connections")
+    main("Nationaal", 20, 180, 2, "random", None, min_score, 3, 1.2)
+    # main("Nationaal", 20, 180, 2, "greedy", "connections")
     # main("Nationaal", 20, 180, 100, "greedy", "time")
     # main("Nationaal", 20, 180, 100, "greedy", "score")
-    main("Nationaal", 20, 180, 50, "random", "connections", 100, 3, 1.2)
-    # main("Nationaal", 20, 180, 100, "breadth_first", None, 100, 3, 1.2)
+    # main("Nationaal", 20, 180, 2, "depth_first", "connections", min_score, 3, 1.2)
+    # main("Nationaal", 20, 180, 100, "breadth_first", None, min_score, 3, 1.2)
