@@ -161,6 +161,7 @@ def lineplot(score, algorithm, key=None, type=None):
         plt.title(f"{name} {type.capitalize()}")
     # plt.show()
     plt.savefig(f"{name}_{key}_100")
+    plt.clf()
 
 
 if __name__ == "__main__":
