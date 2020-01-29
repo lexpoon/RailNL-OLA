@@ -36,7 +36,7 @@ def random_route(map, max_time, data, routes):
     routes.append([])
     total_time = 0
 
-    # Pick a/the best station as starting point of the route
+    # Pick a random station as starting point of the route
     routes[-1].append(data[rd_choice(list(data.keys()))])
 
     # Keep adding stations to the route until no more possible destinations
