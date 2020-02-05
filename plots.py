@@ -24,7 +24,8 @@ def main(map, max_routes, max_time, iterations, algorithm=None, key=None, min_sc
 
     # boxplot(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
     # iterations(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
-    hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
+    # hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
+    srs(map, max_routes, max_time, iterations, algorithm, key, min_score, depth, ratio)
 
 
 def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
@@ -48,7 +49,7 @@ def boxplot(map, max_routes, max_time, iterations, algorithm=None, key=None, min
 
     # Create boxplot based on all scores
     colors = ["steelblue", "tomato", "coral", "lightsalmon", "lightgreen", "lightblue"]
-    medianprops = dict(linestyle='solid', linewidth=1, color='black')
+    medianprops = dict(linestyle="solid", linewidth=1, color="black")
     box_plot_data = [random, greedy_connections, greedy_time, greedy_score, depth_first_score, breadth_first_score]
     box = plt.boxplot(box_plot_data, patch_artist=True, medianprops=medianprops, showfliers=False, labels=["random","greedy (connections)","greedy (time)","greedy (score)", "depth first", "breadth first"],
                 )
@@ -138,6 +139,57 @@ def hillclimber_and_simulated(map, max_routes, max_time, iterations, algorithm, 
     lineplot(score_sa_exponential, algorithm, "Simulated Annealing (Exponential)")
 
 
+def srs(map, max_routes, max_time, iterations, algorithm=None, key=None, min_score=None, depth=None, ratio=None):
+    best_score = 0
+    no_improvement = 0
+    improvement = 0
+    difference = []
+    for i in range(iterations):
+        if algorithm == "random":
+            solution = randomize(map, max_routes, max_time)
+        elif algorithm == "greedy":
+            solution = greedy(map, max_routes, max_time, key)
+        elif algorithm == "depth_first":
+            solution = depth_first(map, max_routes, max_time, min_score, depth, ratio, "improve")
+        elif algorithm == "breadth_first":
+            solution = breadth_first(map, max_routes, max_time, min_score, depth, ratio, "improve")
+
+        srs = short_route_swap(map, max_time, min_score, solution)
+
+        if solution.score < srs.score:
+            improvement += 1
+            difference.append(srs.score - solution.score)
+        else:
+            no_improvement += 1
+
+    # Create pie chart
+    labels = "No improvement", "Improvement"
+    sizes = [no_improvement, improvement]
+    explode = (0, 0.1)
+
+    fig1, ax1 = plt.subplots()
+    ax1.pie(sizes, explode=explode, labels=labels, autopct="%1.1f%%", startangle=90)
+    ax1.axis("equal")
+
+    plt.title(f"Percentage of 1000 x SRS improvements of {algorithm} ({key})")
+    plt.savefig(f"SRS_{algorithm}_{key}_{iterations}_pie_chart")
+    plt.clf()
+
+    # Create boxplot based on all scores
+    colors = ["steelblue"]
+    medianprops = dict(linestyle="solid", linewidth=1, color="black")
+    box_plot_data = [difference]
+    box = plt.boxplot(box_plot_data, patch_artist=True, medianprops=medianprops, showfliers=False, labels=["SRS difference"])
+
+    for patch, color in zip(box["boxes"], colors):
+        patch.set_facecolor(color)
+
+    plt.ylabel(f"Score difference")
+    plt.title("Boxplot difference after 1000 x SRS")
+    plt.savefig(f"SRS_difference_{algorithm}_{key}_{iterations}_boxplot")
+    plt.clf()
+
+
 def lineplot(score, algorithm, key=None, type=None):
     """Create lineplot of selected algorithm."""
 
@@ -148,7 +200,7 @@ def lineplot(score, algorithm, key=None, type=None):
     # Create correct title
     name = algorithm.split("_")
     name = [x.capitalize() for x in name]
-    name = ' '.join(name)
+    name = " ".join(name)
 
     if key is None:
         plt.title(name)
@@ -172,4 +224,4 @@ if __name__ == "__main__":
     # main("Nationaal", 20, 180, 100, "greedy", "time", min_score, 3, 1.5)
     # main("Nationaal", 20, 180, 100, "greedy", "score", min_score, 3, 1.5)
     # main("Nationaal", 20, 180, 2, "depth_first", "connections", min_score, 3, 1.5)
-    # main("Nationaal", 20, 180, 100, "breadth_first", None, min_score, 3, 1.5)
+    # main("Nationaal", 20, 180, 1000, "breadth_first", None, min_score, 3, 1.5)
